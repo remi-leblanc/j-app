@@ -70,7 +70,8 @@ class WordType extends AbstractType
             ->add('infos', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Infos supplémentaires'
-                ]
+                ],
+                'required' => false,
             ])
         ;
 
