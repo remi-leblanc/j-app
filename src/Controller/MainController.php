@@ -135,7 +135,6 @@ class MainController extends AbstractController
 	{
 
         $wordReports = $this->getDoctrine()->getRepository(WordReport::class)->findAll();
-        
 
         return $this->render('admin.html.twig', [
             'word_reports' => $wordReports,
