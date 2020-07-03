@@ -31,10 +31,10 @@
     },
     "require-dev": {
         "symfony/debug-pack": "*",
+        "symfony/dotenv": "5.0.*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
-        "symfony/test-pack": "*",
-        "symfony/dotenv": "5.0.*"
+        "symfony/test-pack": "*"
     },
     "config": {
         "preferred-install": {
