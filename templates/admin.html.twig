@@ -1,0 +1,123 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+
+<h1>Dashboard</h1>
+
+<div class="admin-dashboard-content">
+
+    <div class="admin-dashboard-col">
+        <div id="words" class="frame-group">
+            <div class="frame frame-heavy frame-header">Les mots</div>
+            <div class="frame frame-light frame-content">
+                <a class="frame frame-light clickable" href="{{ path('word_index') }}">
+                    <i class="fas fa-eye"></i>
+                    Voir la liste
+                </a>
+                <a class="frame frame-light clickable" href="{{ path('word_new') }}">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un élément
+                </a>
+            </div>
+        </div>
+        <div id="types" class="frame-group">
+            <div class="frame frame-heavy frame-header">Les types de mots</div>
+            <div class="frame frame-light frame-content">
+                <a class="frame frame-light clickable" href="{{ path('type_index') }}">
+                    <i class="fas fa-eye"></i>
+                    Voir la liste
+                </a>
+                <a class="frame frame-light clickable" href="{{ path('type_new') }}">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un élément
+                </a>
+            </div>
+        </div>
+        <div id="themes" class="frame-group">
+            <div class="frame frame-heavy frame-header">Les thèmes</div>
+            <div class="frame frame-light frame-content">
+                <a class="frame frame-light clickable" href="{{ path('theme_index') }}">
+                    <i class="fas fa-eye"></i>
+                    Voir la liste
+                </a>
+                <a class="frame frame-light clickable" href="{{ path('theme_new') }}">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un élément
+                </a>
+            </div>
+        </div>
+        <div id="verbe_groupes" class="frame-group">
+            <div class="frame frame-heavy frame-header">Les groupes de verbe</div>
+            <div class="frame frame-light frame-content">
+                <a class="frame frame-light clickable" href="{{ path('verbe_groupe_index') }}">
+                    <i class="fas fa-eye"></i>
+                    Voir la liste
+                </a>
+                <a class="frame frame-light clickable" href="{{ path('verbe_groupe_new') }}">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un élément
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-dashboard-col">
+        <div id="word-reports" class="frame-group">
+            <div class="frame frame-heavy frame-important frame-header">Signalements</div>
+            
+            <div class="frame frame-light frame-content">
+            {% for report in word_reports %}
+            <div class="frame frame-light report-item">
+                <span class="frame report-word">{{ report.word.kanji }}</span>
+                <span class="frame report-description">{{ report.description == '' ? 'Aucune description.' : report.description }}</span>
+                <span class="frame clickable fas fa-eye modal-btn" data-modal="report" data-modal-param={{ report.id }}></span>
+                <a class="frame clickable fas fa-edit" href="{{ path('word_edit', {id: report.word.id }) }}"></a>
+                <form class="form-ajax form-delete" method="post" action="{{ path('word_report_delete', {'id': report.id}) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ report.id) }}">
+                    <button class="frame frame-important fas fa-trash-alt clickable"></button>
+                </form>
+            </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+
+<a class="frame frame-heavy frame-important clickable" href="{{ path('app_logout') }}">Déconnexion</a>
+{% endblock %}
+
+{% block ui %}
+<div class="modal" data-modal="report" data-modal-db="reports" data-modal-param="id" style="opacity: 0;">
+	<span class="modal-close far fa-times-circle"></span>
+	<div class="modal-content frame frame-light">
+        <h2>Signalement #<span data-modal-val="id"></span></h2>
+        <div class="row frame frame-light">
+            <h4 data-modal-val="word[0]"></h4>
+            <h4 data-modal-val="word[1]"></h4>
+            <h4 data-modal-val="word[2]"></h4>
+        </div>
+        <p data-modal-val="description" class="frame frame-light"></p>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+
+<script>
+
+    var reports = [
+		{% for report in word_reports %}
+		{
+			"id": "{{ report.id }}",
+            "description": "{{ report.description }}",
+			"word": ["{{ report.word.kanji }}", "{{ report.word.romaji }}", "{{ report.word.francais }}"],
+		},
+		{% endfor %}
+	]
+
+</script>
+{% endblock %}

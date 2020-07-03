@@ -1,0 +1,47 @@
+<div class="admin-index-tools">
+	<a class="admin-index-tools-back" href="{{ path('word_index') }}">
+		<i class="fas fa-chevron-left"></i>
+		Liste
+	</a>
+</div>
+{{ form_start(form) }}
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.kanji) }}
+		</div>
+		<div class="form-widget">
+			{{ form_widget(form.romaji) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.francais) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.type) }}
+		</div>
+	</div>
+	<div class="form-row cond-block" data-cond="Verbe" data-cond-link="types">
+		<div class="form-widget">
+			{{ form_widget(form.verbe_groupe) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.theme) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.infos) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			<button class="frame frame-heavy clickable">{{ button_label|default('Save') }}</button>
+		</div>
+	</div>
+	
+{{ form_end(form) }}

@@ -1,0 +1,43 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Word index{% endblock %}
+
+{% block body %}
+    <div class="admin-index-tools">
+        <a class="admin-index-tools-back" href="{{ path('admin_dashboard') }}">
+            <i class="fas fa-chevron-left"></i>
+            Dashboard
+        </a>
+        <a class="admin-index-tools-add" href="{{ path('word_new') }}">Ajouter
+            <i class="fas fa-plus-circle"></i>
+        </a>
+    </div>
+    <div class="table">
+        <div class="thead">
+            <div class="tr frame frame-heavy"> 
+                <div class="th">Kanji</div>
+                <div class="th">Romaji</div>
+                <div class="th">Français</div>
+                <div class="th">Type</div>
+                <div class="th">Groupe du verbe</div>
+                <div class="th">Thème</div>
+                <div class="th">Date</div>
+                <div class="th">Infos</div>
+            </div>
+        </div>
+        <div class="tbody">
+        {% for word in words %}
+        <a class="tr clickable frame frame-light" href="{{ path('word_edit', {'id': word.id}) }}">
+            <div class="td">{{ word.kanji }}</div>
+            <div class="td">{{ word.romaji }}</div>
+            <div class="td">{{ word.francais }}</div>
+            <div class="td">{{ word.type.name }}</div>
+            <div class="td">{{ word.verbeGroupe != null ? word.verbeGroupe.name : '' }}</div>
+            <div class="td">{{ word.theme != null ? word.theme.name : '' }}</div>
+            <div class="td">{{ word.createdAt ? word.createdAt|date('d/m/Y') : '' }}</div>
+            <div class="td">{{ word.infos }}</div>
+        </a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

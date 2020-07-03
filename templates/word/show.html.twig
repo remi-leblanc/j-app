@@ -1,0 +1,32 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Word{% endblock %}
+
+{% block body %}
+
+    <table>
+        <thead>
+            <tr class="frame frame-heavy">
+                <th>Kanji</th>
+                <th>Romaji</th>
+                <th>Francais</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="frame frame-light">
+                <td>{{ word.kanji }}</td>
+                <td>{{ word.romaji }}</td>
+                <td>{{ word.francais }}</td>
+                <td>{{ word.createdAt ? word.createdAt|date('d/m/Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('word_index') }}">back to list</a>
+
+    <a href="{{ path('word_edit', {'id': word.id}) }}">edit</a>
+
+    {{ include('word/_delete_form.html.twig') }}
+
+{% endblock %}

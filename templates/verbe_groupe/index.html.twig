@@ -1,0 +1,33 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}verbe_groupe index{% endblock %}
+
+{% block body %}
+
+    <div class="admin-index-tools">
+        <a class="admin-index-tools-back" href="{{ path('admin_dashboard') }}">
+            <i class="fas fa-chevron-left"></i>
+            Dashboard
+        </a>
+        <a class="admin-index-tools-add" href="{{ path('verbe_groupe_new') }}">Ajouter
+            <i class="fas fa-plus-circle"></i>
+        </a>
+    </div>
+    <div class="table">
+        <div class="thead">
+            <div class="tr frame frame-heavy"> 
+                <div class="th">Nom du groupe</div>
+                <div class="th">Suffixe</div>
+            </div>
+        </div>
+        <div class="tbody">
+        {% for verbe_groupe in verbe_groupes %}
+        <a class="tr clickable frame frame-light" href="{{ path('verbe_groupe_edit', {'id': verbe_groupe.id}) }}">
+            <div class="td">{{ verbe_groupe.name }}</div>
+            <div class="td">{{ verbe_groupe.suffix }}</div>
+        </a>
+        {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
