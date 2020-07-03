@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html id="page-{% block page_id %}{% endblock %}">
+    <head>
+        <title>J-App</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="page-container">
+        {% block body %}{% endblock %}
+        </div>
+        {% block footer %}{% endblock %}
+        {% block ui %}{% endblock %}
+        <script src="{{ asset('libraries/jquery-3.5.0.js') }}"></script>
+        <script src="https://kit.fontawesome.com/af30538883.js" crossorigin="anonymous"></script>
+        <script src="{{ asset('js/global.js') }}"></script>
+                <script>
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register("{{ asset('pwa/sw.js') }}");
+            }
+        </script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

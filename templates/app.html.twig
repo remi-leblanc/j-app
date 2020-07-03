@@ -1,0 +1,111 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}app{% endblock %}
+
+{% block body %}
+
+<div id="infos">
+	<div class="row">
+		<a id="home-btn" class="frame frame-light clickable modal-btn fas fa-home" href="{{ path('selection') }}"></a>
+		<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
+		<span id="help-btn" class="frame frame-light clickable modal-btn fas fa-question-circle" data-modal="help"></span>
+	</div>
+</div>
+
+<div id="stats">
+	Score :&nbsp;
+	<span id="stats-percent">0%</span>
+	&nbsp;•&nbsp;
+	<div id="stats-values">
+		<span id="stats-count">0</span>
+		<span id="stats-correct">0</span>
+		<span id="stats-error">0</span>
+	</div>
+	<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
+</div>
+
+<div id="card" class="frame-light">
+	<div id="card-content">
+		
+	</div>
+	<div id="result">
+		<span data-result-type="romaji"></span>
+		<span data-result-type="trad"></span>
+	</div>
+</div>
+<div id="answers">
+	<div data-input-type="romaji" class="answers-row">
+		<input type="text" autocapitalize="none">
+	</div>
+	<div data-input-type="trad" class="answers-row">
+		<input type="text" autocapitalize="none">
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block ui %}
+<div class="modal" data-modal="report" style="opacity: 0;">
+	<span class="modal-close far fa-times-circle"></span>
+	<div class="modal-content frame frame-light">
+		<h2>Signaler une erreur</h2>
+		{{ form_start(word_report_form, {'attr': {'class': 'form-ajax'}}) }}
+		<div class="form-row">
+			<div class="form-widget">
+				{{ form_widget(word_report_form.description) }}
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-widget">
+				<button class="frame frame-heavy frame-important clickable">{{ button_label|default('Envoyer') }}</button>
+			</div>
+		</div>
+		<div class="form-ajax-message"></div>
+		{{ form_end(word_report_form) }}
+	</div>
+</div>
+
+<div class="modal" data-modal="learn" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('learn.html.twig') }}
+	</div>
+</div>
+
+<div class="modal" data-modal="help" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('help.html.twig') }}
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+	var db = [
+		{% for word in dbWords %}
+		{
+			"id": "{{ word.id }}",
+			"kanji": "{{ word.kanji }}",
+			"romaji": [
+				{% for romaji in word.romaji|split(',') %}
+				"{{ romaji|trim }}",	
+				{% endfor %}
+			],
+			"trad": [
+				{% for francais in word.francais|split(',') %}
+				"{{ francais|trim }}",
+				{% endfor %}
+			],
+			{% if word.infos != null %}
+			"info": "{{ word.infos }}",
+			{% endif %}
+		},
+		{% endfor %}
+	]
+
+</script>
+<script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}

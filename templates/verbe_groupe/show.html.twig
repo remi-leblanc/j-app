@@ -1,0 +1,32 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}verbe_groupe{% endblock %}
+
+{% block body %}
+
+    <table>
+        <thead>
+            <tr class="frame frame-heavy">
+                <th>Kanji</th>
+                <th>Romaji</th>
+                <th>Francais</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="frame frame-light">
+                <td>{{ verbe_groupe.kanji }}</td>
+                <td>{{ verbe_groupe.romaji }}</td>
+                <td>{{ verbe_groupe.francais }}</td>
+                <td>{{ verbe_groupe.createdAt ? verbe_groupe.createdAt|date('d/m/Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('verbe_groupe_index') }}">back to list</a>
+
+    <a href="{{ path('verbe_groupe_edit', {'id': verbe_groupe.id}) }}">edit</a>
+
+    {{ include('verbe_groupe/_delete_form.html.twig') }}
+
+{% endblock %}

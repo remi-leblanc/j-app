@@ -1,0 +1,17 @@
+{
+    "name": "J-App",
+    "short_name": "J-App",
+    "theme_color": "#21242b",
+    "background_color": "#21242b",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "https://j-app.remileblanc.fr/",
+    "description": "Apprendre le vocabulaire Japonais",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "500x500"
+        }
+    ]
+}

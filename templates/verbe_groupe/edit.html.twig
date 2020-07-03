@@ -1,0 +1,11 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Edit verbe_groupe{% endblock %}
+
+{% block body %}
+
+    {{ include('verbe_groupe/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {{ include('verbe_groupe/_delete_form.html.twig') }}
+
+{% endblock %}
+

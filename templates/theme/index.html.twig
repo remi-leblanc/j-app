@@ -1,0 +1,29 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}theme index{% endblock %}
+
+{% block body %}
+    <div class="admin-index-tools">
+        <a class="admin-index-tools-back" href="{{ path('admin_dashboard') }}">
+            <i class="fas fa-chevron-left"></i>
+            Dashboard
+        </a>
+        <a class="admin-index-tools-add" href="{{ path('theme_new') }}">Ajouter
+            <i class="fas fa-plus-circle"></i>
+        </a>
+    </div>
+    <div class="table">
+        <div class="thead">
+            <div class="tr frame frame-heavy"> 
+                <div class="th">Nom du thème</div>
+            </div>
+        </div>
+        <div class="tbody">
+        {% for theme in themes %}
+        <a class="tr clickable frame frame-light" href="{{ path('theme_edit', {'id': theme.id}) }}">
+            <div class="td">{{ theme.name }}</div>
+        </a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

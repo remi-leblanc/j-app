@@ -1,0 +1,19 @@
+<div class="admin-index-tools">
+	<a class="admin-index-tools-back" href="{{ path('theme_index') }}">
+		<i class="fas fa-chevron-left"></i>
+		Liste
+	</a>
+</div>
+{{ form_start(form) }}
+	<div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(form.name) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			<button class="frame frame-heavy clickable">{{ button_label|default('Save') }}</button>
+		</div>
+	</div>
+	
+{{ form_end(form) }}

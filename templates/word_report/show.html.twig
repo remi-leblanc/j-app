@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WordReport{% endblock %}
+
+{% block body %}
+    <h1>WordReport</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ word_report.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ word_report.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('word_report_index') }}">back to list</a>
+
+    <a href="{{ path('word_report_edit', {'id': word_report.id}) }}">edit</a>
+
+    {{ include('word_report/_delete_form.html.twig') }}
+{% endblock %}

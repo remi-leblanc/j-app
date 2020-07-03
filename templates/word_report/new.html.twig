@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New WordReport{% endblock %}
+
+{% block body %}
+    <h1>Create new WordReport</h1>
+
+    {{ include('word_report/_form.html.twig') }}
+
+    <a href="{{ path('word_report_index') }}">back to list</a>
+{% endblock %}

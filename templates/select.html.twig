@@ -1,0 +1,161 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}select{% endblock %}
+
+{% block body %}
+
+<div id="intro">
+	<h1>Bienvenue sur J-App</h1>
+	<div class="frame frame-light">
+		<p><strong>J-App</strong> est une application qui permet d'apprendre des mots de <strong>vocabulaire en japonais</strong> sous forme d'un jeu.</p>
+		<p>Le but est de traduire un mot <strong>aléatoire</strong> en rômaji et en français. Vous pouvez choisir les mots grâce aux paramètres de sélection ci-dessous.</p>
+		<p>Contactez-moi sur Twitter si vous voulez discuter du projet. Et si vous voulez récompenser mes nombreuses heures de travail acharné, n'hésitez pas à faire un petit don :)</p>
+
+		<div class="row">
+			<a class="clickable" href="https://twitter.com/kronawak" target="_blank" id="twitter-link">
+			<i class="fab fa-twitter"></i>
+				KroNawak
+			</a>
+			<a class="clickable" href="https://ko-fi.com/K3K51R1FI" target="_blank"  id="kofi-link">
+			<i class="fas fa-coins"></i>
+				Faire un don
+			</a>
+			<span id="help-btn" class="frame-light clickable modal-btn" data-modal="help">
+				<i class="fas fa-question-circle"></i>
+				Aide
+			</span>
+		</div>
+	</div>
+</div>
+
+{{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
+	{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
+	<span class="select-error"></span>
+{{ form_end(selectionForm) }}
+
+<div id="select-count" class="frame-group">
+	<div class="frame-header frame frame-heavy">
+		Nombre de mots sélectionnés
+	</div>
+	<div class="frame-content frame frame-light">
+		<span id="select-count-selected"></span>
+		<span>/{{ words|length }}</span>
+	</div>
+</div>
+
+<h2>Paramètres de sélection</h2>
+
+<div class="select-cat frame-group" data-select-cat="types">
+	<div class="frame-header frame frame-heavy">
+	Choisir les types de mots
+		<div class="select-cat-control row">
+			<span class="select-cat-control-btn frame frame-light clickable" data-select-control="all">all</span>
+			<span class="select-cat-control-btn frame frame-light clickable " data-select-control="none">none</span>
+		</div>
+	</div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+		{% for type in types %}
+			<div class="select-cat-option frame frame-light clickable" data-select-option="{{ type.id }}">{{ type.name }}</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="select-cat frame-group" data-select-cat="themes">
+	<div class="frame-header frame frame-heavy">
+	Choisir les thèmes de mot
+		<div class="select-cat-control row">
+			<span class="select-cat-control-btn frame frame-light clickable" data-select-control="all">all</span>
+			<span class="select-cat-control-btn frame frame-light clickable " data-select-control="none">none</span>
+		</div>
+	</div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+		{% for theme in themes %}
+		<div class="select-cat-option frame frame-light clickable" data-select-option="{{ theme.id }}">{{ theme.name }}</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<div class="select-cat frame-group" data-select-cat="date">
+	<div class="frame-header frame frame-heavy">Date d'ajout</div>
+	<div class="frame-content frame frame-light">
+		<span>Récent</span>
+		<input type="range" id="select-cat-date" value="0" min="0" max="{{ dateDiff }}">
+		<span>Ancien</span>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<div id="copyright" class="section-container">
+	© <a href="https://remileblanc.fr" target="_blank">Rémi Leblanc</a> 2018-2020
+</div>
+{% endblock %}
+
+{% block ui %}
+<div id="select-recap">
+	<div class="section-container">
+		<span>Mots sélectionnés :&nbsp;</span>
+		<span id="select-recap-count"></span>
+	</div>
+</div>
+
+<div class="modal" data-modal="help" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('help.html.twig') }}
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+	var selection = {
+		'types': {
+			{% for type in types %}
+			'{{ type.id }}': {
+				'selected': false,
+			},
+			{% endfor %}
+		},
+        'themes': {
+			{% for theme in themes %}
+			'{{ theme.id }}': {
+				'selected': false,
+			},
+			{% endfor %}
+		},
+		'date': '{{ lastDate|date('d-m-Y') }}'
+
+	};
+
+	var words = [
+		{% for word in words %}
+		{
+			'id': '{{ word.id }}',
+			'categories': {
+				'types': '{{ word.type.id }}',
+				'themes': '{{ word.theme != null ? word.theme.id : '' }}',
+			},
+			'date': '{{ word.createdAt ? word.createdAt|date('d-m-Y') : '' }}',
+
+		},
+		{% endfor %}
+	];
+
+	var dates = {
+		'firstDate': '{{ firstDate|date('d-m-Y') }}',
+		'lastDate': '{{ lastDate|date('d-m-Y') }}'
+	};
+
+</script>
+<script src="{{ asset('js/select.js') }}"></script>
+
+{% endblock %}
