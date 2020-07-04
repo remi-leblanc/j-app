@@ -5,12 +5,14 @@ $(document).ready(function(){
         $('.cond-block[data-cond-link='+emitterLink+']').removeClass('active');
         if(emitter.is('select')){
             var emitterCond = emitter.find('option:selected').text();
+            emitterCond = emitterCond.replace(/\s/g, '-');
             $('.cond-block[data-cond-link='+emitterLink+'][data-cond='+emitterCond+']').addClass('active');
         }
         else{
             $('.cond-emitter[data-cond-link='+emitterLink+']').each(function(){
                 if($(this).hasClass('selected')){
                     var emitterCond = $(this).text();
+                    emitterCond = emitterCond.replace(/\s/g, '-');
                     $('.cond-block[data-cond-link='+emitterLink+'][data-cond='+emitterCond+']').addClass('active');
                 }
             });
