@@ -91,12 +91,12 @@
 			"kanji": "{{ word.kanji }}",
 			"romaji": [
 				{% for romaji in word.romaji|split(',') %}
-				"{{ romaji|trim }}",	
+				"{{ romaji|trim|raw }}",	
 				{% endfor %}
 			],
 			"trad": [
 				{% for francais in word.francais|split(',') %}
-				"{{ francais|trim }}",
+				"{{ francais|trim|raw }}",
 				{% endfor %}
 			],
 			{% if word.infos != null %}

@@ -50,12 +50,12 @@ $(document).ready(function(){
 
         dbRomajiVal = [];
         db[currentDraw]["romaji"].forEach(function(romaji, i){
-            dbRomajiVal.push(this[i].replace(/\s|\-/g, '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+            dbRomajiVal.push(this[i].toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""));
         }, db[currentDraw]["romaji"]);
 
         dbTradVal = [];
         db[currentDraw]["trad"].forEach(function(trad, i){
-            dbTradVal.push(this[i].replace(/\s|\-/g, '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+            dbTradVal.push(this[i].toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""));
         }, db[currentDraw]["trad"]);
 
         cardKanji.text(db[currentDraw]["kanji"]);
@@ -71,8 +71,8 @@ $(document).ready(function(){
     $(document).keydown(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.key);
         if(keycode == '13'){
-            var inputRomajiVal = inputRomaji.val().replace(/\s/g, '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            var inputTradVal = inputTrad.val().replace(/\s/g, '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            var inputRomajiVal = inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+            var inputTradVal = inputTrad.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
             if(inputRomajiVal != ""){
                 inputTrad.focus();
             }
