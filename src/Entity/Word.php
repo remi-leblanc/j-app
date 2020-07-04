@@ -60,7 +60,7 @@ class Word
     private $theme;
 
     /**
-     * @ORM\OneToMany(targetEntity=WordReport::class, mappedBy="word", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=WordReport::class, mappedBy="word")
      */
     private $wordReports;
 

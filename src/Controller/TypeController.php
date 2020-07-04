@@ -85,6 +85,11 @@ class TypeController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$type->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            foreach($type->getWords() as $word){
+                $word->setType(NULL);
+            }
+
             $entityManager->remove($type);
             $entityManager->flush();
         }

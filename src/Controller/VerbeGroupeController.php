@@ -85,6 +85,11 @@ class VerbeGroupeController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$verbeGroupe->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            foreach($verbeGroupe->getWords() as $word){
+                $word->setVerbeGroupe(NULL);
+            }
+
             $entityManager->remove($verbeGroupe);
             $entityManager->flush();
         }
