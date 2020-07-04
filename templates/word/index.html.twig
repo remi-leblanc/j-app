@@ -31,7 +31,7 @@
             <div class="td">{{ word.kanji }}</div>
             <div class="td">{{ word.romaji }}</div>
             <div class="td">{{ word.francais }}</div>
-            <div class="td">{{ word.type.name }}</div>
+            <div class="td">{{ word.type != null ? word.type.name : ''  }}</div>
             <div class="td">{{ word.verbeGroupe != null ? word.verbeGroupe.name : '' }}</div>
             <div class="td">{{ word.theme != null ? word.theme.name : '' }}</div>
             <div class="td">{{ word.createdAt ? word.createdAt|date('d/m/Y') : '' }}</div>
