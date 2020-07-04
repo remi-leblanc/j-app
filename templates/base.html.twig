@@ -17,11 +17,13 @@
         <script src="{{ asset('libraries/jquery-3.5.0.js') }}"></script>
         <script src="https://kit.fontawesome.com/af30538883.js" crossorigin="anonymous"></script>
         <script src="{{ asset('js/global.js') }}"></script>
-                <script>
+        {% if app.environment == 'prod' %}
+        <script>
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register("{{ asset('pwa/sw.js') }}");
+                navigator.serviceWorker.register("{{ asset('sw.js') }}");
             }
         </script>
+        {% endif %}
         {% block scripts %}{% endblock %}
     </body>
 </html>

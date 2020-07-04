@@ -141,7 +141,7 @@
 		{
 			'id': '{{ word.id }}',
 			'categories': {
-				'types': '{{ word.type.id }}',
+				'types': '{{ word.type != null ? word.type.id : '' }}',
 				'themes': '{{ word.theme != null ? word.theme.id : '' }}',
 			},
 			'date': '{{ word.createdAt ? word.createdAt|date('d-m-Y') : '' }}',
