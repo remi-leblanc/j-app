@@ -42,7 +42,7 @@ class WordController extends AbstractController
             $date = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
             $word->setCreatedAt($date);
             
-            if($formData->getType()->getName() != 'Verbe'){
+            if($formData->getType() && $formData->getType()->getName() != 'Verbe'){
                 $word->setVerbeGroupe(null);
             }
 

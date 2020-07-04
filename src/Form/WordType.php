@@ -54,6 +54,8 @@ class WordType extends AbstractType
                     'class' => 'cond-emitter',
                     'data-cond-link' => 'types'
                 ],
+                'placeholder' => 'Type de mot',
+                'required' => false,
             ])
             ->add('verbe_groupe', EntityType::class, [
                 'class' => VerbeGroupe::class,
@@ -65,6 +67,7 @@ class WordType extends AbstractType
                 'class' => Theme::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Thème',
+                'required' => false,
                 /* 'preferred_choices' => [$this->em->getRepository(Theme::class)->findOneBy(['name' => 'Autre'])], */
             ])
             ->add('infos', TextType::class, [
