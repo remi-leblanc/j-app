@@ -85,6 +85,11 @@ class ThemeController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$theme->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            foreach($theme->getWords() as $word){
+                $word->setTheme(NULL);
+            }
+
             $entityManager->remove($theme);
             $entityManager->flush();
         }

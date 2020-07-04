@@ -24,6 +24,16 @@ class Theme
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Word::class, mappedBy="theme")
+     */
+    private $words;
+
+    public function __construct()
+    {
+        $this->words = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
