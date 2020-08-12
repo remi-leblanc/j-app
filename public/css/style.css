@@ -769,3 +769,16 @@ textarea:focus{
     font-size: 34px;
     cursor: pointer;
 }
+
+
+
+
+
+@media (max-width: 425px){
+    #page-select .page-container h1{
+        font-size: 28px;
+    }
+    #page-select .page-container h2{
+        font-size: 23px;
+    }
+}
