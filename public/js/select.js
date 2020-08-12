@@ -107,12 +107,12 @@ $(document).ready(function(){
 
     $('#select-cat-date').change(function(){
         var lastDate = formatDate(dates.lastDate);
-        var selectedDate = formatDate(selection.date);
-
-        selectedDate.setDate(lastDate.getDate() - parseInt($(this).val()) );
+        var selectedDate = new Date(+lastDate);
+        
+        selectedDate.setDate(lastDate.getDate() - parseInt($(this).val()));
 
         selection.date = selectedDate.getDate() +'-'+ (selectedDate.getMonth()+1) +'-'+ selectedDate.getFullYear();
-
+        
         updateCount();
     });
 
