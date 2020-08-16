@@ -31,6 +31,9 @@ class WordController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $errorMessage = null;
+        $repository = $this->getDoctrine()->getRepository(Word::class);
+
         $word = new Word();
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
@@ -46,16 +49,28 @@ class WordController extends AbstractController
                 $word->setVerbeGroupe(null);
             }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($word);
-            $entityManager->flush();
+            $wordKanji = $formData->getKanji();
 
-            return $this->redirectToRoute('word_new');
+            $isWordExist = $repository->findOneBy(['kanji' => $wordKanji]);
+
+            if($isWordExist){
+                $errorMessage = 'Ce mot est déjà enregistré.';
+            }
+            else{
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($word);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('word_new');
+            }
+            
+            
         }
 
         return $this->render('word/new.html.twig', [
             'word' => $word,
             'form' => $form->createView(),
+            'errorMessage' => $errorMessage,
         ]);
     }
 
