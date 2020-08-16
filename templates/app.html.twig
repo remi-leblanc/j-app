@@ -13,14 +13,9 @@
 </div>
 
 <div id="stats">
-	Score :&nbsp;
-	<span id="stats-percent">0%</span>
-	&nbsp;•&nbsp;
-	<div id="stats-values">
-		<span id="stats-count">0</span>
-		<span id="stats-correct">0</span>
-		<span id="stats-error">0</span>
-	</div>
+	<span id="stats-count">0</span>
+	/
+	<span id="stats-total">{{ dbWords|length }}</span>
 	<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
 </div>
 
@@ -46,6 +41,23 @@
 {% endblock %}
 
 {% block ui %}
+
+<div class="modal" data-modal="finalres" style="opacity: 0;">
+	<div class="modal-content">
+		<h2>Résultats</h2>
+		<div class="row">
+			<span class="finalres-stats frame frame-light" id="stats-error"></span>
+			<span class="finalres-stats frame frame-light" id="stats-time"></span>
+		</div>
+		<div class="row">
+			<span id="restart-btn" class="frame frame-small frame-light clickable">
+				<i class="fas fa-sync-alt"></i>
+				Recommencer
+			</span>
+		</div>
+	</div>
+</div>
+
 <div class="modal" data-modal="report" style="opacity: 0;">
 	<span class="modal-close far fa-times-circle"></span>
 	<div class="modal-content frame frame-light">
@@ -102,6 +114,10 @@
 			{% if word.infos != null %}
 			"info": "{{ word.infos }}",
 			{% endif %}
+			"score": {
+				"valid": false,
+				"time": 0,
+			},
 		},
 		{% endfor %}
 	]

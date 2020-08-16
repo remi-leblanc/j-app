@@ -39,7 +39,7 @@ $(document).ready(function(){
 
     $('.modal-btn').click(function(){
         var modalName = $(this).attr('data-modal');
-        var modal = $('.modal[data-modal='+modalName)
+        var modal = $('.modal[data-modal='+modalName);
         modal.addClass('active');
         $('html').addClass('modal-open');
 
