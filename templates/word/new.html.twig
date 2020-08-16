@@ -4,6 +4,10 @@
 
 {% block body %}
 
+    {% if errorMessage != null %}
+    <div class="frame frame-important">{{ errorMessage }}</div>
+    {% endif %}
+
     {{ include('word/_form.html.twig', {'button_label': 'Ajouter'}) }}
 
 {% endblock %}
