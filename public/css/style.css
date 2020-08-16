@@ -136,13 +136,8 @@ p{
     justify-content: center;
 }
 #intro .row > *{
-    padding: 6px 12px;
-    border-radius: 3px;
     margin: 0 5px;
     font-weight: 600;
-}
-#intro .row > * i{
-    margin-right: 5px;
 }
 #twitter-link{
     background-color: #00acee;
@@ -189,6 +184,12 @@ p{
     padding: 15px;
     border-radius: 3px;
     overflow: hidden;
+}
+.frame > i{
+    margin-right: 5px;
+}
+.frame-small{
+    padding: 6px 12px;
 }
 .frame-heavy{
     background: linear-gradient(to right,#2f4f9c, #382f9c);
@@ -385,7 +386,6 @@ textarea:focus{
     margin: 0 -5px;
 }
 .select-cat-control-btn{
-    padding: 5px 10px;
     font-size: 13px;
     margin: 0 5px;
 }
@@ -676,28 +676,42 @@ textarea:focus{
 #stats *{
     font-size: inherit;
 }
-#stats > *{
-    display: flex;
-}
-#stats-values span{
-    margin: 0 3px;
-}
-#stats-values span:first-of-type{
-    margin-left: 0;
-}
-#stats-values span:last-of-type{
-    margin-right: 0;
-}
-#stats-error{
-    color: #de3333;
-}
-#stats-correct{
-    color: #35bd3e;
-}
 #report-btn{
     color: #de3333;
     margin-left: auto;
     padding: 0 5px;
+}
+
+
+.modal[data-modal="finalres"] .row{
+    flex: 1;
+    justify-content: center;
+    margin: 0 -5px 15px -5px;
+}
+.modal[data-modal="finalres"] .row:last-of-type{
+    margin-bottom: 0;
+}
+.modal[data-modal="finalres"] .row > *{
+    margin: 0 5px;
+}
+.finalres-stats{
+    position: relative;
+    font-size: 28px;
+    width: 100%;
+    text-align: center;
+}
+.finalres-stats::before{
+    font-size: 11px;
+    display: block;
+}
+#stats-error::before{
+    content: "Erreurs";
+}
+#stats-time::before{
+    content: "Temps moyen";
+}
+#restart-btn{
+    font-weight: 600;
 }
 
 

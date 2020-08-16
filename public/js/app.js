@@ -6,10 +6,10 @@ $(document).ready(function(){
     var inputTrad = $('.answers-row[data-input-type=trad] input');
     var result = $('#result');
     var currentDraw;
-    var next = false;
-    var statsCount = 0;
-    var statsCorrect = 0;
+    var isWordComplete = false;
+    var completedCount = 0;
     var statsError = 0;
+    var startTime;
 
     var dbRomajiVal;
     var dbTradVal;
@@ -19,7 +19,7 @@ $(document).ready(function(){
     function rand(){
         var nb = Math.floor(Math.random() * db.length);
         if(currentDraw != null){
-            if(nb == currentDraw){
+            if(nb == currentDraw || db[nb]["score"]["valid"]){
                 rand();
             }
             else{
@@ -31,14 +31,20 @@ $(document).ready(function(){
         }
     }
 
+    function resetGame(){
+        completedCount = 0;
+        statsError = 0;
+        for(var i = 0; i < db.length; i++){
+            db[i]['score']['valid'] = false;
+            db[i]['score']['time'] = 0;
+        }
+    }
+
 
     function draw(){
-
         if(db.length <= 1){
             return;
         }
-
-        rand();
 
         $('#answers input').val('');
         inputRomaji.removeClass('error').removeClass('correct').focus();
@@ -46,8 +52,10 @@ $(document).ready(function(){
         result.find('span[data-result-type=romaji').removeClass('error').removeClass('correct');
         result.find('span[data-result-type=trad').removeClass('error').removeClass('correct');
         result.removeClass('active');
-        next = false;
+        isWordComplete = false;
 
+        rand();
+        
         dbRomajiVal = [];
         db[currentDraw]["romaji"].forEach(function(romaji, i){
             dbRomajiVal.push(this[i].toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""));
@@ -63,10 +71,25 @@ $(document).ready(function(){
         adaptFont();
 
         $('#word_report_word').val(db[currentDraw]["id"]);
+
+        startTime = new Date();
     }
     
+    function finalResults(){
+        var totalTime = 0;
+        for(var i = 0; i < db.length; i++){
+            totalTime = totalTime + db[i]['score']['time'];
+        }
+        var averageTime = totalTime / db.length;
+
+        $('#stats-error').text(statsError);
+        $('#stats-time').text(averageTime.toFixed(1) + 's');
+
+        $('.modal[data-modal=finalres]').addClass('active');
+    }
 
     draw();
+
 
     $(document).keydown(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.key);
@@ -76,20 +99,30 @@ $(document).ready(function(){
             if(inputRomajiVal != ""){
                 inputTrad.focus();
             }
-            if(next){
-                draw();
+            if(isWordComplete){
+                if(completedCount != db.length){
+                    draw();
+                }
+                else{
+                    finalResults();
+                }
             }
             else{
                 if(inputRomajiVal != "" && inputTradVal != ""){
                     result.addClass('active');
-                    next = true;
-                    statsCount++;
+                    isWordComplete = true;
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
                     result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
                     if(dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal)){
-                        statsCorrect++;
+                        completedCount++;
+                        $('#stats-count').text(completedCount);
+
+                        var endTime = new Date();
+                        var completeTime = (endTime - startTime)/1000;
+
+                        db[currentDraw]["score"]["valid"] = true;
+                        db[currentDraw]["score"]["time"] = completeTime;
                     }else{
-                        
                         statsError++;
                     }
 
@@ -107,11 +140,6 @@ $(document).ready(function(){
                         inputTrad.addClass('correct');
                         result.find('span[data-result-type=trad').addClass('correct');
                     }
-
-                    $('#stats-count').text(statsCount);
-                    $('#stats-correct').text(statsCorrect);
-                    $('#stats-error').text(statsError);
-                    $('#stats-percent').text(Math.floor((statsCorrect / statsCount) * 100) + "%");
 
                 }
             }
@@ -134,6 +162,13 @@ $(document).ready(function(){
             cardKanji.css('font-size', newFontSize+'px');
         }
     }
+
+
+    $('#restart-btn').click(function(){
+        $('.modal[data-modal=finalres]').removeClass('active');
+        resetGame();
+        draw();
+    });
 
 
 });
