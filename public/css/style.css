@@ -46,7 +46,7 @@ hr{
     height: 0.5px;
     background-color: #fff;
     border: none;
-    margin: 0;
+    margin: 40px 0 30px 0;
 }
 
 h1, h2, h3{
@@ -769,6 +769,9 @@ textarea:focus{
 .modal-content p{
     margin-top: 0;
     margin-bottom: 20px;
+}
+.modal[data-modal="learn"] .modal-content p{
+    margin-bottom: 0.8em;
 }
 .modal-content a{
     text-decoration: underline;
