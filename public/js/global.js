@@ -48,19 +48,20 @@ $(document).ready(function(){
             var modalParam = modal.attr('data-modal-param');
             var modalParamVal = $(this).attr('data-modal-param');
 
-            function searchArray(report){
-                return report[modalParam] == modalParamVal;
+            function searchDb(db){
+                return db[modalParam] == modalParamVal;
             }
 
-            var modalDbResult = modalDb.find(searchArray);
+            var modalDbResult = modalDb.find(searchDb);
 
             modal.find('*[data-modal-val]').each(function(){
                 var modalVal = $(this).attr('data-modal-val');
+                console.log(modalVal);
                 if( modalVal.match(/\[\d{1,255}\]$/g) ){
                     var modalValName = modalVal.match(/.+?(?=\[\d{1,255}\])/)[0];
                     var modalValId = modalVal.match(/(?<=\[)(.*?)(?=\])/g)[0];
                     $(this).text(modalDbResult[modalValName][modalValId]);
-                }   
+                }
                 else{
                     $(this).text(modalDbResult[modalVal]);
                 }
@@ -70,11 +71,18 @@ $(document).ready(function(){
         }
     });
     $('.modal-close').click(function(){
-        $(this).parents('.modal').removeClass('active');
-        $('html').removeClass('modal-open');
-        $(this).parents('.modal').find('.form-ajax').trigger('formAjaxReset');
+        closeModal();
     });
-
+    $(document).keydown(function(e) {
+        if (e.key === "Escape") {
+            closeModal();
+        }
+    });
+    function closeModal(){
+        $('.modal').removeClass('active');
+        $('html').removeClass('modal-open');
+        $('.modal').find('.form-ajax').trigger('formAjaxReset');
+    }
 
 
     $('.form-ajax').submit(function(e){

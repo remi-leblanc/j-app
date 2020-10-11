@@ -112,7 +112,7 @@
 				{% endfor %}
 			],
 			{% if word.infos != null %}
-			"info": "{{ word.infos }}",
+			"info": "{{ word.infos|raw }}",
 			{% endif %}
 			"score": {
 				"valid": false,
