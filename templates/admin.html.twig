@@ -78,7 +78,7 @@
                     <button class="frame frame-important fas fa-trash-alt clickable"></button>
                 </form>
             </div>
-                {% endfor %}
+            {% endfor %}
             </div>
             
         </div>
@@ -113,7 +113,7 @@
 		{% for report in word_reports %}
 		{
 			"id": "{{ report.id }}",
-            "description": "{{ report.description }}",
+            "description": "{{ report.description|raw }}",
 			"word": ["{{ report.word.kanji }}", "{{ report.word.romaji }}", "{{ report.word.francais }}"],
 		},
 		{% endfor %}
