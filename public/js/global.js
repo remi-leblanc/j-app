@@ -49,14 +49,12 @@ $(document).ready(function(){
             var modalParamVal = $(this).attr('data-modal-param');
 
             function searchDb(db){
-                return db[modalParam] == modalParamVal;
+                return db[modalParam] === modalParamVal;
             }
-
             var modalDbResult = modalDb.find(searchDb);
 
             modal.find('*[data-modal-val]').each(function(){
                 var modalVal = $(this).attr('data-modal-val');
-                console.log(modalVal);
                 if( modalVal.match(/\[\d{1,255}\]$/g) ){
                     var modalValName = modalVal.match(/.+?(?=\[\d{1,255}\])/)[0];
                     var modalValId = modalVal.match(/(?<=\[)(.*?)(?=\])/g)[0];

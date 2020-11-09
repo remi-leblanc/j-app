@@ -30,7 +30,7 @@
 </div>
 <div id="answers">
 	<div data-input-type="romaji" class="answers-row">
-		<input type="text" autocapitalize="none" placeholder="romaji">
+		<input type="text" autocapitalize="none" placeholder="rōmaji">
 	</div>
 	<div data-input-type="trad" class="answers-row">
 		<input type="text" autocapitalize="none" placeholder="traduction">
@@ -103,16 +103,16 @@
 			"kanji": "{{ word.kanji }}",
 			"romaji": [
 				{% for romaji in word.romaji|split(',') %}
-				"{{ romaji|trim|raw }}",	
+				"{{ romaji|trim|raw|e('js') }}",	
 				{% endfor %}
 			],
 			"trad": [
 				{% for francais in word.francais|split(',') %}
-				"{{ francais|trim|raw }}",
+				"{{ francais|trim|raw|e('js') }}",
 				{% endfor %}
 			],
 			{% if word.infos != null %}
-			"info": "{{ word.infos|raw }}",
+			"info": "{{ word.infos|raw|e('js') }}",
 			{% endif %}
 			"score": {
 				"valid": false,

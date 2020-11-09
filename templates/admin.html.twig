@@ -105,19 +105,18 @@
 {% endblock %}
 
 {% block scripts %}
-{{ parent() }}
-
 <script>
 
     var reports = [
 		{% for report in word_reports %}
 		{
 			"id": "{{ report.id }}",
-            "description": "{{ report.description|raw }}",
+            "description": "{{ report.description|raw|e('js') }}",
 			"word": ["{{ report.word.kanji }}", "{{ report.word.romaji }}", "{{ report.word.francais }}"],
 		},
 		{% endfor %}
 	]
 
 </script>
+{{ parent() }}
 {% endblock %}

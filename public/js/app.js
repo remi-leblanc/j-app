@@ -40,7 +40,6 @@ $(document).ready(function(){
         }
     }
 
-
     function draw(){
         if(db.length <= 1){
             return;
@@ -89,7 +88,6 @@ $(document).ready(function(){
     }
 
     draw();
-
 
     $(document).keydown(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.key);
