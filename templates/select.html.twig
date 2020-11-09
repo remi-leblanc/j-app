@@ -30,6 +30,7 @@
 
 {{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
 	{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
+	<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
 
@@ -108,6 +109,13 @@
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
 		{{ include('help.html.twig') }}
+	</div>
+</div>
+
+<div class="modal" data-modal="learn" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('learn.html.twig') }}
 	</div>
 </div>
 

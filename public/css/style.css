@@ -221,11 +221,11 @@ p{
 .clickable{
     cursor: pointer;
     user-select: none;
+    transition: box-shadow 0.1s ease;
 }
-.clickable.frame-light:hover{
-    background-color: rgba(255, 255, 255, 0.11);
+.clickable.frame:hover {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.04);
 }
-
 
 input[type=text],
 input[type=email],
@@ -262,8 +262,7 @@ input[type=range]::-ms-track {
     color: transparent;
 }
 input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 1em;
+    width: 0.25em;
     height: 1em;
     transform: translateY(-50%);
     margin-top: 0;
@@ -272,7 +271,7 @@ input[type=range]::-webkit-slider-thumb {
     background: #2f4f9c;
 }
 input[type=range]::-moz-range-thumb {
-    width: 1em;
+    width: 0.25em;
     height: 1em;
     margin-top: 0;
     border-radius: 3px;
@@ -280,7 +279,7 @@ input[type=range]::-moz-range-thumb {
     background: #2f4f9c;
 }
 input[type=range]::-ms-thumb {
-    width: 1em;
+    width: 0.25em;
     height: 1em;
     margin-top: 0;
     border-radius: 3px;
@@ -291,8 +290,7 @@ input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     cursor: pointer;
     height: 0;
-    border-top: 1.5px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 0.08em rgba(255, 255, 255, 0.11);
     border-radius: 3px;
     background-color: transparent;
 }
@@ -300,8 +298,7 @@ input[type=range]::-moz-range-track {
     width: 100%;
     cursor: pointer;
     height: 0;
-    border-top: 1.5px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1.5px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 0.08em rgba(255, 255, 255, 0.11);
     border-radius: 3px;
     background-color: transparent;
 }
@@ -430,13 +427,15 @@ textarea:focus{
 
 #select-form{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    justify-content: center;
     margin-bottom: 30px;
 }
-#select-form button{
+#select-form button,
+#select-form .modal-btn{
+    display: flex;
+    align-items: center;
     font-size: 18px;
+    margin: 0 5px
 }
 .select-error{
     font-size: 0;
@@ -786,7 +785,6 @@ textarea:focus{
     font-size: 34px;
     cursor: pointer;
 }
-
 
 
 
