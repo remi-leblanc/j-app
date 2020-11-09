@@ -117,9 +117,9 @@ $(document).ready(function(){
     });
 
     $('#select-form').submit(function(e){
-        if(selectedWords.length <= 1){
+        if(selectedWords.length < 1){
             e.preventDefault();
-            $('.select-error').addClass('show').text('Selectionnez au moins 2 mots');
+            $('.select-error').addClass('show').text('Selectionnez au moins 1 mot');
         }
         else{
             $('.select-error').removeClass('show');

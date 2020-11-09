@@ -114,8 +114,12 @@ class MainController extends AbstractController
             return $this->redirectToRoute('selection');
         }
         else{
+            $selectedWords = explode(',', $selectedWords['selection']);
+            if(count($selectedWords) < 1){
+                return $this->redirectToRoute('selection');
+            }
             $dbWords = $this->getDoctrine()->getRepository(Word::class)->findBy(
-                ['id' => explode(',', $selectedWords['selection'])]
+                ['id' => $selectedWords]
             );
             
             return $this->render('app.html.twig', [

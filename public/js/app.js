@@ -5,7 +5,7 @@ $(document).ready(function(){
     var inputRomaji = $('.answers-row[data-input-type=romaji] input');
     var inputTrad = $('.answers-row[data-input-type=trad] input');
     var result = $('#result');
-    var currentDraw;
+    var currentDraw = null;
     var isWordComplete = false;
     var completedCount = 0;
     var statsError = 0;
@@ -17,7 +17,12 @@ $(document).ready(function(){
     var oldFontSize = parseFloat(cardKanji.css('font-size'));
 
     function rand(){
+        if(db.length == 1){
+            currentDraw = 0;
+            return;
+        }
         var nb = Math.floor(Math.random() * db.length);
+        
         if(currentDraw != null){
             if(nb == currentDraw || db[nb]["score"]["valid"]){
                 rand();
@@ -34,6 +39,8 @@ $(document).ready(function(){
     function resetGame(){
         completedCount = 0;
         statsError = 0;
+        currentDraw = null;
+        $('#stats-count').text(completedCount);
         for(var i = 0; i < db.length; i++){
             db[i]['score']['valid'] = false;
             db[i]['score']['time'] = 0;
@@ -41,10 +48,6 @@ $(document).ready(function(){
     }
 
     function draw(){
-        if(db.length <= 1){
-            return;
-        }
-
         $('#answers input').val('');
         inputRomaji.removeClass('error').removeClass('correct').focus();
         inputTrad.removeClass('error').removeClass('correct');

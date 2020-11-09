@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 /**
  * @Route("/admin/word")
  */
@@ -98,9 +101,20 @@ class WordController extends AbstractController
             return $this->redirectToRoute('word_index');
         }
 
+        $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')
+        ->add('selection', HiddenType::class, [
+            'data' => $word->getId(),
+        ])
+        ->add('submit', SubmitType::class, [
+            'label' => 'Tester le mot'
+        ])
+        ->setAction($this->generateUrl('app'))
+        ->getForm();
+
         return $this->render('word/edit.html.twig', [
             'word' => $word,
             'form' => $form->createView(),
+            'selectionForm' => $selectionForm->createView(),
         ]);
     }
 

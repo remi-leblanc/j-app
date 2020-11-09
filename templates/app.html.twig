@@ -103,16 +103,16 @@
 			"kanji": "{{ word.kanji }}",
 			"romaji": [
 				{% for romaji in word.romaji|split(',') %}
-				"{{ romaji|trim|raw|e('js') }}",	
+				"{{ romaji|trim|raw }}",	
 				{% endfor %}
 			],
 			"trad": [
 				{% for francais in word.francais|split(',') %}
-				"{{ francais|trim|raw|e('js') }}",
+				"{{ francais|trim|raw }}",
 				{% endfor %}
 			],
 			{% if word.infos != null %}
-			"info": "{{ word.infos|raw|e('js') }}",
+			"info": "{{ word.infos|raw }}",
 			{% endif %}
 			"score": {
 				"valid": false,

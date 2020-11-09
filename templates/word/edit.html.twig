@@ -5,7 +5,17 @@
 {% block body %}
 
     {{ include('word/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    
+    {{ form_start(selectionForm) }}
+    <div class="form-row">
+		<div class="form-widget">
+			{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
+		</div>
+	</div>
+    {{ form_end(selectionForm) }}
+
     {{ include('word/_delete_form.html.twig') }}
+
 
 {% endblock %}
 
