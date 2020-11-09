@@ -29,8 +29,10 @@
 </div>
 
 {{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
-	{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
-	<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
+	<div class="row">
+		{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
+		<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
+	</div>
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
 
