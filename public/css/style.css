@@ -741,7 +741,7 @@ textarea:focus{
 }
 .modal-content{
     position: relative;
-    padding: 15px 15px 15px 15px;
+    padding: 15px 60px 30px 50px;
     width: 100%;
     max-width: 800px;
     max-height: 85%;
@@ -792,7 +792,106 @@ textarea:focus{
 }
 
 
+.modal[data-modal=help] *{
+    text-align: justify;
+}
+.modal[data-modal=learn] .modal-content{
+    height: 100%;
+}
+#learn-menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+#learn-menu > span{
+    position: relative;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+#learn-menu > span::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: 0.15s ease;
+    border-radius: 100px;
+}
+#learn-menu > span > i{
+    margin-left: 20px;
+    transform: translateX(-10px);
+    transition: 0.15s ease;
+}
+#learn-menu > span:hover::after{
+    transform: scaleX(1);
+}
+#learn-menu > span:hover > i{
+    transform: translateX(0);
+}
+.modal[data-modal=learn] .nav-cat-back{
+    font-size: 16px;
+    font-weight: bold;
+}
+.modal[data-modal=learn] p{
+    text-align: justify;
+}
 
+.nav-cat-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.nav-cat-overflow{
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.nav-cat-back{
+    cursor: pointer;
+}
+.nav-cat-back i{
+    margin-right: 5px;
+}
+.nav-cat-menu{
+    width: 100%;
+    height: 100%;
+}
+.nav-cat-menu{
+    transition: 0.3s ease;
+}
+.nav-cat-menu.leave{
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+}
+.nav-cat-item{
+    transition: 0.3s ease;
+}
+.nav-cat-item.inactive{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 100%;
+    transform: translateX(100%);
+    opacity: 0;
+}
+.nav-cat-item.active{
+    position: relative;
+    height: auto;
+    transform: translateX(0);
+    opacity: 1;
+}
 
 @media (max-width: 425px){
     #page-select .page-container h1{

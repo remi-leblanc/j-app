@@ -143,4 +143,15 @@ $(document).ready(function(){
         $(this).find('.form-ajax-message').hide();
     });
 
+    $('.nav-cat-item').addClass('inactive');
+    $('.nav-cat-menu-item').click(function(){
+        var cat = $(this).attr('data-nav-cat');
+        $('.nav-cat-item[data-nav-cat='+cat+']').addClass('active').removeClass('inactive');
+        $('.nav-cat-menu').addClass('leave');
+    });
+    $('.nav-cat-back').click(function(){
+        $(this).parent('.nav-cat-item').removeClass('active').addClass('inactive');
+        $('.nav-cat-menu').removeClass('leave');
+    });
+
 });
