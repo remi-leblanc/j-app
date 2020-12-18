@@ -801,7 +801,6 @@ textarea:focus{
 #learn-menu{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start;
 }
 #learn-menu > span{
