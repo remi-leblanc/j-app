@@ -853,6 +853,11 @@ textarea:focus{
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.nav-cat-overflow::-webkit-scrollbar{
+    display: none;
 }
 .nav-cat-back{
     cursor: pointer;
