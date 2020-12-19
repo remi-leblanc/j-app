@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#21242b">
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+        <link href="{{ asset('libraries/fontawesome/css/all.min.css') }}" rel="stylesheet">
         <link rel="manifest" href="{{ asset('pwa/manifest.json') }}">
     </head>
     <body>
@@ -15,7 +16,6 @@
         {% block footer %}{% endblock %}
         {% block ui %}{% endblock %}
         <script src="{{ asset('libraries/jquery-3.5.0.js') }}"></script>
-        <script src="https://kit.fontawesome.com/af30538883.js" crossorigin="anonymous"></script>
         <script src="{{ asset('js/global.js') }}"></script>
         {% if app.environment == ''%}
         <script>
