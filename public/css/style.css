@@ -840,6 +840,7 @@ textarea:focus{
 .modal[data-modal=learn] .nav-cat-back{
     font-size: 16px;
     font-weight: bold;
+    margin-bottom: 1em;
 }
 .modal[data-modal=learn] p{
     text-align: justify;
