@@ -68,8 +68,15 @@ class TypeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('type_index');
+            if($request->request->get('btn_action') == 'split_group_empty'){
+                return $this->splitGroupProcess($type, false);
+            }
+            elseif($request->request->get('btn_action') == 'split_group_remap'){
+                return $this->splitGroupProcess($type, true);
+            }
+            else{
+                return $this->redirectToRoute('type_index');
+            }
         }
 
         return $this->render('type/edit.html.twig', [
@@ -93,6 +100,54 @@ class TypeController extends AbstractController
             $entityManager->remove($type);
             $entityManager->flush();
         }
+
+        return $this->redirectToRoute('type_index');
+    }
+
+
+    public function splitGroupProcess(Type $type, bool $remapAllWords = false)
+    {
+        $words = $type->getWords();
+        $wordGroups = [];
+        $processed = [];
+        foreach($words as $word){
+            
+            $group = $word->getSplitGroup();
+            if($group != null){
+                $wordGroups[] = $group;
+            }
+            $rand = rand(0, count($words)-1);
+            while(in_array($rand, $processed)){
+                $rand = rand(0, count($words)-1);
+            }
+            $processed[] = $rand;
+        }
+        
+        if($remapAllWords){
+            $splitGroups = [];
+        }
+        else{
+            $splitGroups = array_count_values($wordGroups);
+        }
+
+        foreach($processed as $rand){
+            if(!$remapAllWords && $words[$rand]->getSplitGroup() != null){
+                continue;
+            }
+            $splitGroup = 0;
+            while(isset($splitGroups[$splitGroup]) && $splitGroups[$splitGroup] >= $type->getSplitGroupSize()){
+                $splitGroup++;
+            }
+            if(!isset($splitGroups[$splitGroup])){
+                $splitGroups[$splitGroup] = 0;
+            }
+            $splitGroups[$splitGroup]++;
+            $type->setSplitGroupCount(count($splitGroups));
+            $words[$rand]->setSplitGroup($splitGroup);
+            
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
 
         return $this->redirectToRoute('type_index');
     }

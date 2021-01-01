@@ -50,7 +50,7 @@
 
 <div class="select-cat frame-group" data-select-cat="types">
 	<div class="frame-header frame frame-heavy">
-	Choisir les types de mots
+	Sélection par type de mot
 		<div class="select-cat-control row">
 			<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="all">all</span>
 			<span class="select-cat-control-btn frame frame-small frame-light clickable " data-select-control="none">none</span>
@@ -59,15 +59,40 @@
 	<div class="frame-content frame frame-light">
 		<div class="row">
 		{% for type in types %}
-			<div class="select-cat-option frame frame-light clickable" data-select-option="{{ type.id }}">{{ type.name }}</div>
+			{% if type.splitGroupCount == null %}
+				<div class="select-cat-option frame frame-light clickable" data-select-option="{{ type.id }}">{{ type.name }}</div>
+			{% else %}
+				<div class="select-cat-option frame frame-light clickable cond-emitter" data-cond-link="splitGroup_{{ type.name }}" data-select-option="{{ type.id }}">{{ type.name }}</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 	</div>
 </div>
 
+{% for type in types %}
+	{% if type.splitGroupCount != null %}
+		<div class="select-cat-sub frame-group cond-block" data-select-cat="{{ type.id }}" data-cond-link="splitGroup_{{ type.name }}">
+			<div class="frame-header frame frame-heavy">
+			Groupes : {{ type.name }}
+				<div class="select-cat-control row">
+					<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="all">all</span>
+					<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="none">none</span>
+				</div>
+			</div>
+			<div class="frame-content frame frame-light">
+				<div class="row">
+				{% for group in 0 .. type.splitGroupCount - 1 %}
+					<div class="select-cat-option frame frame-light clickable selected" data-select-option="{{ group }}">Groupe {{ group + 1 }}</div>
+				{% endfor %}
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endfor %}
+
 <div class="select-cat frame-group" data-select-cat="themes">
 	<div class="frame-header frame frame-heavy">
-	Choisir les thèmes de mot
+	Sélection par thème
 		<div class="select-cat-control row">
 			<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="all">all</span>
 			<span class="select-cat-control-btn frame frame-small frame-light clickable " data-select-control="none">none</span>
@@ -132,6 +157,10 @@
 			{% for type in types %}
 			'{{ type.id }}': {
 				'selected': false,
+				{% if type.splitGroupCount != null %}
+					'splitGroup': [{% for group in 0 .. type.splitGroupCount - 1 %}'{{ group }}',{% endfor %}],
+					'splitGroupCount': '{{ type.splitGroupCount }}',
+				{% endif %}
 			},
 			{% endfor %}
 		},
@@ -155,7 +184,8 @@
 				'themes': '{{ word.theme != null ? word.theme.id : '' }}',
 			},
 			'date': '{{ word.createdAt ? word.createdAt|date('d-m-Y') : '' }}',
-
+			'splitGroup': '{{ word.splitGroup }}',
+			
 		},
 		{% endfor %}
 	];

@@ -9,11 +9,11 @@ $(document).ready(function(){
             $('.cond-block[data-cond-link='+emitterLink+'][data-cond='+emitterCond+']').addClass('active');
         }
         else{
+            
             $('.cond-emitter[data-cond-link='+emitterLink+']').each(function(){
+                
                 if($(this).hasClass('selected')){
-                    var emitterCond = $(this).text();
-                    emitterCond = emitterCond.replace(/\s/g, '-');
-                    $('.cond-block[data-cond-link='+emitterLink+'][data-cond='+emitterCond+']').addClass('active');
+                    $('.cond-block[data-cond-link='+emitterLink+']').addClass('active');
                 }
             });
         }
@@ -28,6 +28,7 @@ $(document).ready(function(){
     });
 
     $('.cond-emitter').on('classChange', function(){
+        
         checkForCond($(this));
     });
 

@@ -29,6 +29,16 @@ class Type
      */
     private $words;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $SplitGroupCount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $splitGroupSize;
+
     public function __construct()
     {
         $this->words = new ArrayCollection();
@@ -78,6 +88,30 @@ class Type
                 $word->setType(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSplitGroupCount(): ?int
+    {
+        return $this->SplitGroupCount;
+    }
+
+    public function setSplitGroupCount(?int $SplitGroupCount): self
+    {
+        $this->SplitGroupCount = $SplitGroupCount;
+
+        return $this;
+    }
+
+    public function getSplitGroupSize(): ?int
+    {
+        return $this->splitGroupSize;
+    }
+
+    public function setSplitGroupSize(?int $splitGroupSize): self
+    {
+        $this->splitGroupSize = $splitGroupSize;
 
         return $this;
     }

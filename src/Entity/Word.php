@@ -64,6 +64,11 @@ class Word
      */
     private $wordReports;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $splitGroup;
+
     public function __construct()
     {
         $this->wordReports = new ArrayCollection();
@@ -197,6 +202,18 @@ class Word
                 $wordReport->setWord(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSplitGroup(): ?int
+    {
+        return $this->splitGroup;
+    }
+
+    public function setSplitGroup(?int $splitGroup): self
+    {
+        $this->splitGroup = $splitGroup;
 
         return $this;
     }

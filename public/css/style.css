@@ -231,6 +231,7 @@ p{
 }
 
 input[type=text],
+input[type=number],
 input[type=email],
 input[type=password],
 select,
@@ -390,7 +391,8 @@ textarea:focus{
     margin: 0 5px;
 }
 
-.select-cat .frame-content > .row{
+.select-cat .frame-content > .row,
+.select-cat-sub .frame-content > .row{
     flex-wrap: wrap;
     margin: -5px;
 }

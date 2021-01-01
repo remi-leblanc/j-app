@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class TypeType extends AbstractType
 {
@@ -16,6 +17,11 @@ class TypeType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Nom du type'
+                ]
+            ])
+            ->add('splitGroupSize', IntegerType::class, [
+                'attr' => [
+                    'placeholder' => 'Taille des groupes'
                 ]
             ])
         ;

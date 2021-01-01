@@ -17,18 +17,39 @@ $(document).ready(function(){
     }
 
     function updateCount(){
+        selectedWords = words.filter(function(word) {
+            for (var wordCat in word.categories) {
+                var catValue = word['categories'][wordCat];
+                if(selection[wordCat][catValue] != null && selection[wordCat][catValue].selected == true){
+                    if(typeof selection[wordCat][catValue].splitGroup == 'undefined') {
+                        return true;
+                    }
+                    if(typeof selection[wordCat][catValue].splitGroup != 'undefined' && selection[wordCat][catValue].splitGroup.includes(word.splitGroup)) {
+                        return true;
+                    }
+                }
+            }
+            if (formatDate(word.date) >= formatDate(selection.date)) {
+                return true;
+            }
+            return false;
+        }).map(function(word) {
+            return word.id;
+        });
 
-        selectedWords = [];
-
+/*  OLD METHOD
         for (var i=0; i < words.length; i++) {
-
-            Object.entries(words[i].categories).forEach(function(wordCat){
-                if(selection[wordCat[0]][wordCat[1]] != null && selection[wordCat[0]][wordCat[1]].selected == true) {
+            for (var wordCat in words[i].categories) {
+                var catValue = words[i]['categories'][wordCat];
+                if(selection[wordCat][catValue] != null
+                    && selection[wordCat][catValue].selected == true
+                    && selection[wordCat][catValue].splitGroup.includes(words[i].splitGroup)
+                ) {
                     if(!selectedWords.includes(words[i].id)){
                         selectedWords.push(words[i].id);
                     }
                 }
-            });
+            }
 
             if (formatDate(words[i].date) >= formatDate(selection.date)) {
                 if(!selectedWords.includes(words[i].id)){
@@ -37,7 +58,7 @@ $(document).ready(function(){
             }
 
         }
-        
+*/
         $('#select-count-selected, #select-recap-count').text(selectedWords.length);
     }
 
@@ -69,8 +90,7 @@ $(document).ready(function(){
         });
     });
 
-
-    $('.select-cat-option').click(function(){
+    $('.select-cat .select-cat-option').click(function(){
         var optionName = $(this).attr('data-select-option');
         var catName = $(this).closest('.select-cat').attr('data-select-cat');
         if(selection[catName][optionName].selected){
@@ -84,24 +104,53 @@ $(document).ready(function(){
         updateCount();
     });
 
-    $('.select-cat-control-btn').click(function(){
+    $('.select-cat-sub .select-cat-option').click(function(){
+        var optionName = $(this).attr('data-select-option');
+        var catName = $(this).closest('.select-cat-sub').attr('data-select-cat');
+        if(selection['types'][catName].splitGroup.includes(optionName)){
+            $(this).removeClass('selected').trigger('classChange');
+            selection['types'][catName].splitGroup = selection['types'][catName].splitGroup.filter(e => e !== optionName);
+        }
+        else{
+            $(this).addClass('selected').trigger('classChange');
+            selection['types'][catName].splitGroup.push(optionName);
+        }
+        updateCount();
+    });
+
+    $('.select-cat .select-cat-control-btn').click(function(){
         var controlCat = $(this).attr('data-select-control');
         var category = $(this).closest('.select-cat');
         var catName = category.attr('data-select-cat');
-        
+        for(var val in selection[catName]){
+            if(controlCat == 'all'){
+                $(category).find('.select-cat-option[data-select-option='+val+']').addClass('selected').trigger('classChange');
+                selection[catName][val].selected = true;
+            }
+            else if(controlCat == 'none'){
+                $(category).find('.select-cat-option[data-select-option='+val+']').removeClass('selected').trigger('classChange');
+                selection[catName][val].selected = false;
+            }
+        };
+        updateCount();
+    });
+
+    $('.select-cat-sub .select-cat-control-btn').click(function(){
+        var controlCat = $(this).attr('data-select-control');
+        var category = $(this).closest('.select-cat-sub');
+        var catValue = category.attr('data-select-cat');
         if(controlCat == 'all'){
-            Object.entries(selection[catName]).forEach(function(cat){
-                $(category).find('.select-cat-option[data-select-option='+cat[0]+']').addClass('selected').trigger('classChange');
-                cat[1].selected = true;
-                
-            });
+            $(category).find('.select-cat-option').addClass('selected').trigger('classChange');
+            for(var i = 0; i < selection['types'][catValue].splitGroupCount; i++){
+                selection['types'][catValue].splitGroup.push(i.toString());
+            }
+            
         }
         else if(controlCat == 'none'){
-            Object.entries(selection[catName]).forEach(function(cat){
-                $(category).find('.select-cat-option[data-select-option='+cat[0]+']').removeClass('selected').trigger('classChange');
-                cat[1].selected = false;
-            });
+            $(category).find('.select-cat-option').removeClass('selected').trigger('classChange');
+            selection['types'][catValue].splitGroup = [];
         }
+        
         updateCount();
     });
 

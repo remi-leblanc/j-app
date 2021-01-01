@@ -12,7 +12,20 @@
 	</div>
 	<div class="form-row">
 		<div class="form-widget">
-			<button class="frame frame-heavy clickable">{{ button_label|default('Save') }}</button>
+			{{ form_widget(form.splitGroupSize) }}
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			<button class="frame frame-heavy clickable" name="btn_action" value="update">{{ btn_update }}</button>
+		</div>
+	</div>
+	<div class="form-row">
+		<div class="form-widget">
+			<button class="frame frame-heavy clickable" name="btn_action" value="split_group_empty">{{ btn_split_group_empty }}</button>
+		</div>
+		<div class="form-widget">
+			<button class="frame frame-important clickable" name="btn_action" value="split_group_remap" onclick="return confirm('Etes-vous sûr de vouloir remapper tous les mots ?');">{{ btn_split_group_remap }}</button>
 		</div>
 	</div>
 	
