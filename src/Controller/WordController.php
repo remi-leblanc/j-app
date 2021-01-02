@@ -34,7 +34,7 @@ class WordController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $errorMessage = null;
+        $isError = false;
         $repository = $this->getDoctrine()->getRepository(Word::class);
 
         $word = new Word();
@@ -57,7 +57,7 @@ class WordController extends AbstractController
             $isWordExist = $repository->findOneBy(['kanji' => $wordKanji]);
 
             if($isWordExist){
-                $errorMessage = 'Ce mot est déjà enregistré.';
+                $isError = true;
             }
             else{
                 $entityManager = $this->getDoctrine()->getManager();
@@ -70,10 +70,13 @@ class WordController extends AbstractController
             
         }
 
+        $words = $repository->findAll();
+
         return $this->render('word/new.html.twig', [
             'word' => $word,
+            'words' => $words,
             'form' => $form->createView(),
-            'errorMessage' => $errorMessage,
+            'isError' => $isError,
         ]);
     }
 

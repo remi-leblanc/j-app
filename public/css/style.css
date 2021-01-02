@@ -67,12 +67,12 @@ p{
 }
 
 .page-container{
+    position: relative;
     width: 100%;
     max-width: 800px;
     height: 100%;
 }
 #page-app .page-container{
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -211,6 +211,15 @@ p{
     justify-content: space-between;
     align-items: center;
     margin-bottom: 7px;
+}
+.frame-error{
+    position: absolute;
+    display: none;
+    width: 100%;
+    top: 0;
+}
+.frame-error.active{
+    display: block;
 }
 
 

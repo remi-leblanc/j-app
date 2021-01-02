@@ -4,12 +4,17 @@
 
 {% block body %}
 
-    {% if errorMessage != null %}
-    <div class="frame frame-important">{{ errorMessage }}</div>
-    {% endif %}
+    <div id="error-word-exist" class="frame frame-important frame-error {{ isError ? 'active' : '' }}">Ce mot existe déjà.</div>
 
     {{ include('word/_form.html.twig', {'button_label': 'Ajouter'}) }}
 
 {% endblock %}
 
+{% block scripts %}
+<script>
 
+    var words = [{% for word in words %}"{{ word.kanji }}",{% endfor %}]
+
+</script>
+{{ parent() }}
+{% endblock %}
