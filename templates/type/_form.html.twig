@@ -17,9 +17,10 @@
 	</div>
 	<div class="form-row">
 		<div class="form-widget">
-			<button class="frame frame-heavy clickable" name="btn_action" value="update">{{ btn_update }}</button>
+			<button class="frame frame-heavy clickable" name="btn_action" value="update">{{ btn_label }}</button>
 		</div>
 	</div>
+	{% if btn_split_group_empty is defined and btn_split_group_remap is defined %}
 	<div class="form-row">
 		<div class="form-widget">
 			<button class="frame frame-heavy clickable" name="btn_action" value="split_group_empty">{{ btn_split_group_empty }}</button>
@@ -28,5 +29,6 @@
 			<button class="frame frame-important clickable" name="btn_action" value="split_group_remap" onclick="return confirm('Etes-vous sûr de vouloir remapper tous les mots ?');">{{ btn_split_group_remap }}</button>
 		</div>
 	</div>
+	{% endif %}
 	
 {{ form_end(form) }}
