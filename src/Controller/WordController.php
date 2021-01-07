@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Word;
+use App\Entity\Type;
+use App\Entity\Theme;
 use App\Form\WordType;
 use App\Repository\WordRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,14 +32,22 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="word_new", methods={"GET","POST"})
+     * @Route("/new", name="word_new")
      */
     public function new(Request $request): Response
     {
         $isError = false;
-        $repository = $this->getDoctrine()->getRepository(Word::class);
-
+        $wordRepository = $this->getDoctrine()->getRepository(Word::class);
+        $typeRepository = $this->getDoctrine()->getRepository(Type::class);
+        $themeRepository = $this->getDoctrine()->getRepository(Theme::class);
+        
         $word = new Word();
+        if($type = $request->query->get('type')){
+            $word->setType( $typeRepository->find($type) );
+        }
+        if($theme = $request->query->get('theme')){
+            $word->setTheme( $themeRepository->find($theme) );
+        } 
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
 
@@ -48,14 +58,22 @@ class WordController extends AbstractController
             $date = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
             $word->setCreatedAt($date);
             
-            if($formData->getType() && $formData->getType()->getName() != 'Verbe'){
-                $word->setVerbeGroupe(null);
+            $defaultFieldsValues = [
+                'type' => 'test',
+                'theme' => 'test',
+            ];
+            if($formData->getType()){
+                if($formData->getType()->getName() != 'Verbe'){
+                    $word->setVerbeGroupe(null);
+                }
+                $defaultFieldsValues['type'] = $formData->getType()->getId();
+            }
+            if($formData->getTheme()){
+                $defaultFieldsValues['theme'] = $formData->getTheme()->getId();
             }
 
             $wordKanji = $formData->getKanji();
-
-            $isWordExist = $repository->findOneBy(['kanji' => $wordKanji]);
-
+            $isWordExist = $wordRepository->findOneBy(['kanji' => $wordKanji]);
             if($isWordExist){
                 $isError = true;
             }
@@ -63,14 +81,14 @@ class WordController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($word);
                 $entityManager->flush();
-
-                return $this->redirectToRoute('word_new');
+                return $this->redirectToRoute('word_new', [
+                    'type' => $defaultFieldsValues['type'],
+                    'theme' => $defaultFieldsValues['theme']
+                ]);
             }
-            
-            
         }
 
-        $words = $repository->findAll();
+        $words = $wordRepository->findAll();
 
         return $this->render('word/new.html.twig', [
             'word' => $word,

@@ -27,8 +27,6 @@ class JappSplitGroupCommand extends Command
 
     public function __construct(EntityManagerInterface $em)
     {
-        parent::__construct();
-
         $this->em = $em;
         $this->typesObj = $this->em->getRepository(Type::class)->findAll();
         foreach($this->typesObj as $typeObj){
