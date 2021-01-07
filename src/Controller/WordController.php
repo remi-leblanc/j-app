@@ -36,7 +36,6 @@ class WordController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $isError = false;
         $wordRepository = $this->getDoctrine()->getRepository(Word::class);
         $typeRepository = $this->getDoctrine()->getRepository(Type::class);
         $themeRepository = $this->getDoctrine()->getRepository(Theme::class);
@@ -73,11 +72,7 @@ class WordController extends AbstractController
             }
 
             $wordKanji = $formData->getKanji();
-            $isWordExist = $wordRepository->findOneBy(['kanji' => $wordKanji]);
-            if($isWordExist){
-                $isError = true;
-            }
-            else{
+            if(!$wordRepository->findOneBy(['kanji' => $wordKanji]) ){
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($word);
                 $entityManager->flush();
@@ -94,7 +89,6 @@ class WordController extends AbstractController
             'word' => $word,
             'words' => $words,
             'form' => $form->createView(),
-            'isError' => $isError,
         ]);
     }
 

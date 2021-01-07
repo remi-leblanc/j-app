@@ -218,6 +218,9 @@ p{
     width: 100%;
     top: 0;
 }
+.frame-error a{
+    text-decoration: underline;
+}
 .frame-error.active{
     display: block;
 }
