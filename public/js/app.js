@@ -10,6 +10,7 @@ $(document).ready(function(){
     var completedCount = 0;
     var statsError = 0;
     var startTime;
+    var tts = $('#tts');
 
     var dbRomajiVal;
     var dbTradVal;
@@ -54,6 +55,7 @@ $(document).ready(function(){
         result.find('span[data-result-type=romaji').removeClass('error').removeClass('correct');
         result.find('span[data-result-type=trad').removeClass('error').removeClass('correct');
         result.removeClass('active');
+        cardKanji.removeClass('word-complete');
         isWordComplete = false;
 
         rand();
@@ -111,6 +113,7 @@ $(document).ready(function(){
             else{
                 if(inputRomajiVal != "" && inputTradVal != ""){
                     result.addClass('active');
+                    cardKanji.addClass('word-complete');
                     isWordComplete = true;
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
                     result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
@@ -164,6 +167,11 @@ $(document).ready(function(){
         }
     }
 
+    card.click(function(){
+        if(isWordComplete){
+            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
+        }
+    });
 
     $('#restart-btn').click(function(){
         $('.modal[data-modal=finalres]').removeClass('active');

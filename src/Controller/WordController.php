@@ -58,8 +58,8 @@ class WordController extends AbstractController
             $word->setCreatedAt($date);
             
             $defaultFieldsValues = [
-                'type' => 'test',
-                'theme' => 'test',
+                'type' => null,
+                'theme' => null,
             ];
             if($formData->getType()){
                 if($formData->getType()->getName() != 'Verbe'){

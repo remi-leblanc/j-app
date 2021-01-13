@@ -598,6 +598,15 @@ textarea:focus{
     white-space: nowrap;
     line-height: 100%;
     font-size: 60px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 1px;
+    box-shadow: 0px 2px 0px 7px rgba(255, 255, 255, 0);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+#card-content:hover{
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0px 2px 0px 7px rgba(255, 255, 255, 0.08);
 }
 #card #result{
     display: none;

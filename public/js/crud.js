@@ -7,7 +7,7 @@ $(document).ready(function(){
     });
 
     function wordExistErrorDisplay(input){
-        if(typeof words != 'undefined'){
+        if(typeof words !== 'undefined' && input.length){
             if( matchedWord = words.find(word => word.kanji === input.val()) ){
                 $('#error-word-exist').addClass('active');
                 $('#error-word-exist a').attr('href', matchedWord.edit_url);
