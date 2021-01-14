@@ -60,7 +60,7 @@ class Word
     private $theme;
 
     /**
-     * @ORM\OneToMany(targetEntity=WordReport::class, mappedBy="word")
+     * @ORM\OneToMany(targetEntity=WordReport::class, mappedBy="word", cascade="remove")
      */
     private $wordReports;
 

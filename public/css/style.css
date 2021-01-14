@@ -15,23 +15,8 @@ html.modal-open{
     overflow-y: hidden;
 }
 body{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     margin: 0;
     background-color: #21242b;
-    padding: 0 15px;
-    min-height: 100vh;
-}
-#page-app body{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    min-height: 0;
 }
 
 a{
@@ -68,26 +53,52 @@ p{
 
 .page-container{
     position: relative;
-    width: 100%;
-    max-width: 800px;
-    height: 100%;
-}
-#page-app .page-container{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 25px;
-}
-.section-container{
+    align-items: center;
     width: 100%;
-    max-width: 800px;
+    padding-left: 55px;
+    padding-bottom: 50px;
+    min-height: 100vh;
 }
 #page-select .page-container{
     padding-top: 20px;
-    padding-bottom: 50px;
 }
 #page-admin .page-container{
+    text-align: center;
+    padding-top: 50px;
+}
+#page-learn .page-container{
+    padding-top: 50px;
+}
+#page-app .page-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 0;
+    padding-bottom: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.section-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 830px;
+    padding: 0 15px;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+#page-admin .section-container{
     max-width: 1000px;
+}
+#page-app .section-container{
+    justify-content: center;
+    padding: 30px 0 0 0;
 }
 
 @keyframes loading{
@@ -121,7 +132,95 @@ p{
 }
 
 
+#menu{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 55px;
+    z-index: 100;
+}
+#menu a{
+    display: flex;
+    align-items: center;
+    height: 55px;
+    width: 100%;
+}
+#menu-small{
+    position: relative;
+    background: #17191C;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+#menu-small a{
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 1.25rem;
+}
+#menu-small a img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+#menu-extend{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    transform: translateX(55px);
+    width: 185px;
+    background: #17191C;
+    transition: 0.15s ease 0.1s;
+}
+#menu-extend a{
+    opacity: 0;
+    padding-left: 55px;
+    transition: 0.15s ease;
+}
+#menu:hover #menu-extend{
+    transform: translateX(100%);
+    transition: 0.15s ease;
+}
+#menu:hover #menu-extend a{
+    opacity: 1;
+    transition: 0.15s ease 0.15s;
+}
+#menu-extend a span{
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+}
+#menu-extend a span::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #fff;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: 0.15s ease;
+    border-radius: 100px;
+}
+#menu-extend a:hover span::after{
+    transform: scaleX(1);
+}
+#page-app #menu{
+    display: none;
+}
+
 #intro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+#intro .logo{
+    max-width: 300px;
     margin-bottom: 30px;
 }
 #intro p{
@@ -149,28 +248,16 @@ p{
 #select-recap{
     position: fixed;
     display: flex;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: -10px;
+    left: 50%;
     justify-content: center;
-    padding: 10px 20px;
-    background-color: #21242b;
-    transform: translateY(-100%);
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: 0.2s ease;
-}
-#select-recap::before{
-    content: "";
-    position: absolute;
-    display: block;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(to right,#2f4f9c, #382f9c);
+    transform: translateY(-100%) translateX(-50%);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: transform 0.2s ease;
+    z-index: 0;
 }
 #select-recap.show{
-    transform: translateY(0);
+    transform: translateY(15px) translateX(-50%);
 }
 #select-recap .section-container{
     text-align: center;
@@ -196,7 +283,7 @@ p{
     font-weight: 600;
 }
 .frame-light{
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.065);
 }
 .frame-important{
     background: #e64e4e !important;
@@ -236,7 +323,7 @@ p{
     transition: box-shadow 0.1s ease, background 0.1s ease;
 }
 .clickable.frame-light:hover {
-    background: rgba(255, 255, 255, 0.11);
+    background: rgba(255, 255, 255, 0.1);
 }
 .clickable.frame-heavy:hover {
     box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.04);
@@ -468,6 +555,10 @@ textarea:focus{
 
 #copyright{
     text-align: center;
+    width: 100%;
+    padding-left: 55px;
+}
+.content{
     padding-top: 10px;
     padding-bottom: 10px;
     border-top: 0.5px solid #fff;
@@ -478,9 +569,12 @@ textarea:focus{
 }
 
 .admin-index-tools{
+    position: sticky;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: #21242b;
     padding: 10px 0;
 }
 .admin-index-tools a{
@@ -502,11 +596,6 @@ textarea:focus{
 .form-delete button{
     width: 100%;
     height: 100%;
-}
-
-#page-admin .page-container{
-    text-align: center;
-    padding: 50px 0;
 }
 .admin-dashboard-content{
     display: flex;
@@ -671,8 +760,8 @@ textarea:focus{
 #infos{
     position: absolute;
     top: 0;
+    left: 0;
     display: flex;
-
     padding: 15px 0;
     font-size: 20px;
     width: 100%;
@@ -766,7 +855,7 @@ textarea:focus{
     position: relative;
     padding: 4% 6% 4% 6%;
     width: 100%;
-    max-width: 800px;
+    max-width: 830px;
     max-height: 85%;
     overflow-y: scroll;
     border-radius: 3px;
@@ -799,9 +888,6 @@ textarea:focus{
 .modal-content p{
     margin-top: 0;
     margin-bottom: 20px;
-}
-.modal[data-modal="learn"] .modal-content p{
-    margin-bottom: 0.8em;
 }
 .modal-content a{
     text-decoration: underline;
@@ -860,13 +946,14 @@ textarea:focus{
 #learn-menu > span:hover > i{
     transform: translateX(0);
 }
-.modal[data-modal=learn] .nav-cat-back{
+.learn-cat .nav-cat-back{
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 1em;
 }
-.modal[data-modal=learn] p{
+.learn-cat p{
     text-align: justify;
+    margin-bottom: 0.8em;
 }
 
 .nav-cat-container{
@@ -914,8 +1001,17 @@ textarea:focus{
     transform: translateX(0);
     opacity: 1;
 }
+@media (max-width: 700px){
 
+}
 @media (max-width: 425px){
+    #page-select .page-container,
+    #page-admin .page-container{
+        padding-left: 0;
+    }
+    #menu{
+        display: none;
+    }
     #page-select .page-container h1{
         font-size: 28px;
     }

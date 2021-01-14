@@ -5,7 +5,7 @@
 {% block body %}
 
 <div id="intro">
-	<h1>Bienvenue sur J-App</h1>
+	<img class="logo" src="{{ asset('images/j_app-logo-color-darkmode.svg') }}"/>
 	<div class="frame frame-light">
 		<p><strong>J-App</strong> est une application qui permet d'apprendre des mots de <strong>vocabulaire en japonais</strong> sous forme d'un jeu.</p>
 		<p>Le but est de traduire un mot <strong>aléatoire</strong> en rômaji et en français. Vous pouvez choisir les mots grâce aux paramètres de sélection ci-dessous.</p>
@@ -31,7 +31,6 @@
 {{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
 	<div class="row">
 		{{ form_widget(selectionForm.submit, {'attr': {'class': 'frame frame-heavy clickable'}}) }}
-		<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
 	</div>
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
@@ -119,14 +118,18 @@
 {% endblock %}
 
 {% block footer %}
-<div id="copyright" class="section-container">
-	© <a href="https://remileblanc.fr" target="_blank">Rémi Leblanc</a> 2018-2020
+<div id="copyright">
+	<div class="section-container">
+		<div class="content">
+			© <a href="https://remileblanc.fr" target="_blank">Rémi Leblanc</a> 2018-2021
+		</div>
+	</div>
 </div>
 {% endblock %}
 
 {% block ui %}
 <div id="select-recap">
-	<div class="section-container">
+	<div class="frame frame-heavy">
 		<span>Mots sélectionnés :&nbsp;</span>
 		<span id="select-recap-count"></span>
 	</div>
@@ -136,13 +139,6 @@
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
 		{{ include('help.html.twig') }}
-	</div>
-</div>
-
-<div class="modal" data-modal="learn" style="opacity: 0;">
-	<div class="modal-content">
-		<span class="modal-close far fa-times-circle"></span>
-		{{ include('learn.html.twig') }}
 	</div>
 </div>
 

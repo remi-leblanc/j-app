@@ -145,4 +145,15 @@ class MainController extends AbstractController
         ]);
 
     }
+
+    /**
+	* @Route("/notes", name="notes")
+	*/
+	public function notes()
+	{
+        return $this->render('learn.html.twig', [
+
+        ]);
+
+    }
 }

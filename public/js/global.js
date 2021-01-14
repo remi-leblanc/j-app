@@ -144,7 +144,6 @@ $(document).ready(function(){
         $(this).find('.form-ajax-message').hide();
     });
 
-    $('.nav-cat-item').addClass('inactive');
     $('.nav-cat-menu-item').click(function(){
         var cat = $(this).attr('data-nav-cat');
         $('.nav-cat-item[data-nav-cat='+cat+']').addClass('active').removeClass('inactive');
