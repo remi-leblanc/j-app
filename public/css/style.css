@@ -87,6 +87,7 @@ p{
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100%;
     max-width: 830px;
     padding: 0 15px;
@@ -1002,6 +1003,11 @@ textarea:focus{
     transform: translateX(0);
     opacity: 1;
 }
+
+#button-logout{
+    align-self: center;
+}
+
 @media (max-width: 700px){
 
 }
