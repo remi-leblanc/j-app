@@ -37,6 +37,12 @@ class WordType extends AbstractType
                     'placeholder' => 'Kanji'
                 ]
             ])
+            ->add('kana', TextType::class, [
+                'attr' => [
+                    'placeholder' => 'Kana'
+                ],
+                'required' => false,
+            ])
             ->add('romaji', TextType::class, [
                 'attr' => [
                     'placeholder' => 'Romaji'

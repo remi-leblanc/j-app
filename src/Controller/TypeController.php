@@ -110,10 +110,11 @@ class TypeController extends AbstractController
         $words = $type->getWords();
         $wordGroups = [];
         $processed = [];
+
+        //Pour chaque mot, on stocke son groupe et on génère un nombre aléatoire compris entre 0 et le nb de mot
         foreach($words as $word){
-            
             $group = $word->getSplitGroup();
-            if($group != null){
+            if(!is_null($group)){
                 $wordGroups[] = $group;
             }
             $rand = rand(0, count($words)-1);
@@ -123,6 +124,7 @@ class TypeController extends AbstractController
             $processed[] = $rand;
         }
         
+        //On récupère le nombre de mot pour chaque groupe différent
         if($remapAllWords){
             $splitGroups = [];
         }
@@ -130,22 +132,43 @@ class TypeController extends AbstractController
             $splitGroups = array_count_values($wordGroups);
         }
 
+        /* FEATURE EN ATTENTE
+        //Si les premiers groupes on des places de libre, on transfère vers ce groupe un mot du dernier groupe
+        foreach($splitGroups as $group => $count){
+            $lastGroup = count($splitGroups) - 1;
+            while($count < $type->getSplitGroupSize() && $lastGroup != $group && $splitGroups[$lastGroup] > 0){
+                $wordInLastGroup = $words->filter(function($word) use ($lastGroup) {
+                    return $word->getSplitGroup() === $lastGroup;
+                })->first();
+                $wordInLastGroup->setSplitGroup($group);
+                $count++;
+                $splitGroups[$group]++;
+                $splitGroups[$lastGroup]--;
+                if($splitGroups[$lastGroup] === 0){
+                    unset($splitGroups[$lastGroup]);
+                }
+                $lastGroup = count($splitGroups) - 1;
+            }
+        }
+        */
+        
+        //On set le premier groupe disposant d'une place libre à un mot aléatoire
         foreach($processed as $rand){
-            if(!$remapAllWords && $words[$rand]->getSplitGroup() != null){
+            if(!$remapAllWords && !is_null($words[$rand]->getSplitGroup())){
                 continue;
             }
-            $splitGroup = 0;
-            while(isset($splitGroups[$splitGroup]) && $splitGroups[$splitGroup] >= $type->getSplitGroupSize()){
-                $splitGroup++;
+            $group = 0;
+            while(isset($splitGroups[$group]) && $splitGroups[$group] >= $type->getSplitGroupSize()){
+                $group++;
             }
-            if(!isset($splitGroups[$splitGroup])){
-                $splitGroups[$splitGroup] = 0;
+            if(!isset($splitGroups[$group])){
+                $splitGroups[$group] = 0;
             }
-            $splitGroups[$splitGroup]++;
+            $splitGroups[$group]++;
             $type->setSplitGroupCount(count($splitGroups));
-            $words[$rand]->setSplitGroup($splitGroup);
-            
+            $words[$rand]->setSplitGroup($group);
         }
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 

@@ -17,5 +17,16 @@ $(document).ready(function(){
             }
         }
     }
+
+    $('.analyse-item .frame-header').click(function(){
+        if($(this).parent('.hidden').length){
+            $('.analyse-item').addClass('hidden');
+            $(this).parent('.analyse-item').removeClass('hidden');
+        }
+        else{
+            $('.analyse-item').addClass('hidden');
+            $(this).parent('.analyse-item').addClass('hidden');
+        }
+    });
     
 });

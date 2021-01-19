@@ -167,7 +167,7 @@ $(document).ready(function(){
         }
     }
 
-    card.click(function(){
+    cardKanji.click(function(){
         if(isWordComplete){
             tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
         }

@@ -103,17 +103,24 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="word_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit/{redirect}", defaults={"redirect"="word_index"}, name="word_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Word $word): Response
+    public function edit(Request $request, Word $word, string $redirect): Response
     {
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('word_index');
+            if($redirect == "next"){
+                $wordRepository = $this->getDoctrine()->getRepository(Word::class);
+                $query = $wordRepository->createQueryBuilder('w')->where('w.id >'.$word->getId())->orderBy('w.id', 'ASC')->setMaxResults(1);
+                $nextWord = $query->getQuery()->getSingleResult();
+                return $this->redirectToRoute('word_edit', ['id' => $nextWord->getId(), 'redirect' => 'next']);
+            }
+            else{
+                return $this->redirectToRoute($redirect);
+            }
         }
 
         $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')

@@ -1,0 +1,53 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block body %}
+
+{% for id, word in words %}
+    <div class="analyse-item hidden">
+        <div class="frame frame-header frame-heavy clickable {{ not word.is_found ? 'frame-important' : (word.may_be_wrong ? 'frame-warning') }}">
+            <div class="row">
+                <span>{{ word.kanji }}</span>
+                {% if word.is_found %}
+                    {% if word.usually_kana %}
+                        <span class="frame frame-small frame-light">Usually kana</span>
+                    {% endif %}
+                    {% if word.may_be_wrong %}
+                        <span class="frame frame-small frame-light">May be wrong</span>
+                    {% endif %}
+                {% else %}
+                    <span class="frame frame-small frame-light">Not found in JMdict</span>
+                {% endif %}
+            </div>
+            <div class="row">
+                <a class="clickable fas fa-edit" target="_blank" href="{{ path('word_edit', {id: id, redirect: 'next'}) }}"></a>
+            </div>
+        </div>
+        <div class="frame frame-light analyse-item-content">
+            {% if word.is_found %}
+                JMdict entry : {{ word.jmdict_entry }}
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block ui %}
+<div class="modal" data-modal="report" data-modal-db="reports" data-modal-param="id" style="opacity: 0;">
+	<span class="modal-close far fa-times-circle"></span>
+	<div class="modal-content frame frame-light">
+        <h2>Signalement #<span data-modal-val="id"></span></h2>
+        <div class="row frame frame-light">
+            <h4 data-modal-val="word[0]"></h4>
+            <h4 data-modal-val="word[1]"></h4>
+            <h4 data-modal-val="word[2]"></h4>
+        </div>
+        <p data-modal-val="description" class="frame frame-light"></p>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{{ parent() }}
+{% endblock %}
