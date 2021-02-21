@@ -103,6 +103,7 @@
 		{
 			"id": "{{ word.id }}",
 			"kanji": "{{ word.kanji }}",
+			"kana": "{{ word.kana }}",
 			"romaji": [
 				{% for romaji in word.romaji|split(',') %}
 				"{{ romaji|trim|raw }}",	
@@ -120,9 +121,12 @@
 				"valid": false,
 				"time": 0,
 			},
+			"usually_kana": "{{ word.jmdictKana }}",
 		},
 		{% endfor %}
-	]
+	];
+
+	var difficulty = "{{ difficulty }}";
 
 </script>
 <script src="{{ asset('js/app.js') }}"></script>

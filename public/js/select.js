@@ -37,7 +37,7 @@ $(document).ready(function(){
             return word.id;
         });
 
-/*  OLD METHOD
+/*  OLD difficulty
         for (var i=0; i < words.length; i++) {
             for (var wordCat in words[i].categories) {
                 var catValue = words[i]['categories'][wordCat];
@@ -80,7 +80,7 @@ $(document).ready(function(){
     })
 
 
-    $('.select-cat[data-select-cat]').each(function(){
+    $('.select-cat.select-cat-multi[data-select-cat]').each(function(){
         var catName = $(this).attr('data-select-cat');
         $(this).find('.select-cat-option[data-select-option]').each(function(){
             var optionName = $(this).attr('data-select-option');
@@ -90,7 +90,7 @@ $(document).ready(function(){
         });
     });
 
-    $('.select-cat .select-cat-option').click(function(){
+    $('.select-cat.select-cat-multi .select-cat-option').click(function(){
         var optionName = $(this).attr('data-select-option');
         var catName = $(this).closest('.select-cat').attr('data-select-cat');
         if(selection[catName][optionName].selected){
@@ -101,6 +101,15 @@ $(document).ready(function(){
             $(this).addClass('selected').trigger('classChange');
             selection[catName][optionName].selected = true;
         }
+        updateCount();
+    });
+
+    $('.select-cat[data-select-cat=difficulty] .select-cat-option').click(function(){
+        var optionName = $(this).attr('data-select-option');
+
+        $('.select-cat.select-cat-single .select-cat-option').removeClass('selected');
+        $(this).addClass('selected').trigger('classChange');
+        selection['difficulty'] = optionName;
         updateCount();
     });
 
@@ -173,6 +182,7 @@ $(document).ready(function(){
         else{
             $('.select-error').removeClass('show');
             $('#selectionForm_selection').val(selectedWords);
+            $('#selectionForm_difficulty').val(selection['difficulty']);
         }
     });
     

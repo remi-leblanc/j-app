@@ -20,7 +20,7 @@ class Word
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $kanji;
 
@@ -73,6 +73,16 @@ class Word
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $kana;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $jmdict_common;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $jmdict_kana;
 
     public function __construct()
     {
@@ -231,6 +241,30 @@ class Word
     public function setKana(?string $kana): self
     {
         $this->kana = $kana;
+
+        return $this;
+    }
+
+    public function getJmdictCommon(): ?bool
+    {
+        return $this->jmdict_common;
+    }
+
+    public function setJmdictCommon(?bool $jmdict_common): self
+    {
+        $this->jmdict_common = $jmdict_common;
+
+        return $this;
+    }
+
+    public function getJmdictKana(): ?bool
+    {
+        return $this->jmdict_kana;
+    }
+
+    public function setJmdictKana(?bool $jmdict_kana): self
+    {
+        $this->jmdict_kana = $jmdict_kana;
 
         return $this;
     }

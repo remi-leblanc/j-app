@@ -64,9 +64,8 @@ class MainController extends AbstractController
         $dateDiff = $firstDate->diff($lastDate)->days;
 
         $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')
-			->add('selection', HiddenType::class, [
-
-			])
+			->add('selection', HiddenType::class)
+            ->add('difficulty', HiddenType::class)
 			->add('submit', SubmitType::class, [
                 'label' => 'Commencer'
             ])
@@ -109,21 +108,27 @@ class MainController extends AbstractController
             return new Response();
         }
 
-        $selectedWords = $request->request->get('selectionForm');
-        if ($selectedWords == null) {
+        $selectionFormData = $request->request->get('selectionForm');
+        if ($selectionFormData == null) {
             return $this->redirectToRoute('selection');
         }
         else{
-            $selectedWords = explode(',', $selectedWords['selection']);
+            $selectedWords = explode(',', $selectionFormData['selection']);
             if(count($selectedWords) < 1){
                 return $this->redirectToRoute('selection');
             }
             $dbWords = $this->getDoctrine()->getRepository(Word::class)->findBy(
                 ['id' => $selectedWords]
             );
+
+            $difficulty = $selectionFormData['difficulty'];
+            if(!in_array($difficulty, ['hard', 'normal'])){
+                return $this->redirectToRoute('selection');
+            }
             
             return $this->render('app.html.twig', [
                 'dbWords' => $dbWords,
+                'difficulty' => $difficulty,
                 'word_report' => $wordReport,
                 'word_report_form' => $wordReportForm->createView(),
             ]);

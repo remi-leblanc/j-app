@@ -10,14 +10,24 @@
         <div id="words" class="frame-group">
             <div class="frame frame-heavy frame-header">Les mots</div>
             <div class="frame frame-light frame-content">
-                <a class="frame frame-light clickable" href="{{ path('word_index') }}">
-                    <i class="fas fa-eye"></i>
-                    Voir la liste
-                </a>
-                <a class="frame frame-light clickable" href="{{ path('word_new') }}">
-                    <i class="fas fa-plus"></i>
-                    Ajouter un élément
-                </a>
+                <div class="row">
+                    <a class="frame frame-light clickable" href="{{ path('word_index') }}">
+                        <i class="fas fa-eye"></i>
+                        Voir la liste
+                    </a>
+                    <a class="frame frame-light clickable" href="{{ path('word_new') }}">
+                        <i class="fas fa-plus"></i>
+                        Ajouter un élément
+                    </a>
+                    <a class="frame frame-light clickable" href="{{ path('word_analyse_jmdict') }}">
+                        <i class="fas fa-vial"></i>
+                        Analyse JMdict
+                    </a>
+                    <a class="frame frame-light clickable" href="{{ path('word_update_jmdict_data') }}">
+                        <i class="fas fa-sync-alt"></i>
+                        Mettre à jour les données JMdict
+                    </a>
+                </div>
             </div>
         </div>
         <div id="types" class="frame-group">

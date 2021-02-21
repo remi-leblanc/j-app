@@ -70,7 +70,12 @@ $(document).ready(function(){
             dbTradVal.push(this[i].toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""));
         }, db[currentDraw]["trad"]);
 
-        cardKanji.text(db[currentDraw]["kanji"]);
+        if(difficulty === 'normal' && db[currentDraw]["usually_kana"] && db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+            cardKanji.text(db[currentDraw]["kana"]);
+        }
+        else{
+            cardKanji.text(db[currentDraw]["kanji"]);
+        }
         cardKanji.css('font-size', oldFontSize+'px');
         adaptFont();
 
@@ -169,7 +174,12 @@ $(document).ready(function(){
 
     cardKanji.click(function(){
         if(isWordComplete){
-            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
+            if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+                tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kana"]);
+            }
+            else{
+                tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
+            }
         }
     });
 

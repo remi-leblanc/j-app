@@ -93,7 +93,7 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="word_show", methods={"GET"})
+     * @Route("/{id}", name="word_show", requirements={"id":"\d+"}, methods={"GET"})
      */
     public function show(Word $word): Response
     {
@@ -103,15 +103,20 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit/{redirect}", defaults={"redirect"="word_index"}, name="word_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit/{redirect}", defaults={"redirect"="word_index"}, name="word_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
      */
     public function edit(Request $request, Word $word, string $redirect): Response
     {
         $form = $this->createForm(WordType::class, $word);
         $form->handleRequest($request);
 
+        $wordRepository = $this->getDoctrine()->getRepository(Word::class);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $wordKanji = $form->getData()->getKanji();
+            if(!$wordRepository->findOneBy(['kanji' => $wordKanji]) ){
+                $this->getDoctrine()->getManager()->flush();
+            }
             if($redirect == "next"){
                 $wordRepository = $this->getDoctrine()->getRepository(Word::class);
                 $query = $wordRepository->createQueryBuilder('w')->where('w.id >'.$word->getId())->orderBy('w.id', 'ASC')->setMaxResults(1);
@@ -133,15 +138,17 @@ class WordController extends AbstractController
         ->setAction($this->generateUrl('app'))
         ->getForm();
 
+        $words = $wordRepository->findAll();
         return $this->render('word/edit.html.twig', [
             'word' => $word,
+            'words' => $words,
             'form' => $form->createView(),
             'selectionForm' => $selectionForm->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="word_delete", methods={"DELETE"})
+     * @Route("/{id}", name="word_delete", requirements={"id":"\d+"}, methods={"DELETE"})
      */
     public function delete(Request $request, Word $word): Response
     {
@@ -152,5 +159,83 @@ class WordController extends AbstractController
         }
 
         return $this->redirectToRoute('word_index');
+    }
+
+    /**
+	* @Route("/update-jmdict-data", name="word_update_jmdict_data")
+	*/
+    public function updateJmdictData(WordRepository $wordRepository)
+    {
+        $fileUrl = $this->getParameter('kernel.project_dir').'/db-dict/JMdict-1.json';
+        $JMdictJson = json_decode(file_get_contents($fileUrl), true);
+
+        $words = $wordRepository->findAll();
+        foreach($words as $word){
+            $kanji = str_replace('-', '', $word->getKanji());
+            $kana = str_replace('-', '', $word->getKana());
+
+            $findWord = null;
+            foreach($JMdictJson as $entry){
+                if(in_array($kanji, $entry['kanji']) || in_array($kanji, $entry['kana'])){
+                    $findWord = $entry;
+                    if(in_array($kana, $entry['kana'])){
+                        break;
+                    }
+                }
+            }
+            if($findWord){
+                $word->setJmdictCommon($findWord['is_common']);
+                $word->setJmdictKana($findWord['usually_kana']);
+            }
+            else{
+                $word->setJmdictCommon(false);
+            }
+        }
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('admin_dashboard');
+    }
+
+    /**
+	* @Route("/analyse", name="word_analyse_jmdict")
+	*/
+    public function analyse(WordRepository $wordRepository)
+    {
+        $analyse = [];
+        $words = $wordRepository->findAll();
+        $fileUrl = $this->getParameter('kernel.project_dir').'/db-dict/JMdict-1.json';
+        $JMdictJson = json_decode(file_get_contents($fileUrl), true);
+        foreach($words as $word){
+            $wordId = $word->getId();
+            $kanji = $word->getKanji();
+            $kana = $word->getKana();
+
+            $findWord = null;
+            $analyse[$wordId] = [];
+            $analyse[$wordId]['kanji'] = $kanji;
+            $analyse[$wordId]['kana'] = $kana;
+            $analyse[$wordId]['may_be_wrong'] = true;
+
+            foreach($JMdictJson as $entry){
+                if(in_array($kanji, $entry['kanji']) || in_array($kanji, $entry['kana'])){
+                    $findWord = $entry;
+                    if(in_array($kana, $entry['kana'])){
+                        $analyse[$wordId]['may_be_wrong'] = false;
+                        break;
+                    }
+                }
+            }
+            if($findWord){
+                $analyse[$wordId]['is_found'] = true;
+                $analyse[$wordId]['is_common'] = $findWord['is_common'];
+                $analyse[$wordId]['usually_kana'] = $findWord['usually_kana'];
+                $analyse[$wordId]['jmdict_entry'] = $findWord['jmdict_entry'];
+            }
+            else{
+                $analyse[$wordId]['is_found'] = false;
+            }
+        }
+        return $this->render('admin-analyse.html.twig', [
+            'words' => $analyse,
+        ]);
     }
 }

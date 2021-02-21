@@ -4,6 +4,8 @@
 
 {% block body %}
 
+    <div id="error-word-exist" class="frame frame-important frame-error">Ce mot existe déjà. <a href="">Editer</a></div>
+
     {{ include('word/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
     
     {{ form_start(selectionForm) }}
@@ -19,3 +21,21 @@
 
 {% endblock %}
 
+{% block scripts %}
+<script>
+
+    var currentWordId = "{{ word.id }}";
+
+    var words = [
+        {% for word in words %}
+            {
+                "id": "{{ word.id }}",
+                "kanji": "{{ word.kanji }}",
+                "edit_url": "{{ path('word_edit', {id: word.id }) }}"
+            },
+        {% endfor %}
+    ];
+
+</script>
+{{ parent() }}
+{% endblock %}

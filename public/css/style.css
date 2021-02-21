@@ -302,9 +302,11 @@ p{
 }
 .frame-header{
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 7px;
+}
+.frame-header > i{
+    margin-left: 5px;
 }
 .frame-error{
     position: absolute;
@@ -491,6 +493,7 @@ textarea:focus{
 
 .select-cat-control{
     margin: 0 -5px;
+    margin-left: auto;
 }
 .select-cat-control-btn{
     margin: 0 5px;
@@ -611,18 +614,20 @@ textarea:focus{
     display: flex;
     flex-direction: column;
     padding: 0 10px;
-    width: 50%;
+    width: 100%;
 }
-.admin-dashboard-col .frame-content{
+.admin-dashboard-col .frame-content .row{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    margin: -5px;
 }
-.admin-dashboard-col .frame-content > a{
+.admin-dashboard-col .frame-content a{
     display: inline-flex;
     align-items: center;
     padding: 10px;
-    margin: 0 5px;
+    margin: 5px;
 }
 .admin-dashboard-col .frame-content a i{
     margin-right: 5px;
@@ -1032,8 +1037,10 @@ textarea:focus{
     display: none;
 }
 
-@media (max-width: 700px){
-
+@media (max-width: 750px){
+    .admin-dashboard-content{
+        flex-direction: column;
+    }
 }
 @media (max-width: 425px){
     .page-container{

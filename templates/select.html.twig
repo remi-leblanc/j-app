@@ -35,6 +35,16 @@
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
 
+<div class="select-cat select-cat-single frame-group" data-select-cat="difficulty">
+	<div class="frame-header frame frame-heavy">Sélectionnez la difficulté <i class="fas fa-question-circle modal-btn clickable" data-modal="difficulty"></i></div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+			<div class="select-cat-option frame frame-light clickable selected" data-select-option="normal">Normal</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="hard">Difficile</div>
+		</div>
+	</div>
+</div>
+
 <div id="select-count" class="frame-group">
 	<div class="frame-header frame frame-heavy">
 		Nombre de mots sélectionnés
@@ -47,7 +57,7 @@
 
 <h2>Paramètres de sélection</h2>
 
-<div class="select-cat frame-group" data-select-cat="types">
+<div class="select-cat select-cat-multi frame-group" data-select-cat="types">
 	<div class="frame-header frame frame-heavy">
 	Sélection par type de mot
 		<div class="select-cat-control row">
@@ -70,7 +80,7 @@
 
 {% for type in types %}
 	{% if type.splitGroupCount != null %}
-		<div class="select-cat-sub frame-group cond-block" data-select-cat="{{ type.id }}" data-cond-link="splitGroup_{{ type.name }}">
+		<div class="select-cat-sub select-cat-multi frame-group cond-block" data-select-cat="{{ type.id }}" data-cond-link="splitGroup_{{ type.name }}">
 			<div class="frame-header frame frame-heavy">
 			Groupes : {{ type.name }}
 				<div class="select-cat-control row">
@@ -89,7 +99,7 @@
 	{% endif %}
 {% endfor %}
 
-<div class="select-cat frame-group" data-select-cat="themes">
+<div class="select-cat select-cat-multi frame-group" data-select-cat="themes">
 	<div class="frame-header frame frame-heavy">
 	Sélection par thème
 		<div class="select-cat-control row">
@@ -128,6 +138,7 @@
 {% endblock %}
 
 {% block ui %}
+
 <div id="select-recap">
 	<div class="frame frame-heavy">
 		<span>Mots sélectionnés :&nbsp;</span>
@@ -139,6 +150,16 @@
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
 		{{ include('help.html.twig') }}
+	</div>
+</div>
+
+<div class="modal" data-modal="difficulty" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		<h3>Explications du système de difficulté</h3>
+		<p>La difficulté change l'écriture des mots (Kanji/Hiragana) pour correspondre au mieux à vos objectifs d'apprentissage :</p>
+		<p><b>Normal : </b>Les mots sont affichés sous la forme la plus courante de nos jours. En effet, certains mots s'écrivent uniquement en hiragana et ne nécessitent donc pas forcément d'apprendre leur forme en Kanji. Cette difficulté est conseillée à ceux qui veulent se concentrer sur le vocabulaire plutôt que la mémorisation des Kanjis</p>
+		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). La mémorisation des mots peut donc être plus longue. Cette difficulté s'addresse à ceux qui veulent approfondir leur apprentissage de la langue.</p>
 	</div>
 </div>
 
@@ -167,8 +188,8 @@
 			},
 			{% endfor %}
 		},
-		'date': '{{ lastDate|date('d-m-Y') }}'
-
+		'date': '{{ lastDate|date('d-m-Y') }}',
+		'difficulty': 'normal',
 	};
 
 	var words = [
