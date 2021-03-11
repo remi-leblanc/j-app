@@ -11,6 +11,7 @@ $(document).ready(function(){
     var statsError = 0;
     var startTime;
     var tts = $('#tts');
+    var autoTts = true;
 
     var dbRomajiVal;
     var dbTradVal;
@@ -120,6 +121,9 @@ $(document).ready(function(){
                     result.addClass('active');
                     cardKanji.addClass('word-complete');
                     isWordComplete = true;
+                    if(autoTts){
+                        playTts();
+                    }
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
                     result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
                     if(dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal)){
@@ -172,14 +176,18 @@ $(document).ready(function(){
         }
     }
 
+    function playTts(){
+        if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kana"]);
+        }
+        else{
+            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
+        }
+    }
+
     cardKanji.click(function(){
         if(isWordComplete){
-            if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
-                tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kana"]);
-            }
-            else{
-                tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
-            }
+            playTts();
         }
     });
 
@@ -189,5 +197,15 @@ $(document).ready(function(){
         draw();
     });
 
+    $('#audio-btn').click(function(){
+        if(autoTts){
+            $(this).removeClass('fa-volume-up').addClass('fa-volume-mute');
+            autoTts = false;
+        }
+        else{
+            $(this).removeClass('fa-volume-mute').addClass('fa-volume-up');
+            autoTts = true;
+        }
+    });
 
 });
