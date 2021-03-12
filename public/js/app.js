@@ -10,7 +10,6 @@ $(document).ready(function(){
     var completedCount = 0;
     var statsError = 0;
     var startTime;
-    var tts = $('#tts');
     var autoTts = true;
 
     var dbRomajiVal;
@@ -83,6 +82,8 @@ $(document).ready(function(){
         $('#word_report_word').val(db[currentDraw]["id"]);
 
         startTime = new Date();
+
+        playTts();
     }
     
     function finalResults(){
@@ -122,7 +123,7 @@ $(document).ready(function(){
                     cardKanji.addClass('word-complete');
                     isWordComplete = true;
                     if(autoTts){
-                        playTts();
+                        responsiveVoice.resume();
                     }
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
                     result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
@@ -177,17 +178,32 @@ $(document).ready(function(){
     }
 
     function playTts(){
+        responsiveVoice.debug = false;
+        responsiveVoice.cancel();
+        var text = "";
         if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
-            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kana"]);
+            text = db[currentDraw]["kana"];
         }
         else{
-            tts.attr("src", "https://translate.google.com/translate_tts?&client=tw-ob&ie=UTF-8&tl=ja&q="+db[currentDraw]["kanji"]);
+            text = db[currentDraw]["kanji"];
         }
+        responsiveVoice.speak(text, "Japanese Female");
+        var startTtsLoop = setInterval(function(){
+            if(responsiveVoice.isPlaying()) {
+                responsiveVoice.pause();
+                clearInterval(startTtsLoop);
+            }
+        }, 20);
+
     }
 
     cardKanji.click(function(){
         if(isWordComplete){
             playTts();
+            setTimeout(function(){
+                responsiveVoice.resume();
+            }, 50);
+            
         }
     });
 

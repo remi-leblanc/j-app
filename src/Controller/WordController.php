@@ -114,7 +114,7 @@ class WordController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $wordKanji = $form->getData()->getKanji();
-            if(!$wordRepository->findOneBy(['kanji' => $wordKanji]) ){
+            if(count($wordRepository->findBy(['kanji' => $wordKanji])) < 2 ){
                 $this->getDoctrine()->getManager()->flush();
             }
             if($redirect == "next"){
@@ -131,6 +131,9 @@ class WordController extends AbstractController
         $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')
         ->add('selection', HiddenType::class, [
             'data' => $word->getId(),
+        ])
+        ->add('difficulty', HiddenType::class, [
+            'data' => 'normal',
         ])
         ->add('submit', SubmitType::class, [
             'label' => 'Tester le mot'
