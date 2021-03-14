@@ -63,9 +63,9 @@ $(document).ready(function(){
     });
 
     function playTts(){
+        responsiveVoice.debug = false;
+        responsiveVoice.cancel();
         if(isWordComplete){
-            responsiveVoice.debug = false;
-            responsiveVoice.cancel();
             responsiveVoice.speak(kanji, "Japanese Female");
         }
     }

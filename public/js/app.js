@@ -178,9 +178,10 @@ $(document).ready(function(){
     }
 
     function playTts(){
+        responsiveVoice.debug = false;
+        responsiveVoice.cancel();
         if(isWordComplete){
-            responsiveVoice.debug = false;
-            responsiveVoice.cancel();
+            
             var text = "";
             if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
                 text = db[currentDraw]["kana"];
