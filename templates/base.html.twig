@@ -7,7 +7,7 @@
         <meta name="theme-color" content="#21242b">
         <link href="{{ asset('css/style.css') }}" rel="stylesheet">
         <link href="{{ asset('libraries/fontawesome/css/all.min.css') }}" rel="stylesheet">
-        <link rel="manifest" href="{{ asset('pwa/manifest.json') }}">
+        {# <link rel="manifest" href="{{ asset('pwa/manifest.json') }}"> #}
 
         <link rel="icon" href="{{ asset('images/favicon/j_app-favicon-16.png') }}" sizes="16x16">
         <link rel="icon" href="{{ asset('images/favicon/j_app-favicon-32.png') }}" sizes="32x32">
@@ -61,13 +61,13 @@
         {% block ui %}{% endblock %}
         <script src="{{ asset('libraries/jquery-3.5.0.js') }}"></script>
         <script src="{{ asset('js/global.js') }}"></script>
-        {% if app.environment == ''%}
+        {# {% if app.environment == ''%}
         <script>
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register("{{ asset('sw.js') }}");
             }
         </script>
-        {% endif %}
+        {% endif %} #}
         {% block scripts %}{% endblock %}
     </body>
 </html>
