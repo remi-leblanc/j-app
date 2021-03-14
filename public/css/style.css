@@ -831,7 +831,10 @@ textarea:focus{
     font-size: 11px;
     display: block;
 }
-#stats-time::before{
+.finalres-stats#stats-error::before{
+    content: "Erreurs";
+}
+.finalres-stats#stats-time::before{
     content: "Temps moyen";
 }
 #restart-btn{

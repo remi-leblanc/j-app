@@ -93,7 +93,7 @@ $(document).ready(function(){
         }
         var averageTime = totalTime / db.length;
 
-        $('#stats-error').text(statsError.toString()+"Erreurs");
+        $('#stats-error').text(statsError);
         $('#stats-time').text(averageTime.toFixed(1) + 's');
 
         $('.modal[data-modal=finalres]').addClass('active');
