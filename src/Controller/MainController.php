@@ -161,4 +161,15 @@ class MainController extends AbstractController
         ]);
 
     }
+
+    /**
+	* @Route("/numbers", name="numbers")
+	*/
+	public function numbers()
+	{
+        return $this->render('app-numbers.html.twig', [
+
+        ]);
+
+    }
 }

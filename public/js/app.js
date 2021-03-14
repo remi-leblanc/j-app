@@ -93,7 +93,7 @@ $(document).ready(function(){
         }
         var averageTime = totalTime / db.length;
 
-        $('#stats-error').text(statsError);
+        $('#stats-error').text(statsError.toString()+"Erreurs");
         $('#stats-time').text(averageTime.toFixed(1) + 's');
 
         $('.modal[data-modal=finalres]').addClass('active');
@@ -123,7 +123,7 @@ $(document).ready(function(){
                     cardKanji.addClass('word-complete');
                     isWordComplete = true;
                     if(autoTts){
-                        responsiveVoice.resume();
+                        playTts();
                     }
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
                     result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
@@ -178,33 +178,22 @@ $(document).ready(function(){
     }
 
     function playTts(){
-        responsiveVoice.debug = false;
-        responsiveVoice.cancel();
-        var text = "";
-        if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
-            text = db[currentDraw]["kana"];
-        }
-        else{
-            text = db[currentDraw]["kanji"];
-        }
-        responsiveVoice.speak(text, "Japanese Female");
-        var startTtsLoop = setInterval(function(){
-            if(responsiveVoice.isPlaying()) {
-                responsiveVoice.pause();
-                clearInterval(startTtsLoop);
+        if(isWordComplete){
+            responsiveVoice.debug = false;
+            responsiveVoice.cancel();
+            var text = "";
+            if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+                text = db[currentDraw]["kana"];
             }
-        }, 20);
-
+            else{
+                text = db[currentDraw]["kanji"];
+            }
+            responsiveVoice.speak(text, "Japanese Female");
+        }
     }
 
     cardKanji.click(function(){
-        if(isWordComplete){
-            playTts();
-            setTimeout(function(){
-                responsiveVoice.resume();
-            }, 50);
-            
-        }
+        playTts();
     });
 
     $('#restart-btn').click(function(){

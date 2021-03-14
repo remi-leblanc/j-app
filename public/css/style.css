@@ -723,14 +723,14 @@ textarea:focus{
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     font-size: 18px;
 }
-#card #result span.error{
+.error{
     color: #e64e4e;
 }
-#card #result span.correct{
+.correct{
     color: #35bd3e;
-
 }
 
 
@@ -796,7 +796,6 @@ textarea:focus{
 
 #stats{
     display: flex;
-    justify-content: center;
     width: 100%;
     font-size: 16px;
     padding: 5px 0;
@@ -831,9 +830,6 @@ textarea:focus{
 .finalres-stats::before{
     font-size: 11px;
     display: block;
-}
-#stats-error::before{
-    content: "Erreurs";
 }
 #stats-time::before{
     content: "Temps moyen";

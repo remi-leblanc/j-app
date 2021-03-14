@@ -1,0 +1,60 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}app{% endblock %}
+
+{% block body %}
+
+<div id="infos">
+	<div class="row">
+		<a id="home-btn" class="frame frame-light clickable modal-btn fas fa-home" href="{{ path('selection') }}"></a>
+		<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
+		<span id="help-btn" class="frame frame-light clickable modal-btn fas fa-question-circle" data-modal="help"></span>
+		<span id="audio-btn" class="frame frame-light clickable modal-btn fas fa-volume-up"></span>
+	</div>
+</div>
+
+<div id="stats">
+	<span id="stats-valid" class="correct">0</span>
+	&nbsp;
+	<span id="stats-error" class="error">0</span>
+	•
+	<span id="stats-percent">0%</span>
+</div>
+
+<div id="card" class="frame-light">
+	<div id="card-content">
+		
+	</div>
+	<div id="result">
+		<span data-result-type="kanji"></span>
+		<span data-result-type="romaji"></span>
+	</div>
+</div>
+<div id="answers">
+	<div data-input-type="romaji" class="answers-row">
+		<input type="text" autocapitalize="none" placeholder="rōmaji">
+	</div>
+</div>
+{% endblock %}
+
+{% block ui %}
+<div class="modal" data-modal="learn" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('learn-content.html.twig') }}
+	</div>
+</div>
+
+<div class="modal" data-modal="help" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		{{ include('help-numbers.html.twig') }}
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=CKag82At"></script>
+<script src="{{ asset('js/convert-nb.js') }}"></script>
+<script src="{{ asset('js/app-numbers.js') }}"></script>
+{% endblock %}
