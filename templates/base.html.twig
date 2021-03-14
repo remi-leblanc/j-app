@@ -20,24 +20,37 @@
 
     </head>
     <body>
-        <div id="menu" class="">
+        <div id="menu">
             <div id="menu-small">
-                <a>
-                    <img src="{{ asset('images/favicon/j_app-favicon-64.png') }}"/>
-                </a>
-                <a>
-                    <i class="fas fa-graduation-cap fa-lg"></i>
-                </a>
-                <a>
-                    <img src="{{ asset('images/numbers-icon.svg') }}"/>
-                </a>
+                <a><img src="{{ asset('images/favicon/j_app-favicon-64.png') }}"/></a>
+                <a><img src="{{ asset('images/numbers-icon.svg') }}"/></a>
+                <a><i class="fas fa-graduation-cap fa-lg"></i></a>
             </div>
             <div id="menu-extend">
                 <a href="{{ path('selection') }}"><span>Home</span></a>
-                <a href="{{ path('notes') }}"><span>Notes</span></a>
                 <a href="{{ path('numbers') }}"><span>Nombres</span></a>
+                <a href="{{ path('notes') }}"><span>Notes</span></a>
             </div>
-            
+        </div>
+        <div id="menu-mobile">
+            <span id="menu-trigger">
+                <span></span>
+                <span></span>
+            </span>
+            <div class="wrapper">
+                <a href="{{ path('selection') }}">
+                    <img src="{{ asset('images/favicon/j_app-favicon-64.png') }}"/>
+                    <span>Home</span>
+                </a>
+                <a href="{{ path('numbers') }}">
+                    <img src="{{ asset('images/numbers-icon.svg') }}"/>
+                    <span>Nombres</span>
+                </a>
+                <a href="{{ path('notes') }}">
+                    <i class="fas fa-graduation-cap fa-lg"></i>
+                    <span>Notes</span>
+                </a>
+            </div>
         </div>
         <div class="page-container">
             <div class="section-container">

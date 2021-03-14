@@ -154,4 +154,15 @@ $(document).ready(function(){
         $('.nav-cat-menu').removeClass('leave');
     });
 
+    $('#menu-trigger').on('click', function(){
+        if($('html').hasClass('mobile-active')){
+            $('html').removeClass('mobile-active');
+            $('html').addClass('mobile-not-active');
+        }
+        else{
+            $('html').addClass('mobile-active');
+            $('html').removeClass('mobile-not-active');
+        }
+    });
+
 });
