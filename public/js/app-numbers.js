@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     var card = $('#card');
     var cardContent = $('#card-content');
-    var inputRomaji = $('.answers-row[data-input-type=romaji] input');
+    var input = $('.answers-row input');
     var result = $('#result');
     var currentDraw = null;
     var isWordComplete = false;
@@ -21,26 +21,29 @@ $(document).ready(function(){
             if(isWordComplete){
                 draw();
             }
-            if(inputRomaji.val() != ""){
-                cardContent.addClass('word-complete');
+            if(input.val() != ""){
+                card.addClass('word-complete');
                 result.addClass('active');
-                if(inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "") == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "")){
+                var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+                if(
+                    (mode == 'write' && inputVal == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""))
+                    || (mode == 'listen' && inputVal == currentDraw)
+                ){
                     statsValid++;
                     $('#stats-valid').text(statsValid);
-                    inputRomaji.addClass('correct');
+                    input.addClass('correct');
                     result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('correct');
                 }
                 else{
                     statsError++;
                     $('#stats-error').text(statsError);
-                    inputRomaji.addClass('error');
+                    input.addClass('error');
                     result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('error');
                 }
                 statsCompleted++;
                 $('#stats-percent').text(Math.round((statsValid * 100) / statsCompleted).toString() + '%');
                 isWordComplete = true;
-                if(autoTts){
-                    console.log('yes');
+                if(mode == 'write' && autoTts){
                     playTts();
                 }
             }
@@ -48,7 +51,9 @@ $(document).ready(function(){
     });
 
     cardContent.click(function(){
-        playTts();
+        if(isWordComplete || mode == 'listen'){
+            playTts();
+        }
     });
 
     $('#audio-btn').click(function(){
@@ -63,29 +68,35 @@ $(document).ready(function(){
     });
 
     function playTts(){
-        responsiveVoice.debug = false;
-        responsiveVoice.cancel();
-        if(isWordComplete){
-            responsiveVoice.speak(kanji, "Japanese Female");
+        if(!window.tts){
+            return;
         }
+        window.tts.text = kanji;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(window.tts);
     }
 
     function draw(){
         currentDraw = randGen();
-        cardContent.text(currentDraw.toLocaleString('fr-FR'));
         romaji = Convert(currentDraw, "romaji");
         kanji = Convert(currentDraw, "kanji");
         result.find('span[data-result-type=romaji]').text(romaji);
         result.find('span[data-result-type=kanji]').text(kanji);
+        cardContent.find('span').text(currentDraw.toLocaleString('fr-FR'));
+        if(mode == 'listen'){
+            playTts();
+            document.addEventListener('voicesloaded', function(e){
+                playTts();
+            }, false);
+        }
 
         // Reset
-        inputRomaji.removeClass('correct').removeClass('error');
-        inputRomaji.val('');
+        input.removeClass('correct').removeClass('error');
+        input.val('');
         result.find('span[data-result-type=romaji], span[data-result-type=kanji]').removeClass('error').removeClass('correct');
         result.removeClass('active');
         isWordComplete = false;
-
-        playTts();
+        card.removeClass('word-complete');
     }
     
     function randGen(){
@@ -95,6 +106,5 @@ $(document).ready(function(){
         var rand = Math.floor(Math.random() * (max - min) +  min);
         return rand;
     };
-    
 
 });

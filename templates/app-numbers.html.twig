@@ -21,9 +21,10 @@
 	<span id="stats-percent">0%</span>
 </div>
 
-<div id="card" class="frame-light">
+<div id="card" class="frame-light {{ (mode is defined) ? "mode-" ~ mode : '' }}">
 	<div id="card-content">
-		
+		<i class="fas fa-volume-up"></i>
+		<span></span>
 	</div>
 	<div id="result">
 		<span data-result-type="kanji"></span>
@@ -31,8 +32,8 @@
 	</div>
 </div>
 <div id="answers">
-	<div data-input-type="romaji" class="answers-row">
-		<input type="text" autocapitalize="none" placeholder="rōmaji">
+	<div class="answers-row">
+		<input type="text" autocapitalize="none" placeholder="{{ (mode == 'write' ) ? 'rōmaji' : 'nombre'}}">
 	</div>
 </div>
 {% endblock %}
@@ -59,7 +60,11 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://code.responsivevoice.org/responsivevoice.js?key=CKag82At"></script>
+<script>
+
+	var mode = "{{ mode }}";
+	
+</script>
 <script src="{{ asset('js/convert-nb.js') }}"></script>
 <script src="{{ asset('js/app-numbers.js') }}"></script>
 {% endblock %}

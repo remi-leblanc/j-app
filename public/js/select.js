@@ -36,29 +36,6 @@ $(document).ready(function(){
         }).map(function(word) {
             return word.id;
         });
-
-/*  OLD difficulty
-        for (var i=0; i < words.length; i++) {
-            for (var wordCat in words[i].categories) {
-                var catValue = words[i]['categories'][wordCat];
-                if(selection[wordCat][catValue] != null
-                    && selection[wordCat][catValue].selected == true
-                    && selection[wordCat][catValue].splitGroup.includes(words[i].splitGroup)
-                ) {
-                    if(!selectedWords.includes(words[i].id)){
-                        selectedWords.push(words[i].id);
-                    }
-                }
-            }
-
-            if (formatDate(words[i].date) >= formatDate(selection.date)) {
-                if(!selectedWords.includes(words[i].id)){
-                    selectedWords.push(words[i].id);
-                }
-            }
-
-        }
-*/
         $('#select-count-selected, #select-recap-count').text(selectedWords.length);
     }
 
@@ -104,12 +81,12 @@ $(document).ready(function(){
         updateCount();
     });
 
-    $('.select-cat[data-select-cat=difficulty] .select-cat-option').click(function(){
+    $('.select-cat.select-cat-single .select-cat-option').click(function(){
         var optionName = $(this).attr('data-select-option');
-
-        $('.select-cat.select-cat-single .select-cat-option').removeClass('selected');
+        var catName = $(this).closest('.select-cat').attr('data-select-cat');
+        $(this).siblings().removeClass('selected').trigger('classChange');
         $(this).addClass('selected').trigger('classChange');
-        selection['difficulty'] = optionName;
+        selection[catName] = optionName;
         updateCount();
     });
 
@@ -175,14 +152,15 @@ $(document).ready(function(){
     });
 
     $('#select-form').submit(function(e){
-        if(selectedWords.length < 1){
+        if(selectedWords.length < 1 && selection['difficulty'] != 'numbers'){
             e.preventDefault();
-            $('.select-error').addClass('show').text('Selectionnez au moins 1 mot');
+            $('.select-error').addClass('show').text('Sélectionnez au moins 1 mot');
         }
         else{
             $('.select-error').removeClass('show');
             $('#selectionForm_selection').val(selectedWords);
             $('#selectionForm_difficulty').val(selection['difficulty']);
+            $('#selectionForm_mode').val(selection['mode']);
         }
     });
     

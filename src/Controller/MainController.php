@@ -66,6 +66,7 @@ class MainController extends AbstractController
         $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')
 			->add('selection', HiddenType::class)
             ->add('difficulty', HiddenType::class)
+            ->add('mode', HiddenType::class)
 			->add('submit', SubmitType::class, [
                 'label' => 'Commencer'
             ])
@@ -113,6 +114,19 @@ class MainController extends AbstractController
             return $this->redirectToRoute('selection');
         }
         else{
+            $mode = $selectionFormData['mode'];
+            if(!in_array($mode, ['write', 'listen'])){
+                return $this->redirectToRoute('selection');
+            }
+            $difficulty = $selectionFormData['difficulty'];
+            if(!in_array($difficulty, ['hard', 'normal', 'numbers'])){
+                return $this->redirectToRoute('selection');
+            }
+            if($difficulty == 'numbers'){
+                return $this->render('app-numbers.html.twig', [
+                    'mode' => $mode,
+                ]);
+            }
             $selectedWords = explode(',', $selectionFormData['selection']);
             if(count($selectedWords) < 1){
                 return $this->redirectToRoute('selection');
@@ -120,22 +134,16 @@ class MainController extends AbstractController
             $dbWords = $this->getDoctrine()->getRepository(Word::class)->findBy(
                 ['id' => $selectedWords]
             );
-
-            $difficulty = $selectionFormData['difficulty'];
-            if(!in_array($difficulty, ['hard', 'normal'])){
-                return $this->redirectToRoute('selection');
-            }
-            
             return $this->render('app.html.twig', [
                 'dbWords' => $dbWords,
                 'difficulty' => $difficulty,
+                'mode' => $mode,
                 'word_report' => $wordReport,
                 'word_report_form' => $wordReportForm->createView(),
             ]);
         }
 
     }
-
 
     /**
 	* @Route("/admin", name="admin_dashboard")
@@ -157,17 +165,6 @@ class MainController extends AbstractController
 	public function notes()
 	{
         return $this->render('learn.html.twig', [
-
-        ]);
-
-    }
-
-    /**
-	* @Route("/numbers", name="numbers")
-	*/
-	public function numbers()
-	{
-        return $this->render('app-numbers.html.twig', [
 
         ]);
 

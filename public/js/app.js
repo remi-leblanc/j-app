@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
     var card = $('#card');
-    var cardKanji = $('#card-content');
+    var cardContent = $('#card-content');
     var inputRomaji = $('.answers-row[data-input-type=romaji] input');
     var inputTrad = $('.answers-row[data-input-type=trad] input');
     var result = $('#result');
@@ -15,7 +15,7 @@ $(document).ready(function(){
     var dbRomajiVal;
     var dbTradVal;
 
-    var oldFontSize = parseFloat(cardKanji.css('font-size'));
+    var oldFontSize = parseFloat(cardContent.css('font-size'));
 
     function rand(){
         if(db.length == 1){
@@ -55,7 +55,7 @@ $(document).ready(function(){
         result.find('span[data-result-type=romaji').removeClass('error').removeClass('correct');
         result.find('span[data-result-type=trad').removeClass('error').removeClass('correct');
         result.removeClass('active');
-        cardKanji.removeClass('word-complete');
+        card.removeClass('word-complete');
         isWordComplete = false;
 
         rand();
@@ -71,19 +71,23 @@ $(document).ready(function(){
         }, db[currentDraw]["trad"]);
 
         if(difficulty === 'normal' && db[currentDraw]["usually_kana"] && db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
-            cardKanji.text(db[currentDraw]["kana"]);
+            cardContent.find('span').text(db[currentDraw]["kana"]);
         }
         else{
-            cardKanji.text(db[currentDraw]["kanji"]);
+            cardContent.find('span').text(db[currentDraw]["kanji"]);
         }
-        cardKanji.css('font-size', oldFontSize+'px');
+        if(mode == 'listen'){
+            playTts();
+            document.addEventListener('voicesloaded', function(e){
+                playTts();
+            }, false);
+        }
+        cardContent.css('font-size', oldFontSize+'px');
         adaptFont();
 
         $('#word_report_word').val(db[currentDraw]["id"]);
 
         startTime = new Date();
-
-        playTts();
     }
     
     function finalResults(){
@@ -120,9 +124,9 @@ $(document).ready(function(){
             else{
                 if(inputRomajiVal != "" && inputTradVal != ""){
                     result.addClass('active');
-                    cardKanji.addClass('word-complete');
+                    card.addClass('word-complete');
                     isWordComplete = true;
-                    if(autoTts){
+                    if(mode == 'write' && autoTts){
                         playTts();
                     }
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
@@ -169,32 +173,34 @@ $(document).ready(function(){
 
     function adaptFont(){
         var cardWidth = card.width();
-        var textWidth = cardKanji.outerWidth();
+        var textWidth = cardContent.outerWidth();
         var diff = (textWidth / cardWidth);
         if(diff > 1){
             var newFontSize = oldFontSize * (1 - ((diff * 2.4) / 10));
-            cardKanji.css('font-size', newFontSize+'px');
+            cardContent.css('font-size', newFontSize+'px');
         }
     }
 
     function playTts(){
-        responsiveVoice.debug = false;
-        responsiveVoice.cancel();
-        if(isWordComplete){
-            
-            var text = "";
-            if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
-                text = db[currentDraw]["kana"];
-            }
-            else{
-                text = db[currentDraw]["kanji"];
-            }
-            responsiveVoice.speak(text, "Japanese Female");
+        if(!window.tts){
+            return;
         }
+        var text = "";
+        if(db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+            text = db[currentDraw]["kana"];
+        }
+        else{
+            text = db[currentDraw]["kanji"];
+        }
+        window.tts.text = text;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(window.tts);
     }
 
-    cardKanji.click(function(){
-        playTts();
+    cardContent.click(function(){
+        if(isWordComplete || mode == 'listen'){
+            playTts();
+        }
     });
 
     $('#restart-btn').click(function(){

@@ -20,9 +20,10 @@
 	<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
 </div>
 
-<div id="card" class="frame-light">
+<div id="card" class="frame-light {{ (mode is defined) ? "mode-" ~ mode : '' }}">
 	<div id="card-content">
-		
+		<i class="fas fa-volume-up"></i>
+		<span></span>
 	</div>
 	<div id="result">
 		<span data-result-type="romaji"></span>
@@ -89,7 +90,7 @@
 <div class="modal" data-modal="help" style="opacity: 0;">
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
-		{{ include('help.html.twig') }}
+		{{ include('help-usage.html.twig') }}
 	</div>
 </div>
 {% endblock %}
@@ -127,7 +128,8 @@
 
 	var difficulty = "{{ difficulty }}";
 
+	var mode = "{{ mode }}";
+
 </script>
-<script src="https://code.responsivevoice.org/responsivevoice.js?key=CKag82At"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}

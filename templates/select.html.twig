@@ -27,6 +27,11 @@
 		</div>
 	</div>
 </div>
+<div id="error-tts" class="frame frame-important frame-error">
+	Vous ne semblez pas avoir les installations nécessaires pour profiter des <b>fonctionnalités vocales</b> du site.
+	<br>
+	Pas d'inquiétude, c'est très facile : <span class="clickable modal-btn" data-modal="help-tts"><b>Voir l'aide</b></span>.
+</div>
 
 {{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
 	<div class="row">
@@ -35,12 +40,23 @@
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
 
+<div class="select-cat select-cat-single frame-group" data-select-cat="mode">
+	<div class="frame-header frame frame-heavy">Sélectionnez le mode <i class="fas fa-question-circle modal-btn clickable" data-modal="difficulty"></i></div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+			<div class="select-cat-option frame frame-light clickable selected" data-select-option="write">Écrit</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="listen">Oral</div>
+		</div>
+	</div>
+</div>
+
 <div class="select-cat select-cat-single frame-group" data-select-cat="difficulty">
 	<div class="frame-header frame frame-heavy">Sélectionnez la difficulté <i class="fas fa-question-circle modal-btn clickable" data-modal="difficulty"></i></div>
 	<div class="frame-content frame frame-light">
 		<div class="row">
 			<div class="select-cat-option frame frame-light clickable selected" data-select-option="normal">Normal</div>
 			<div class="select-cat-option frame frame-light clickable" data-select-option="hard">Difficile</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="numbers">Nombres</div>
 		</div>
 	</div>
 </div>
@@ -82,7 +98,7 @@
 	{% if type.splitGroupCount != null %}
 		<div class="select-cat-sub select-cat-multi frame-group cond-block" data-select-cat="{{ type.id }}" data-cond-link="splitGroup_{{ type.name }}">
 			<div class="frame-header frame frame-heavy">
-			Groupes : {{ type.name }}
+			Parties : {{ type.name }}
 				<div class="select-cat-control row">
 					<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="all">all</span>
 					<span class="select-cat-control-btn frame frame-small frame-light clickable" data-select-control="none">none</span>
@@ -91,7 +107,7 @@
 			<div class="frame-content frame frame-light">
 				<div class="row">
 				{% for group in 0 .. type.splitGroupCount - 1 %}
-					<div class="select-cat-option frame frame-light clickable selected" data-select-option="{{ group }}">Groupe {{ group + 1 }}</div>
+					<div class="select-cat-option frame frame-light clickable selected" data-select-option="{{ group }}">Partie {{ group + 1 }}</div>
 				{% endfor %}
 				</div>
 			</div>
@@ -149,7 +165,7 @@
 <div class="modal" data-modal="help" style="opacity: 0;">
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
-		{{ include('help.html.twig') }}
+		{{ include('help-usage.html.twig') }}
 	</div>
 </div>
 
@@ -159,7 +175,52 @@
 		<h3>Explications du système de difficulté</h3>
 		<p>La difficulté change l'écriture des mots (Kanji/Hiragana) pour correspondre au mieux à vos objectifs d'apprentissage :</p>
 		<p><b>Normal : </b>Les mots sont affichés sous la forme la plus courante de nos jours. En effet, certains mots s'écrivent uniquement en hiragana et ne nécessitent donc pas forcément d'apprendre leur forme en Kanji. Cette difficulté est conseillée à ceux qui veulent se concentrer sur le vocabulaire plutôt que la mémorisation des Kanjis</p>
-		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). La mémorisation des mots peut donc être plus longue. Cette difficulté s'addresse à ceux qui veulent approfondir leur apprentissage de la langue.</p>
+		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). La mémorisation des mots peut donc être plus longue. Cette difficulté s'adresse à ceux qui veulent approfondir leur apprentissage de la langue.</p>
+	</div>
+</div>
+
+<div class="modal" data-modal="help-tts" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		<h2>Guide d'installation des fonctionnalités vocales</h2>
+
+		<h3>PC de bureau</h3>		
+		<p>Attention ! Ces fonctionnalités <b>ne fonctionneront pas</b> si vous utilisez <b>Internet Explorer</b> comme navigateur.</p>
+		<p>Si vous utilisez <b>Google Chrome</b>, cette installation est <b>optionnelle</b>.</p>
+
+		<h4>Pour Windows</h4>
+		<p>Rendez-vous dans les <b>Paramètres > Heure et langue > Voix</b>.
+		<br>
+		Descendez jusqu'à la section <b>Gérer les voix</b> et cliquez sur <b>Ajouter des voix</b>.
+		<br>
+		Sélectionnez <b>Japonais</b> et cliquez sur <b>Ajouter</b>.
+		<br>
+		Attendez la fin de l'installation puis relancer votre navigateur.</p>
+
+		<h4>Pour MacOS</h4>
+		<p>Choisissez le menu <b>Pomme > Préférences Système > Accessibilité > Contenu énoncé</b>.
+		<br>
+		Cliquez sur <b>Voix système</b> puis choisissez <b>Personnaliser</b>.
+		<br>
+		Sélectionnez <b>Japonais</b> et cliquez sur <b>OK</b>.
+		<br>
+		Attendez la fin de l'installation puis relancer votre navigateur.</p>
+		<br>
+		<h3>Smartphone</h3>
+		<h4>Pour Android</h4>
+		<p>L'installation est plus compliquée sur smartphone car chaque téléphone possède des particularités, les étapes suivantes peuvent donc varier.</p>
+		Allez dans les <b>Paramètres > Accessibilité > Synyhèse vocale</b>.
+		<br>
+		Dans <b>Moteur préféré</b> (choissisez Google en priorité), allez dans les paramètres du moteur séléctionné.
+		<br>
+		Cliquez sur <b>Langue</b> et séléctionnez <b>japonais</b>.
+		<br>
+		Retournez dans les <b>Paramètres</b> de votre téléphone, allez dans <b>Applications</b>, trouvez votre navigateur puis cliquez sur <b>Forcer l'arrêt</b>.
+		<br>
+		Vous pouvez relancer votre navigateur et retourner sur J-App.</p>
+
+		<h4>Pour iOS</h4>
+		<p>A venir</p>
 	</div>
 </div>
 
@@ -190,6 +251,7 @@
 		},
 		'date': '{{ lastDate|date('d-m-Y') }}',
 		'difficulty': 'normal',
+		'mode': 'write',
 	};
 
 	var words = [
