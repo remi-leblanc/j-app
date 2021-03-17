@@ -172,7 +172,9 @@ $(document).ready(function(){
     /* 
     * INITIALISATION TTS
     */
+    console.log('js loaded');
     if ('speechSynthesis' in window) {
+        console.log('speechSynthesis exist');
         var selectedVoice = null;
         window.tts = null;
         speechSynthesis.getVoices();
