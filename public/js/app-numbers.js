@@ -26,8 +26,8 @@ $(document).ready(function(){
                 result.addClass('active');
                 var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
                 if(
-                    (mode == 'write' && inputVal == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""))
-                    || (mode == 'listen' && inputVal == currentDraw)
+                    (method == 'write' && inputVal == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""))
+                    || (method == 'listen' && inputVal == currentDraw)
                 ){
                     statsValid++;
                     $('#stats-valid').text(statsValid);
@@ -43,15 +43,16 @@ $(document).ready(function(){
                 statsCompleted++;
                 $('#stats-percent').text(Math.round((statsValid * 100) / statsCompleted).toString() + '%');
                 isWordComplete = true;
-                if(mode == 'write' && autoTts){
+                if(method == 'write' && autoTts){
                     playTts();
                 }
             }
         }
     });
 
-    cardContent.click(function(){
-        if(isWordComplete || mode == 'listen'){
+    cardContent.on('mousedown', function (e) {
+        e.preventDefault();
+        if(isWordComplete || method == 'listen'){
             playTts();
         }
     });
@@ -83,7 +84,7 @@ $(document).ready(function(){
         result.find('span[data-result-type=romaji]').text(romaji);
         result.find('span[data-result-type=kanji]').text(kanji);
         cardContent.find('span').text(currentDraw.toLocaleString('fr-FR'));
-        if(mode == 'listen'){
+        if(method == 'listen'){
             playTts();
             document.addEventListener('voicesloaded', function(e){
                 playTts();

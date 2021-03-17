@@ -174,7 +174,6 @@ $(document).ready(function(){
     */
     if ('speechSynthesis' in window) {
         var selectedVoice = null;
-        var ttsError = $('#error-tts');
         window.tts = null;
         speechSynthesis.getVoices();
         speechSynthesis.addEventListener('voiceschanged', loadVoices);
@@ -184,6 +183,7 @@ $(document).ready(function(){
     }
     function loadVoices() {
         var voices = speechSynthesis.getVoices();
+        console.log(voices);
         voices.forEach(function(voice, i){
             if(voice.lang == 'ja-JP' || voice.lang == 'ja_JP'){
                 if(!tts){
@@ -194,18 +194,18 @@ $(document).ready(function(){
                     selectedVoice = voice;
                 }
                 window.tts.voice = selectedVoice;
+                $('html').addClass('tts-enabled');
             }
         });
         if(!selectedVoice || !voices.length){
             setTtsError();
         }
+        $('html').addClass('tts-loaded');
         document.dispatchEvent(new Event('voicesloaded'));
     }
     function setTtsError(){
-        $('html').addClass('no-tts');
-        if(ttsError.length){
-            ttsError.addClass('active');
-        }
+        $('html').addClass('tts-disabled');
+        $('#error-tts').addClass('active');
     }
 
 });

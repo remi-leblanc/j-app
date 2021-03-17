@@ -677,6 +677,14 @@ textarea:focus{
 .select-cat-single .select-cat-option{
     width: 100%;
 }
+.select-cat-option span:first-of-type{
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.select-cat-option span i{
+    margin-right: 7px;
+}
 
 #select-count{
     display: flex;
@@ -864,9 +872,9 @@ textarea:focus{
 #card-content i{
     font-size: inherit;
 }
-#card.mode-listen:not(.word-complete) #card-content span,
-#card.mode-listen.word-complete #card-content i,
-#card:not(.mode-listen) #card-content i{
+#card.method-listen:not(.word-complete) #card-content span,
+#card.method-listen.word-complete #card-content i,
+#card:not(.method-listen) #card-content i{
     display: none;
 }
 #card #result{
@@ -1195,6 +1203,13 @@ textarea:focus{
 }
 .analyse-item.hidden .analyse-item-content{
     display: none;
+}
+
+html:not(.tts-loaded) .tts-wait{
+    display: none !important;
+}
+.tts-disabled .tts-only{
+    display: none !important;
 }
 
 @media (max-width: 750px){

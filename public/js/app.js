@@ -70,13 +70,13 @@ $(document).ready(function(){
             dbTradVal.push(this[i].toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""));
         }, db[currentDraw]["trad"]);
 
-        if(difficulty === 'normal' && db[currentDraw]["usually_kana"] && db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
+        if(mode === 'normal' && db[currentDraw]["usually_kana"] && db[currentDraw]["kana"] != null && db[currentDraw]["kana"] != ""){
             cardContent.find('span').text(db[currentDraw]["kana"]);
         }
         else{
             cardContent.find('span').text(db[currentDraw]["kanji"]);
         }
-        if(mode == 'listen'){
+        if(method == 'listen'){
             playTts();
             document.addEventListener('voicesloaded', function(e){
                 playTts();
@@ -126,7 +126,7 @@ $(document).ready(function(){
                     result.addClass('active');
                     card.addClass('word-complete');
                     isWordComplete = true;
-                    if(mode == 'write' && autoTts){
+                    if(method == 'write' && autoTts){
                         playTts();
                     }
                     result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
@@ -197,8 +197,9 @@ $(document).ready(function(){
         speechSynthesis.speak(window.tts);
     }
 
-    cardContent.click(function(){
-        if(isWordComplete || mode == 'listen'){
+    cardContent.on('mousedown', function (e) {
+        e.preventDefault();
+        if(isWordComplete || method == 'listen'){
             playTts();
         }
     });

@@ -30,7 +30,34 @@
 <div id="error-tts" class="frame frame-important frame-error">
 	Vous ne semblez pas avoir les installations nécessaires pour profiter des <b>fonctionnalités vocales</b> du site.
 	<br>
-	Pas d'inquiétude, c'est très facile : <span class="clickable modal-btn" data-modal="help-tts"><b>Voir l'aide</b></span>.
+	Pas d'inquiétude, c'est très facile : <span class="clickable modal-btn" data-modal="help-tts"><b>Guide d'installation</b></span>.
+</div>
+
+<div class="select-cat select-cat-single frame-group tts-only" data-select-cat="method">
+	<div class="frame-header frame frame-heavy">Méthode d'apprentissage</div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+			<div class="select-cat-option frame frame-light clickable selected" data-select-option="write">
+				<span><i class="fas fa-book-open"></i>Lecture</span>
+				<span>Entraînez-vous à reconnaitre les Kanjis et mémorisez le vocabulaire.</span>
+			</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="listen">
+				<span><i class="fas fa-headphones-alt"></i>Compréhension orale</span>
+				<span>Écoutez attentivement les mots dictés et traduisez-les.</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="select-cat select-cat-single frame-group" data-select-cat="mode">
+	<div class="frame-header frame frame-heavy">Mode de jeu <i class="fas fa-question-circle modal-btn clickable" data-modal="mode"></i></div>
+	<div class="frame-content frame frame-light">
+		<div class="row">
+			<div class="select-cat-option frame frame-light clickable selected" data-select-option="normal">Normal</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="hard">Difficile</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="numbers">Nombres</div>
+		</div>
+	</div>
 </div>
 
 {{ form_start(selectionForm, {'attr': {'id': 'select-form'}}) }}
@@ -40,26 +67,7 @@
 	<span class="select-error"></span>
 {{ form_end(selectionForm) }}
 
-<div class="select-cat select-cat-single frame-group" data-select-cat="mode">
-	<div class="frame-header frame frame-heavy">Sélectionnez le mode <i class="fas fa-question-circle modal-btn clickable" data-modal="difficulty"></i></div>
-	<div class="frame-content frame frame-light">
-		<div class="row">
-			<div class="select-cat-option frame frame-light clickable selected" data-select-option="write">Écrit</div>
-			<div class="select-cat-option frame frame-light clickable" data-select-option="listen">Oral</div>
-		</div>
-	</div>
-</div>
-
-<div class="select-cat select-cat-single frame-group" data-select-cat="difficulty">
-	<div class="frame-header frame frame-heavy">Sélectionnez la difficulté <i class="fas fa-question-circle modal-btn clickable" data-modal="difficulty"></i></div>
-	<div class="frame-content frame frame-light">
-		<div class="row">
-			<div class="select-cat-option frame frame-light clickable selected" data-select-option="normal">Normal</div>
-			<div class="select-cat-option frame frame-light clickable" data-select-option="hard">Difficile</div>
-			<div class="select-cat-option frame frame-light clickable" data-select-option="numbers">Nombres</div>
-		</div>
-	</div>
-</div>
+<h2>Paramètres de sélection</h2>
 
 <div id="select-count" class="frame-group">
 	<div class="frame-header frame frame-heavy">
@@ -70,8 +78,6 @@
 		<span>/{{ words|length }}</span>
 	</div>
 </div>
-
-<h2>Paramètres de sélection</h2>
 
 <div class="select-cat select-cat-multi frame-group" data-select-cat="types">
 	<div class="frame-header frame frame-heavy">
@@ -169,13 +175,13 @@
 	</div>
 </div>
 
-<div class="modal" data-modal="difficulty" style="opacity: 0;">
+<div class="modal" data-modal="mode" style="opacity: 0;">
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
-		<h3>Explications du système de difficulté</h3>
-		<p>La difficulté change l'écriture des mots (Kanji/Hiragana) pour correspondre au mieux à vos objectifs d'apprentissage :</p>
-		<p><b>Normal : </b>Les mots sont affichés sous la forme la plus courante de nos jours. En effet, certains mots s'écrivent uniquement en hiragana et ne nécessitent donc pas forcément d'apprendre leur forme en Kanji. Cette difficulté est conseillée à ceux qui veulent se concentrer sur le vocabulaire plutôt que la mémorisation des Kanjis</p>
-		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). La mémorisation des mots peut donc être plus longue. Cette difficulté s'adresse à ceux qui veulent approfondir leur apprentissage de la langue.</p>
+		<h3>Explications des modes de jeu</h3>
+		<p><b>Normal : </b>Les mots sont affichés sous la forme (Kanji ou Hiragana) la plus courante de nos jours. Ce mode est conseillée à ceux qui veulent se concentrer sur le vocabulaire plutôt que la mémorisation des Kanjis</p>
+		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). Ce mode s'adresse à ceux qui veulent apprendre le plus de Kanji possible.</p>
+		<p><b>Nombres : </b>Mode spécial qui propose de traduire des <b>nombres plutôt que des mots</b>. Ce mode est très pratique pour gagner en fluidité dans l'écriture et la compréhension des nombres. Particulièrement efficace avec la méthode <b>Compréhension Orale</b>.</p>
 	</div>
 </div>
 
@@ -184,9 +190,11 @@
 		<span class="modal-close far fa-times-circle"></span>
 		<h2>Guide d'installation des fonctionnalités vocales</h2>
 
-		<h3>PC de bureau</h3>		
+		<h3>Ordinateurs</h3>		
 		<p>Attention ! Ces fonctionnalités <b>ne fonctionneront pas</b> si vous utilisez <b>Internet Explorer</b> comme navigateur.</p>
-		<p>Si vous utilisez <b>Google Chrome</b>, cette installation est <b>optionnelle</b>.</p>
+		
+		<h4>Installation simple</h4>
+		<p>La solution <b>la plus simple</b> pour profiter des fonctionnalités vocales de J-App est d'utiliser <b>Google Chrome</b>. Téléchargez Chrome ici : <a href="https://www.google.com/intl/fr_fr/chrome/" target="_blank">https://www.google.com/intl/fr_fr/chrome/</a>.</p>
 
 		<h4>Pour Windows</h4>
 		<p>Rendez-vous dans les <b>Paramètres > Heure et langue > Voix</b>.
@@ -209,7 +217,7 @@
 		<h3>Smartphone</h3>
 		<h4>Pour Android</h4>
 		<p>L'installation est plus compliquée sur smartphone car chaque téléphone possède des particularités, les étapes suivantes peuvent donc varier.</p>
-		Allez dans les <b>Paramètres > Accessibilité > Synyhèse vocale</b>.
+		<p>Allez dans les <b>Paramètres > Accessibilité > Synyhèse vocale</b>.
 		<br>
 		Dans <b>Moteur préféré</b> (choissisez Google en priorité), allez dans les paramètres du moteur séléctionné.
 		<br>
@@ -250,8 +258,8 @@
 			{% endfor %}
 		},
 		'date': '{{ lastDate|date('d-m-Y') }}',
-		'difficulty': 'normal',
-		'mode': 'write',
+		'mode': 'normal',
+		'method': 'write',
 	};
 
 	var words = [

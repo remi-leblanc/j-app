@@ -4,12 +4,12 @@
 
 {% block body %}
 
-<div id="infos">
+<div id="infos" class="tts-wait">
 	<div class="row">
 		<a id="home-btn" class="frame frame-light clickable modal-btn fas fa-home" href="{{ path('selection') }}"></a>
 		<span id="learn-btn" class="frame frame-light clickable modal-btn fas fa-graduation-cap" data-modal="learn"></span>
 		<span id="help-btn" class="frame frame-light clickable modal-btn fas fa-question-circle" data-modal="help"></span>
-		<span id="audio-btn" class="frame frame-light clickable modal-btn fas fa-volume-up"></span>
+		<span id="audio-btn" class="frame frame-light clickable modal-btn fas fa-volume-up tts-only"></span>
 	</div>
 </div>
 
@@ -21,7 +21,7 @@
 	<span id="stats-percent">0%</span>
 </div>
 
-<div id="card" class="frame-light {{ (mode is defined) ? "mode-" ~ mode : '' }}">
+<div id="card" class="frame-light {{ (method is defined) ? "method-" ~ method : '' }}">
 	<div id="card-content">
 		<i class="fas fa-volume-up"></i>
 		<span></span>
@@ -33,7 +33,7 @@
 </div>
 <div id="answers">
 	<div class="answers-row">
-		<input type="text" autocapitalize="none" placeholder="{{ (mode == 'write' ) ? 'rōmaji' : 'nombre'}}">
+		<input type="text" autocapitalize="none" placeholder="{{ (method == 'write' ) ? 'rōmaji' : 'nombre'}}">
 	</div>
 </div>
 {% endblock %}
@@ -62,7 +62,7 @@
 {% block scripts %}
 <script>
 
-	var mode = "{{ mode }}";
+	var method = "{{ method }}";
 	
 </script>
 <script src="{{ asset('js/convert-nb.js') }}"></script>

@@ -65,8 +65,8 @@ class MainController extends AbstractController
 
         $selectionForm = $this->get('form.factory')->createNamedBuilder('selectionForm')
 			->add('selection', HiddenType::class)
-            ->add('difficulty', HiddenType::class)
             ->add('mode', HiddenType::class)
+            ->add('method', HiddenType::class)
 			->add('submit', SubmitType::class, [
                 'label' => 'Commencer'
             ])
@@ -114,17 +114,17 @@ class MainController extends AbstractController
             return $this->redirectToRoute('selection');
         }
         else{
+            $method = $selectionFormData['method'];
+            if(!in_array($method, ['write', 'listen'])){
+                return $this->redirectToRoute('selection');
+            }
             $mode = $selectionFormData['mode'];
-            if(!in_array($mode, ['write', 'listen'])){
+            if(!in_array($mode, ['hard', 'normal', 'numbers'])){
                 return $this->redirectToRoute('selection');
             }
-            $difficulty = $selectionFormData['difficulty'];
-            if(!in_array($difficulty, ['hard', 'normal', 'numbers'])){
-                return $this->redirectToRoute('selection');
-            }
-            if($difficulty == 'numbers'){
+            if($mode == 'numbers'){
                 return $this->render('app-numbers.html.twig', [
-                    'mode' => $mode,
+                    'method' => $method,
                 ]);
             }
             $selectedWords = explode(',', $selectionFormData['selection']);
@@ -136,13 +136,12 @@ class MainController extends AbstractController
             );
             return $this->render('app.html.twig', [
                 'dbWords' => $dbWords,
-                'difficulty' => $difficulty,
                 'mode' => $mode,
+                'method' => $method,
                 'word_report' => $wordReport,
                 'word_report_form' => $wordReportForm->createView(),
             ]);
         }
-
     }
 
     /**

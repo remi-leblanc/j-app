@@ -152,15 +152,15 @@ $(document).ready(function(){
     });
 
     $('#select-form').submit(function(e){
-        if(selectedWords.length < 1 && selection['difficulty'] != 'numbers'){
+        if(selectedWords.length < 1 && selection['mode'] != 'numbers'){
             e.preventDefault();
             $('.select-error').addClass('show').text('Sélectionnez au moins 1 mot');
         }
         else{
             $('.select-error').removeClass('show');
             $('#selectionForm_selection').val(selectedWords);
-            $('#selectionForm_difficulty').val(selection['difficulty']);
             $('#selectionForm_mode').val(selection['mode']);
+            $('#selectionForm_method').val(selection['method']);
         }
     });
     

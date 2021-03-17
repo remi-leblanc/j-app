@@ -132,7 +132,7 @@ class WordController extends AbstractController
         ->add('selection', HiddenType::class, [
             'data' => $word->getId(),
         ])
-        ->add('difficulty', HiddenType::class, [
+        ->add('mode', HiddenType::class, [
             'data' => 'normal',
         ])
         ->add('submit', SubmitType::class, [
