@@ -222,8 +222,10 @@ $(document).ready(function(){
             $('html').addClass('speechRec-enabled');
             recognition.abort();
         }
-        recognition.onerror = function(){
-            $('html').addClass('speechRec-disabled');
+        recognition.onerror = function(event){
+            if(event.error != 'aborted'){
+                $('html').addClass('speechRec-disabled');
+            }
         }
     }
     else{
