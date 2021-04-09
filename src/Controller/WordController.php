@@ -211,12 +211,18 @@ class WordController extends AbstractController
             $wordId = $word->getId();
             $kanji = $word->getKanji();
             $kana = $word->getKana();
+            $trad = $word->getFrancais();
 
             $findWord = null;
             $analyse[$wordId] = [];
             $analyse[$wordId]['kanji'] = $kanji;
             $analyse[$wordId]['kana'] = $kana;
+            $analyse[$wordId]['trad'] = $trad;
             $analyse[$wordId]['may_be_wrong'] = true;
+
+            $toRemove = ['-'];
+            $kanji = str_replace($toRemove, '', $kanji);
+            $kana = str_replace($toRemove, '', $kana);
 
             foreach($JMdictJson as $entry){
                 if(in_array($kanji, $entry['kanji']) || in_array($kanji, $entry['kana'])){

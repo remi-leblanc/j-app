@@ -17,6 +17,29 @@ $(document).ready(function(){
 
     var oldFontSize = parseFloat(cardContent.css('font-size'));
 
+    var oldSpeakPlaceholder = inputRomaji.attr('placeholder');
+
+    if(method == 'speak'){
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = 'ja-JP';
+        recognition.maxAlternatives = 3;
+        recognition.start();
+        recognition.onspeechstart = function(){
+            if(!isWordComplete){
+                $('html').addClass('speaking');
+                inputRomaji.attr('placeholder', '');
+            }
+        }
+        recognition.onspeechend = function(){
+            $('html').removeClass('speaking');
+            inputRomaji.attr('placeholder', oldSpeakPlaceholder);
+        }
+        recognition.onend = function(){
+            recognition.start();
+        }
+    }
+
     function rand(){
         if(db.length == 1){
             currentDraw = 0;
@@ -57,7 +80,10 @@ $(document).ready(function(){
         result.removeClass('active');
         card.removeClass('word-complete');
         isWordComplete = false;
-
+        if(method == 'speak'){
+            recognition.abort();
+        }
+        
         rand();
         
         dbRomajiVal = [];
@@ -105,71 +131,112 @@ $(document).ready(function(){
 
     draw();
 
-    $(document).keydown(function(event){
-        var keycode = (event.keyCode ? event.keyCode : event.key);
-        if(keycode == '13'){
-            var inputRomajiVal = inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-            var inputTradVal = inputTrad.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-            if(inputRomajiVal != ""){
-                inputTrad.focus();
-            }
-            if(isWordComplete){
-                if(completedCount != db.length){
-                    draw();
+    if(method != 'speak'){
+        $(document).keydown(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.key);
+            if(keycode == '13'){
+                var inputRomajiVal = inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+                var inputTradVal = inputTrad.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+                if(inputRomajiVal != ""){
+                    inputTrad.focus();
+                }
+                if(isWordComplete){
+                    if(completedCount != db.length){
+                        draw();
+                    }
+                    else{
+                        finalResults();
+                    }
                 }
                 else{
-                    finalResults();
+                    if(inputRomajiVal != "" && inputTradVal != ""){
+                        completedWord();
+                        result.find('span[data-result-type=romaji]').text(db[currentDraw]["romaji"].join(', '));
+                        result.find('span[data-result-type=trad]').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
+                        if((dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal))){
+                            answerIsCorrect();
+                        }else{
+                            statsError++;
+                        }
+                        if(!dbRomajiVal.includes(inputRomajiVal)){
+                            inputRomaji.addClass('error');
+                            result.find('span[data-result-type=romaji]').addClass('error');
+                        }else{
+                            inputRomaji.addClass('correct');
+                            result.find('span[data-result-type=romaji]').addClass('correct');
+                        }
+                        if(!dbTradVal.includes(inputTradVal)){
+                            inputTrad.addClass('error');
+                            result.find('span[data-result-type=trad]').addClass('error');
+                        }else{
+                            inputTrad.addClass('correct');
+                            result.find('span[data-result-type=trad]').addClass('correct');
+                        }
+    
+                    }
                 }
             }
-            else{
-                if(inputRomajiVal != "" && inputTradVal != ""){
-                    result.addClass('active');
-                    card.addClass('word-complete');
-                    isWordComplete = true;
-                    if(method == 'write' && autoTts){
-                        playTts();
-                    }
-                    result.find('span[data-result-type=romaji').text(db[currentDraw]["romaji"].join(', '));
-                    result.find('span[data-result-type=trad').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
-                    if(dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal)){
-                        completedCount++;
-                        $('#stats-count').text(completedCount);
-
-                        var endTime = new Date();
-                        var completeTime = (endTime - startTime)/1000;
-
-                        db[currentDraw]["score"]["valid"] = true;
-                        db[currentDraw]["score"]["time"] = completeTime;
-                    }else{
-                        statsError++;
-                    }
-
-                    if(!dbRomajiVal.includes(inputRomajiVal)){
-                        inputRomaji.addClass('error');
-                        result.find('span[data-result-type=romaji').addClass('error');
-                    }else{
-                        inputRomaji.addClass('correct');
-                        result.find('span[data-result-type=romaji').addClass('correct');
-                    }
-                    if(!dbTradVal.includes(inputTradVal)){
-                        inputTrad.addClass('error');
-                        result.find('span[data-result-type=trad').addClass('error');
-                    }else{
-                        inputTrad.addClass('correct');
-                        result.find('span[data-result-type=trad').addClass('correct');
-                    }
-
+            if(keycode == '8'){
+                if(inputTrad.is(':focus') && inputTrad.val() == ''){
+                    event.preventDefault();
+                    inputRomaji.focus();
+                }
+            }
+        });
+    }
+    else{
+        recognition.onresult = function(event) {
+            if(!isWordComplete){
+                recognition.abort();
+                speakResults = Object.values(event.results[0]).map(result => result.transcript);
+                completedWord();
+                result.find('span[data-result-type=romaji]').text(db[currentDraw]["romaji"].join(', '));
+                result.find('span[data-result-type=trad]').text(db[currentDraw]["trad"].join(', ') + ((db[currentDraw]["info"] !== undefined) ? " ("+db[currentDraw]["info"]+")" : ""));
+                var matchedResult = speakResults.find(result => result == db[currentDraw]["kanji"].replace('-', '') || result == db[currentDraw]["kana"].replace('-', ''));
+                if(matchedResult !== undefined){
+                    answerIsCorrect();
+                    result.find('span').addClass('correct');
+                    inputRomaji.val(matchedResult);
+                } else{
+                    statsError++;
+                    result.find('span').addClass('error');
+                    inputRomaji.val(speakResults[0]);
                 }
             }
         }
-        if(keycode == '8'){
-            if(inputTrad.is(':focus') && inputTrad.val() == ''){
-                event.preventDefault();
-                inputRomaji.focus();
+        $(document).keydown(function(event){
+            var keycode = (event.keyCode ? event.keyCode : event.key);
+            if(keycode == '13'){
+                if(isWordComplete){
+                    if(completedCount != db.length){
+                        draw();
+                    }
+                    else{
+                        finalResults();
+                    }
+                }
             }
+        });
+    }
+    
+    function completedWord(){
+        result.addClass('active');
+        card.addClass('word-complete');
+        isWordComplete = true;
+        if(method != 'listen' && autoTts){
+            playTts();
         }
-    });
+    }
+    function answerIsCorrect(){
+        completedCount++;
+        $('#stats-count').text(completedCount);
 
+        var endTime = new Date();
+        var completeTime = (endTime - startTime)/1000;
+
+        db[currentDraw]["score"]["valid"] = true;
+        db[currentDraw]["score"]["time"] = completeTime;
+    }
 
     function adaptFont(){
         var cardWidth = card.width();

@@ -209,7 +209,24 @@ $(document).ready(function(){
     }
     function setTtsError(){
         $('html').addClass('tts-disabled');
-        $('#error-tts').addClass('active');
     }
 
+    /* 
+    * INITIALISATION SPEECH REC
+    */
+    if ('webkitSpeechRecognition' in window) {
+        var recognition = new webkitSpeechRecognition();
+        recognition.lang = 'ja-JP';
+        recognition.start();
+        recognition.onstart = function(){
+            $('html').addClass('speechRec-enabled');
+            recognition.abort();
+        }
+        recognition.onerror = function(){
+            $('html').addClass('speechRec-disabled');
+        }
+    }
+    else{
+        $('html').addClass('speechRec-disabled');
+    }
 });

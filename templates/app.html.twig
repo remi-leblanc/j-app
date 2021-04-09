@@ -31,12 +31,23 @@
 	</div>
 </div>
 <div id="answers">
+	{% if method != 'speak' %}
 	<div data-input-type="romaji" class="answers-row">
 		<input type="text" autocapitalize="none" placeholder="rōmaji">
 	</div>
 	<div data-input-type="trad" class="answers-row">
 		<input type="text" autocapitalize="none" placeholder="traduction">
 	</div>
+	{% else %}
+	<div data-input-type="romaji" class="answers-row">
+		<div class="dots-loader">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<input type="text" autocapitalize="none" disabled placeholder="prononcez le mot">
+	</div>
+	{% endif %}
 </div>
 
 

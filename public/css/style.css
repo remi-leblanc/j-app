@@ -116,6 +116,32 @@ p{
         transform: rotate(360deg);
     }
 }
+.dots-loader{
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+}
+.dots-loader span{
+    height: 8px;
+    width: 8px;
+    border-radius: 100%;
+    background: #fff;
+    transform: translateY(-30%);
+    animation: dots-loader 1s ease-in-out infinite;
+}
+.dots-loader span:nth-child(2){animation-delay: 0.25s}
+.dots-loader span:nth-child(3){animation-delay: 0.5s}
+@keyframes dots-loader{
+    0%{
+        transform: translateY(-30%);
+    }
+    50%{
+        transform: translateY(30%);
+    }
+    100%{
+        transform: translateY(-30%);
+    }
+}
 
 .form-ajax button:not(.fas)::before{
     content: "";
@@ -675,12 +701,15 @@ textarea:focus{
     width: 100%;
 }
 .select-cat-option span:first-of-type{
-    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 5px;
 }
-.select-cat-option span i{
-    margin-right: 7px;
+.select-cat-option span:last-of-type{
+    font-size: 12px;
 }
 
 #select-count{
@@ -907,14 +936,6 @@ textarea:focus{
     margin-bottom: 10px;
     font-size: inherit;
 }
-.answers-row span{
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    white-space: nowrap;
-    padding-right: 20px;
-}
 .answers-row input{
     width: 100%;
     border: none;
@@ -932,6 +953,15 @@ textarea:focus{
 }
 .answers-row input:focus{
     outline: none;
+}
+.answers-row .dots-loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+html:not(.speaking) .answers-row .dots-loader{
+    display: none;
 }
 
 #infos{
@@ -1194,23 +1224,38 @@ textarea:focus{
 }
 .analyse-item .frame-header{
     margin-bottom: 0;
+    justify-content: space-between;
 }
 .analyse-item-content{
+    display: flex;
+    flex-direction: column;
     margin-top: 7px;
 }
 .analyse-item.hidden .analyse-item-content{
     display: none;
 }
 
-html:not(.tts-loaded) .tts-wait{
-    display: none !important;
-}
+html:not(.tts-loaded) .tts-wait,
 .tts-disabled .tts-only{
     display: none !important;
 }
+.tts-disabled.speechRec-disabled #error-tts,
+.tts-enabled.speechRec-disabled #error-tts,
+.tts-disabled.speechRec-enabled #error-tts{
+    display: block;
+}
+.tts-disabled .select-cat[data-select-cat=method] .select-cat-option[data-select-option=listen],
+.speechRec-disabled .select-cat[data-select-cat=method] .select-cat-option[data-select-option=speak]{
+    pointer-events: none;
+    opacity: 0.35;
+}
+
 
 @media (max-width: 750px){
     .admin-dashboard-content{
+        flex-direction: column;
+    }
+    .select-cat[data-select-cat=method] .frame-content .row{
         flex-direction: column;
     }
 }

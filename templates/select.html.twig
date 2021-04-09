@@ -28,9 +28,9 @@
 	</div>
 </div>
 <div id="error-tts" class="frame frame-important frame-error">
-	Vous ne semblez pas avoir les installations nécessaires pour profiter des <b>fonctionnalités vocales</b> du site.
-	<br>
-	Pas d'inquiétude, c'est très facile : <span class="clickable modal-btn" data-modal="help-tts"><b>Guide d'installation</b></span>.
+	Pour pouvoir profiter de toutes les <b>fonctionnalités vocales</b> du site vous devez utiliser <b>Google Chrome</b>.
+	<br/>
+	Téléchargez-le ici : <a href="https://www.google.com/intl/fr_fr/chrome/" target="_blank">https://www.google.com/intl/fr_fr/chrome/</a>.
 </div>
 
 <div class="select-cat select-cat-single frame-group tts-only" data-select-cat="method">
@@ -44,6 +44,10 @@
 			<div class="select-cat-option frame frame-light clickable" data-select-option="listen">
 				<span><i class="fas fa-headphones-alt"></i>Compréhension orale</span>
 				<span>Écoutez attentivement les mots dictés et traduisez-les.</span>
+			</div>
+			<div class="select-cat-option frame frame-light clickable" data-select-option="speak">
+				<span><i class="fas fa-microphone-alt"></i>Expression orale</span>
+				<span>Améliorez votre prononciation des mots grâce à la reconnaissance vocale.</span>
 			</div>
 		</div>
 	</div>
@@ -179,58 +183,20 @@
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
 		<h3>Explications des modes de jeu</h3>
-		<p><b>Normal : </b>Les mots sont affichés sous la forme (Kanji ou Hiragana) la plus courante de nos jours. Ce mode est conseillée à ceux qui veulent se concentrer sur le vocabulaire plutôt que la mémorisation des Kanjis</p>
-		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). Ce mode s'adresse à ceux qui veulent apprendre le plus de Kanji possible.</p>
+		<p><b>Normal : </b>Les mots sont affichés sous la forme (Kanji ou Hiragana) la plus courante de nos jours. Ce mode est conseillée à ceux qui veulent <b>se concentrer sur le vocabulaire</b> plutôt que la mémorisation des Kanjis.</p>
+		<p><b>Difficile : </b>Les mots sont toujours affichés sous leur forme en Kanji (quand elle existe). Ce mode s'adresse à ceux qui veulent <b>apprendre le plus de Kanji possible</b>.</p>
 		<p><b>Nombres : </b>Mode spécial qui propose de traduire des <b>nombres plutôt que des mots</b>. Ce mode est très pratique pour gagner en fluidité dans l'écriture et la compréhension des nombres. Particulièrement efficace avec la méthode <b>Compréhension Orale</b>.</p>
 	</div>
 </div>
 
+{#
 <div class="modal" data-modal="help-tts" style="opacity: 0;">
 	<div class="modal-content">
 		<span class="modal-close far fa-times-circle"></span>
-		<h2>Guide d'installation des fonctionnalités vocales</h2>
-
-		<h3>Ordinateurs</h3>		
-		<p>Attention ! Ces fonctionnalités <b>ne fonctionneront pas</b> si vous utilisez <b>Internet Explorer</b> comme navigateur.</p>
-		
-		<h4>Installation simple</h4>
-		<p>La solution <b>la plus simple</b> pour profiter des fonctionnalités vocales de J-App est d'utiliser <b>Google Chrome</b>. Téléchargez Chrome ici : <a href="https://www.google.com/intl/fr_fr/chrome/" target="_blank">https://www.google.com/intl/fr_fr/chrome/</a>.</p>
-
-		<h4>Pour Windows</h4>
-		<p>Rendez-vous dans les <b>Paramètres > Heure et langue > Voix</b>.
-		<br>
-		Descendez jusqu'à la section <b>Gérer les voix</b> et cliquez sur <b>Ajouter des voix</b>.
-		<br>
-		Sélectionnez <b>Japonais</b> et cliquez sur <b>Ajouter</b>.
-		<br>
-		Attendez la fin de l'installation puis relancer votre navigateur.</p>
-
-		<h4>Pour MacOS</h4>
-		<p>Choisissez le menu <b>Pomme > Préférences Système > Accessibilité > Contenu énoncé</b>.
-		<br>
-		Cliquez sur <b>Voix système</b> puis choisissez <b>Personnaliser</b>.
-		<br>
-		Sélectionnez <b>Japonais</b> et cliquez sur <b>OK</b>.
-		<br>
-		Attendez la fin de l'installation puis relancer votre navigateur.</p>
-		<br>
-		<h3>Smartphone</h3>
-		<h4>Pour Android</h4>
-		<p>L'installation est plus compliquée sur smartphone car chaque téléphone possède des particularités, les étapes suivantes peuvent donc varier.</p>
-		<p>Allez dans les <b>Paramètres > Accessibilité > Synyhèse vocale</b>.
-		<br>
-		Dans <b>Moteur préféré</b> (choissisez Google en priorité), allez dans les paramètres du moteur séléctionné.
-		<br>
-		Cliquez sur <b>Langue</b> et séléctionnez <b>japonais</b>.
-		<br>
-		Retournez dans les <b>Paramètres</b> de votre téléphone, allez dans <b>Applications</b>, trouvez votre navigateur puis cliquez sur <b>Forcer l'arrêt</b>.
-		<br>
-		Vous pouvez relancer votre navigateur et retourner sur J-App.</p>
-
-		<h4>Pour iOS</h4>
-		<p>A venir</p>
+		{{ include('speech-install.html.twig') }}
 	</div>
 </div>
+#}
 
 {% endblock %}
 

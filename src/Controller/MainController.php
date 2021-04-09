@@ -115,7 +115,7 @@ class MainController extends AbstractController
         }
         else{
             $method = $selectionFormData['method'];
-            if(!in_array($method, ['write', 'listen'])){
+            if(!in_array($method, ['write', 'listen', 'speak'])){
                 return $this->redirectToRoute('selection');
             }
             $mode = $selectionFormData['mode'];

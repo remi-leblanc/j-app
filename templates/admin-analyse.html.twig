@@ -6,7 +6,7 @@
     <div class="analyse-item hidden">
         <div class="frame frame-header frame-heavy clickable {{ not word.is_found ? 'frame-important' : (word.may_be_wrong ? 'frame-warning') }}">
             <div class="row">
-                <span>{{ word.kanji }}</span>
+                <span>{{ word.kanji }} - {{ word.trad }}</span>
                 {% if word.is_found %}
                     {% if word.usually_kana %}
                         <span class="frame frame-small frame-light">Usually kana</span>
@@ -24,8 +24,9 @@
         </div>
         <div class="frame frame-light analyse-item-content">
             {% if word.is_found %}
-                JMdict entry : {{ word.jmdict_entry }}
+                <span>JMdict entry : {{ word.jmdict_entry }}</span>
             {% endif %}
+            <span>{{ word.kanji }} - {{ word.trad }}</span>
         </div>
     </div>
 {% endfor %}
