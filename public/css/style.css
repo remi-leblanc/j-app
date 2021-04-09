@@ -954,15 +954,7 @@ textarea:focus{
 .answers-row input:focus{
     outline: none;
 }
-.answers-row .dots-loader{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-html:not(.speaking) .answers-row .dots-loader{
-    display: none;
-}
+
 
 #infos{
     position: absolute;
@@ -1002,6 +994,34 @@ html:not(.speaking) .answers-row .dots-loader{
     color: #e64e4e;
     margin-left: auto;
     padding: 0 5px;
+}
+#next-btn{
+    display: flex;
+    justify-content: center;
+}
+#next-btn > .frame{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    min-width: 60px;
+}
+#next-btn-mic{
+    margin-right: 0;
+    font-size: 25px;
+}
+#next-btn-label{
+    font-size: 18px;
+}
+html:not(.speaking) #next-btn .dots-loader{
+    display: none;
+}
+html.speaking #next-btn-mic,
+html.wordComplete #next-btn-mic{
+    display: none;
+}
+html:not(.wordComplete) #next-btn-label{
+    display: none;
 }
 
 

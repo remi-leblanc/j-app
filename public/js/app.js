@@ -17,26 +17,18 @@ $(document).ready(function(){
 
     var oldFontSize = parseFloat(cardContent.css('font-size'));
 
-    var oldSpeakPlaceholder = inputRomaji.attr('placeholder');
-
     if(method == 'speak'){
         var recognition = new webkitSpeechRecognition();
-        recognition.continuous = true;
+        recognition.continuous = false;
         recognition.lang = 'ja-JP';
-        recognition.maxAlternatives = 3;
-        recognition.start();
-        recognition.onspeechstart = function(){
+        recognition.maxAlternatives = 4;
+        recognition.onstart = function(){
             if(!isWordComplete){
                 $('html').addClass('speaking');
-                inputRomaji.attr('placeholder', '');
             }
         }
-        recognition.onspeechend = function(){
-            $('html').removeClass('speaking');
-            inputRomaji.attr('placeholder', oldSpeakPlaceholder);
-        }
         recognition.onend = function(){
-            recognition.start();
+            $('html').removeClass('speaking');
         }
     }
 
@@ -80,6 +72,7 @@ $(document).ready(function(){
         result.removeClass('active');
         card.removeClass('word-complete');
         isWordComplete = false;
+        $('html').removeClass('wordComplete');
         if(method == 'speak'){
             recognition.abort();
         }
@@ -207,22 +200,33 @@ $(document).ready(function(){
         $(document).keydown(function(event){
             var keycode = (event.keyCode ? event.keyCode : event.key);
             if(keycode == '13'){
-                if(isWordComplete){
-                    if(completedCount != db.length){
-                        draw();
-                    }
-                    else{
-                        finalResults();
-                    }
-                }
+                nextWord();
             }
         });
+        $('#next-btn').click(function(){
+            nextWord();
+        });
+    }
+
+    function nextWord(){
+        if(isWordComplete){
+            if(completedCount != db.length){
+                draw();
+            }
+            else{
+                finalResults();
+            }
+        }
+        else{
+            recognition.start();
+        }
     }
     
     function completedWord(){
         result.addClass('active');
         card.addClass('word-complete');
         isWordComplete = true;
+        $('html').addClass('wordComplete');
         if(method != 'listen' && autoTts){
             playTts();
         }

@@ -40,14 +40,20 @@
 	</div>
 	{% else %}
 	<div data-input-type="romaji" class="answers-row">
+		<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
+	</div>
+	{% endif %}
+</div>
+<div id="next-btn">
+	<div class="frame frame-light clickable">
+		<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
 		<div class="dots-loader">
 			<span></span>
 			<span></span>
 			<span></span>
 		</div>
-		<input type="text" autocapitalize="none" disabled placeholder="prononcez le mot">
+		<span id="next-btn-label">suivant</span>
 	</div>
-	{% endif %}
 </div>
 
 

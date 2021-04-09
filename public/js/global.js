@@ -211,24 +211,5 @@ $(document).ready(function(){
         $('html').addClass('tts-disabled');
     }
 
-    /* 
-    * INITIALISATION SPEECH REC
-    */
-    if ('webkitSpeechRecognition' in window) {
-        var recognition = new webkitSpeechRecognition();
-        recognition.lang = 'ja-JP';
-        recognition.start();
-        recognition.onstart = function(){
-            $('html').addClass('speechRec-enabled');
-            recognition.abort();
-        }
-        recognition.onerror = function(event){
-            if(event.error != 'aborted'){
-                $('html').addClass('speechRec-disabled');
-            }
-        }
-    }
-    else{
-        $('html').addClass('speechRec-disabled');
-    }
+    
 });
