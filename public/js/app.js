@@ -19,16 +19,19 @@ $(document).ready(function(){
 
     if(method == 'speak'){
         var recognition = new webkitSpeechRecognition();
+        var speaking = false;
         recognition.continuous = true;
         recognition.lang = 'ja-JP';
         recognition.maxAlternatives = 5;
         recognition.onstart = function(){
             if(!isWordComplete){
                 $('html').addClass('speaking');
+                speaking = true;
             }
         }
         recognition.onend = function(){
             $('html').removeClass('speaking');
+            speaking = false;
         }
         recognition.onresult = function(event) {
             if(!isWordComplete){
@@ -52,7 +55,7 @@ $(document).ready(function(){
             if(isWordComplete){
                 nextWord();
             }
-            else{
+            else if(!speaking){
                 recognition.start();
             }
         });
@@ -194,7 +197,7 @@ $(document).ready(function(){
                 if(isWordComplete){
                     nextWord();
                 }
-                else{
+                else if(!speaking){
                     recognition.start();
                 }
             }

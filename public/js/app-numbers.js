@@ -14,16 +14,19 @@ $(document).ready(function(){
 
     if(method == 'speak'){
         var recognition = new webkitSpeechRecognition();
+        var speaking = false;
         recognition.continuous = true;
         recognition.lang = 'ja-JP';
         recognition.maxAlternatives = 5;
         recognition.onstart = function(){
             if(!isWordComplete){
                 $('html').addClass('speaking');
+                speaking = true;
             }
         }
         recognition.onend = function(){
             $('html').removeClass('speaking');
+            speaking = false;
         }
         recognition.onresult = function(event) {
             if(!isWordComplete){
@@ -42,7 +45,7 @@ $(document).ready(function(){
             if(isWordComplete){
                 draw();
             }
-            else{
+            else if(!speaking){
                 recognition.start();
             }
         });
@@ -58,7 +61,9 @@ $(document).ready(function(){
             }
             else{
                 if(method == 'speak'){
-                    recognition.start();
+                    if(!speaking){
+                        recognition.start();
+                    }
                 }
                 else if(input.val() != ""){
                     var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
@@ -71,6 +76,7 @@ $(document).ready(function(){
     function completeWord(inputVal){
         card.addClass('word-complete');
         result.addClass('active');
+        $('html').addClass('wordComplete');
         isWordComplete = true;
         statsCompleted++;
         if(
