@@ -29,7 +29,6 @@ $(document).ready(function(){
             if(!isWordComplete){
                 recognition.abort();
                 speakResults = Object.values(event.results[0]).map(result => result.transcript);
-                console.log(speakResults);
                 var inputVal = speakResults.find(result => result == kanji || result == currentDraw );
                 completeWord(inputVal);
                 if(inputVal !== undefined){
