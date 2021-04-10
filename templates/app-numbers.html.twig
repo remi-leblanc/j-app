@@ -33,9 +33,27 @@
 </div>
 <div id="answers">
 	<div class="answers-row">
+		{% if method != 'speak' %}
 		<input type="text" autocapitalize="none" placeholder="nombre">
+		{% else %}
+		<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
+		{% endif %}
 	</div>
 </div>
+{% if method == 'speak' %}
+<div id="next-btn">
+	<div class="frame frame-light clickable">
+		<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
+		<div class="dots-loader">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<span id="next-btn-label">suivant</span>
+	</div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block ui %}

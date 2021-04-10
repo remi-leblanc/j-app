@@ -11,8 +11,44 @@ $(document).ready(function(){
     var statsCompleted = 0;
     var autoTts = true;
     var romaji = "";
-    
 
+    if(method == 'speak'){
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = 'ja-JP';
+        recognition.maxAlternatives = 5;
+        recognition.onstart = function(){
+            if(!isWordComplete){
+                $('html').addClass('speaking');
+            }
+        }
+        recognition.onend = function(){
+            $('html').removeClass('speaking');
+        }
+        recognition.onresult = function(event) {
+            if(!isWordComplete){
+                recognition.abort();
+                speakResults = Object.values(event.results[0]).map(result => result.transcript);
+                console.log(speakResults);
+                var inputVal = speakResults.find(result => result == kanji || result == currentDraw );
+                completeWord(inputVal);
+                if(inputVal !== undefined){
+                    input.val(inputVal);
+                } else{
+                    input.val(speakResults[0]);
+                }
+            }
+        }
+        $('#next-btn > .clickable').click(function(){
+            if(isWordComplete){
+                draw();
+            }
+            else{
+                recognition.start();
+            }
+        });
+    }
+    
     draw();
 
     $(document).keydown(function(event){
@@ -21,34 +57,44 @@ $(document).ready(function(){
             if(isWordComplete){
                 draw();
             }
-            if(input.val() != ""){
-                card.addClass('word-complete');
-                result.addClass('active');
-                var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-                if(
-                    (method == 'write' && inputVal == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""))
-                    || (method == 'listen' && inputVal == currentDraw)
-                ){
-                    statsValid++;
-                    $('#stats-valid').text(statsValid);
-                    input.addClass('correct');
-                    result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('correct');
+            else{
+                if(method == 'speak'){
+                    recognition.start();
                 }
-                else{
-                    statsError++;
-                    $('#stats-error').text(statsError);
-                    input.addClass('error');
-                    result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('error');
-                }
-                statsCompleted++;
-                $('#stats-percent').text(Math.round((statsValid * 100) / statsCompleted).toString() + '%');
-                isWordComplete = true;
-                if(method == 'write' && autoTts){
-                    playTts();
+                else if(input.val() != ""){
+                    var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+                    completeWord(inputVal);
                 }
             }
         }
     });
+
+    function completeWord(inputVal){
+        card.addClass('word-complete');
+        result.addClass('active');
+        isWordComplete = true;
+        statsCompleted++;
+        if(
+            (method == 'write' && inputVal == romaji.toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, ""))
+            || (method == 'listen' && inputVal == currentDraw)
+            || (method == 'speak' && inputVal !== undefined)
+        ){
+            statsValid++;
+            $('#stats-valid').text(statsValid);
+            input.addClass('correct');
+            result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('correct');
+        }
+        else{
+            statsError++;
+            $('#stats-error').text(statsError);
+            input.addClass('error');
+            result.find('span[data-result-type=romaji], span[data-result-type=kanji]').addClass('error');
+        }
+        $('#stats-percent').text(Math.round((statsValid * 100) / statsCompleted).toString() + '%');
+        if(method != 'listen' && autoTts){
+            playTts();
+        }
+    }
 
     cardContent.on('mousedown', function (e) {
         e.preventDefault();
@@ -98,6 +144,10 @@ $(document).ready(function(){
         result.removeClass('active');
         isWordComplete = false;
         card.removeClass('word-complete');
+        $('html').removeClass('wordComplete');
+        if(method == 'speak'){
+            recognition.abort();
+        }
     }
     
     function randGen(){
