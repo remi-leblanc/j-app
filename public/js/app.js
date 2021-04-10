@@ -19,9 +19,9 @@ $(document).ready(function(){
 
     if(method == 'speak'){
         var recognition = new webkitSpeechRecognition();
-        recognition.continuous = false;
+        recognition.continuous = true;
         recognition.lang = 'ja-JP';
-        recognition.maxAlternatives = 4;
+        recognition.maxAlternatives = 5;
         recognition.onstart = function(){
             if(!isWordComplete){
                 $('html').addClass('speaking');
