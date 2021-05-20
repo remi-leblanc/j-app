@@ -1270,6 +1270,17 @@ html:not(.tts-loaded) .tts-wait,
     opacity: 0.35;
 }
 
+#page-error h1{
+    font-size: 8vw;
+    line-height: 100%;
+}
+#page-error .section-container{
+    align-items: center;
+}
+#page-error .section-container > *:not(:last-child){
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 @media (max-width: 750px){
     .admin-dashboard-content{
@@ -1277,6 +1288,10 @@ html:not(.tts-loaded) .tts-wait,
     }
     .select-cat[data-select-cat=method] .frame-content .row{
         flex-direction: column;
+    }
+    #page-error h1{
+        font-size: 20vw;
+        line-height: 100%;
     }
 }
 @media (max-width: 425px){

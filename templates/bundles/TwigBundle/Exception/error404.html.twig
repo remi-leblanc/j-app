@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}error{% endblock %}
+
+{% block body %}
+    <h1>404</h1>
+	<h2>Vous êtes perdus</h2>
+    <span>En japonais, "Je suis perdu" se dit : 迷っています (mayotteimasu).</span>
+    <a href="{{ path('selection') }}" class="frame frame-heavy clickable">Retour à l'accueil</a>
+{% endblock %}

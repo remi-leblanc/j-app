@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}error{% endblock %}
+
+{% block body %}
+    <h1>Erreur</h1>
+	<h2>Réessayez plus tard</h2>
+    <span>En japonais, "Le site est cassé" se dit : サイトが壊れている (saito ga kowarete iru).</span>
+    <a href="{{ path('selection') }}" class="frame frame-heavy clickable">Retour à l'accueil</a>
+{% endblock %}
