@@ -800,7 +800,7 @@ textarea:focus{
     display: flex;
     flex-direction: column;
     padding: 0 10px;
-    width: 100%;
+    width: 50%;
 }
 .admin-dashboard-col .frame-content .row{
     display: flex;
@@ -1285,6 +1285,9 @@ html:not(.tts-loaded) .tts-wait,
 @media (max-width: 750px){
     .admin-dashboard-content{
         flex-direction: column;
+    }
+    .admin-dashboard-col{
+        width: 100%;
     }
     .select-cat[data-select-cat=method] .frame-content .row{
         flex-direction: column;

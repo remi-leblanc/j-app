@@ -101,7 +101,7 @@ $(document).ready(function(){
         result.removeClass('active');
         card.removeClass('word-complete');
         isWordComplete = false;
-        $('html').removeClass('wordComplete');
+        $('html').removeClass('wordComplete wordError wordValid');
         if(method == 'speak'){
             recognition.abort();
         }
@@ -173,6 +173,7 @@ $(document).ready(function(){
                         if((dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal))){
                             answerIsCorrect();
                         }else{
+                            $('html').addClass('wordError');
                             statsError++;
                         }
                         if(!dbRomajiVal.includes(inputRomajiVal)){
@@ -242,6 +243,8 @@ $(document).ready(function(){
 
         db[currentDraw]["score"]["valid"] = true;
         db[currentDraw]["score"]["time"] = completeTime;
+
+        $('html').addClass('wordValid');
     }
 
     function adaptFont(){
