@@ -187,7 +187,7 @@ $(document).ready(function(){
         if(voices == 0){
             return false;
         }
-        voices.forEach(function(voice, i){
+        for(let voice of voices){
             if(voice.lang == 'ja-JP' || voice.lang == 'ja_JP'){
                 if(!tts){
                     window.tts = new SpeechSynthesisUtterance('');
@@ -198,8 +198,9 @@ $(document).ready(function(){
                 }
                 window.tts.voice = selectedVoice;
                 $('html').addClass('tts-enabled');
+                break;
             }
-        });
+        };
         if(!selectedVoice || !voices.length){
             setTtsError();
         }
