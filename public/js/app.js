@@ -51,14 +51,6 @@ $(document).ready(function(){
                 }
             }
         }
-        $('#next-btn > .clickable').click(function(){
-            if(isWordComplete){
-                nextWord();
-            }
-            else if(!speaking){
-                recognition.start();
-            }
-        });
     }
 
     function rand(){
@@ -105,6 +97,7 @@ $(document).ready(function(){
         if(method == 'speak'){
             recognition.abort();
         }
+        $('#next-btn-label').text('valider');
         
         rand();
         
@@ -157,51 +150,7 @@ $(document).ready(function(){
     $(document).keydown(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.key);
         if(keycode == '13'){
-            if(method != 'speak'){
-                var inputRomajiVal = inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-                var inputTradVal = inputTrad.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-                if(inputRomajiVal != ""){
-                    inputTrad.focus();
-                }
-                if(isWordComplete){
-                    nextWord();
-                }
-                else{
-                    if(inputRomajiVal != "" && inputTradVal != ""){
-                        completeWord();
-                        writeResults();
-                        if((dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal))){
-                            answerIsCorrect();
-                        }else{
-                            $('html').addClass('wordError');
-                            statsError++;
-                        }
-                        if(!dbRomajiVal.includes(inputRomajiVal)){
-                            inputRomaji.addClass('error');
-                            result.find('span[data-result-type=romaji]').addClass('error');
-                        }else{
-                            inputRomaji.addClass('correct');
-                            result.find('span[data-result-type=romaji]').addClass('correct');
-                        }
-                        if(!dbTradVal.includes(inputTradVal)){
-                            inputTrad.addClass('error');
-                            result.find('span[data-result-type=trad]').addClass('error');
-                        }else{
-                            inputTrad.addClass('correct');
-                            result.find('span[data-result-type=trad]').addClass('correct');
-                        }
-    
-                    }
-                }
-            }
-            else{
-                if(isWordComplete){
-                    nextWord();
-                }
-                else if(!speaking){
-                    recognition.start();
-                }
-            }
+            checkAnswer();
         }
         if(keycode == '8'){
             if(inputTrad.is(':focus') && inputTrad.val() == '' && method != 'speak'){
@@ -210,6 +159,58 @@ $(document).ready(function(){
             }
         }
     });
+
+    $('#next-btn > .clickable').click(function(){
+        checkAnswer();
+    });
+
+    function checkAnswer(){
+        if(method != 'speak'){
+            var inputRomajiVal = inputRomaji.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+            var inputTradVal = inputTrad.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+            if(inputRomajiVal != ""){
+                inputTrad.focus();
+            }
+            if(isWordComplete){
+                nextWord();
+            }
+            else{
+                if(inputRomajiVal != "" && inputTradVal != ""){
+                    completeWord();
+                    writeResults();
+                    if((dbRomajiVal.includes(inputRomajiVal) && dbTradVal.includes(inputTradVal))){
+                        answerIsCorrect();
+                    }else{
+                        $('html').addClass('wordError');
+                        statsError++;
+                    }
+                    if(!dbRomajiVal.includes(inputRomajiVal)){
+                        inputRomaji.addClass('error');
+                        result.find('span[data-result-type=romaji]').addClass('error');
+                    }else{
+                        inputRomaji.addClass('correct');
+                        result.find('span[data-result-type=romaji]').addClass('correct');
+                    }
+                    if(!dbTradVal.includes(inputTradVal)){
+                        inputTrad.addClass('error');
+                        result.find('span[data-result-type=trad]').addClass('error');
+                    }else{
+                        inputTrad.addClass('correct');
+                        result.find('span[data-result-type=trad]').addClass('correct');
+                    }
+
+                }
+            }
+        }
+        else{
+            if(isWordComplete){
+                nextWord();
+            }
+            else if(!speaking){
+                recognition.start();
+            }
+        }
+    }
 
     function writeResults(){
         result.find('span[data-result-type=romaji]').text(db[currentDraw]["romaji"].join(', '));
@@ -233,6 +234,7 @@ $(document).ready(function(){
         if(method != 'listen' && autoTts){
             playTts();
         }
+        $('#next-btn-label').text('suivant');
     }
     function answerIsCorrect(){
         completedCount++;

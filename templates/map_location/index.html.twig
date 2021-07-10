@@ -1,0 +1,37 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Location index{% endblock %}
+
+{% block body %}
+    <div class="admin-index-tools">
+        <a class="admin-index-tools-back" href="{{ path('admin_dashboard') }}">
+            <i class="fas fa-chevron-left"></i>
+            Dashboard
+        </a>
+        <a class="admin-index-tools-add" href="{{ path('location_new') }}">Ajouter
+            <i class="fas fa-plus-circle"></i>
+        </a>
+    </div>
+    <div class="table">
+        <div class="thead">
+            <div class="tr frame frame-heavy"> 
+                <div class="th">Nom JP</div>
+                <div class="th">Nom FR</div>
+                <div class="th">Type</div>
+                <div class="th">Latitude</div>
+                <div class="th">Longitude</div>
+            </div>
+        </div>
+        <div class="tbody">
+        {% for loc in locs %}
+        <a class="tr clickable frame frame-light" href="{{ path('location_edit', {'id': loc.id}) }}">
+            <div class="td">{{ loc.nameJp }}</div>
+            <div class="td">{{ loc.nameFr }}</div>
+            <div class="td">{{ loc.type }}</div>
+            <div class="td">{{ loc.longitude }}</div>
+            <div class="td">{{ loc.latitude }}</div>
+        </a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

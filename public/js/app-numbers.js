@@ -41,14 +41,6 @@ $(document).ready(function(){
                 }
             }
         }
-        $('#next-btn > .clickable').click(function(){
-            if(isWordComplete){
-                draw();
-            }
-            else if(!speaking){
-                recognition.start();
-            }
-        });
     }
     
     draw();
@@ -56,22 +48,30 @@ $(document).ready(function(){
     $(document).keydown(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.key);
         if(keycode == '13'){
-            if(isWordComplete){
-                draw();
-            }
-            else{
-                if(method == 'speak'){
-                    if(!speaking){
-                        recognition.start();
-                    }
-                }
-                else if(input.val() != ""){
-                    var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
-                    completeWord(inputVal);
-                }
-            }
+            checkAnswer();
         }
     });
+
+    $('#next-btn > .clickable').click(function(){
+        checkAnswer();
+    });
+
+    function checkAnswer(){
+        if(isWordComplete){
+            draw();
+        }
+        else{
+            if(method == 'speak'){
+                if(!speaking){
+                    recognition.start();
+                }
+            }
+            else if(input.val() != ""){
+                var inputVal = input.val().toLowerCase().normalize("NFD").replace(/\s|[\u0300-\u036f]|'|-/g, "");
+                completeWord(inputVal);
+            }
+        }
+    }
 
     function completeWord(inputVal){
         card.addClass('word-complete');
@@ -99,6 +99,7 @@ $(document).ready(function(){
         if(method != 'listen' && autoTts){
             playTts();
         }
+        $('#next-btn-label').text('suivant');
     }
 
     cardContent.on('mousedown', function (e) {
@@ -153,6 +154,7 @@ $(document).ready(function(){
         if(method == 'speak'){
             recognition.abort();
         }
+        $('#next-btn-label').text('valider');
     }
     
     function randGen(){

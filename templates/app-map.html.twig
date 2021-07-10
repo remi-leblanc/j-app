@@ -1,0 +1,103 @@
+{% extends "base.html.twig" %}
+
+{% block page_id %}app{% endblock %}
+{% block head %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+	integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+	crossorigin=""/>
+	<link href="{{ asset('css/app-map.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div id="infos" class="tts-wait">
+	<div class="row">
+		<a id="home-btn" class="frame frame-light clickable modal-btn fas fa-home" href="{{ path('selection') }}"></a>
+		<span id="help-btn" class="frame frame-light clickable modal-btn fas fa-question-circle" data-modal="help"></span>
+	</div>
+</div>
+
+<div id="stats">
+	<span id="stats-correct" class="correct">0</span>&nbsp;&nbsp;<span id="stats-error" class="error">0</span>
+</div>
+
+<div id="card" class="frame-light">
+	<span id="card-type" class="frame frame-light frame-small"></span>
+	<div id="card-content"></div>
+	<div id="card-subcontent"></div>
+</div>
+
+<div id="map" class="frame frame-light">
+	<div id="map-leaflet" class="frame-light"></div>
+</div>
+
+
+<div id="next-btn">
+	<div class="frame frame-light clickable">
+		<span id="next-btn-label">valider</span>
+	</div>
+</div>
+
+
+{% endblock %}
+
+{% block ui %}
+
+<div class="modal" data-modal="finalres" style="opacity: 0;">
+	<div class="modal-content">
+		<h2>Résultats</h2>
+		<div class="row">
+			<span class="finalres-stats frame frame-light" id="stats-error"></span>
+			<span class="finalres-stats frame frame-light" id="stats-time"></span>
+		</div>
+		<div class="row">
+			<span id="restart-btn" class="frame frame-small frame-light clickable">
+				<i class="fas fa-sync-alt"></i>
+				Recommencer
+			</span>
+		</div>
+	</div>
+</div>
+
+<div class="modal" data-modal="help" style="opacity: 0;">
+	<div class="modal-content">
+		<span class="modal-close far fa-times-circle"></span>
+		<h2>Guide d'utilisation</h2>
+		<h3>Fonctionnement du mode Map</h3>
+		<p>Dans ce mode de jeu, vous devez deviner où se trouve sur la carte le lieu indiqué.</p>
+		<p><b>Pour les régions/préfectures</b>: la carte se divise en 8 régions, cliquez dessus pour les sélectionner.</p>
+		<p><b>Pour les villes</b>: en cliquant sur la carte vous placez un marqueur. Vous devez deviner l'emplacement de la ville à 30km près.</p>
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+	var db = [
+		{% for loc in locs %}
+		{
+			"id": "{{ loc.id }}",
+			"nameJp": "{{ loc.nameJp }}",
+			"nameFr": "{{ loc.nameFr }}",
+			"type": "{{ loc.type }}",
+			"lat": "{{ loc.latitude }}",
+			"long": "{{ loc.longitude }}",
+		},
+		{% endfor %}
+	];
+
+	var locTypes = {
+		{% for id,name in locTypes %}
+			{{ id }}: "{{ name }}",
+		{% endfor %}
+	};
+
+</script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+<script src="{{ asset('jp_maps/js/jp_prefs.js') }}"></script>
+<script src="{{ asset('jp_maps/js/jp_regs.js') }}"></script>
+<script src="{{ asset('js/app-map.js') }}"></script>
+{% endblock %}

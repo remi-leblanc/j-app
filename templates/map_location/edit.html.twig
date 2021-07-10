@@ -1,0 +1,33 @@
+{% extends 'adminBase.html.twig' %}
+
+{% block title %}Edit Location{% endblock %}
+
+{% block body %}
+
+    <div id="error-word-exist" class="frame frame-important frame-error">Ce mot existe déjà. <a href="">Editer</a></div>
+
+    {{ include('map_location/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    {{ include('map_location/_delete_form.html.twig') }}
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+    var currentWordId = "{{ loc.id }}";
+
+    var words = [
+        {% for loc in locs %}
+            {
+                "id": "{{ loc.id }}",
+                "uniqueField": "{{ loc.nameJp }}",
+                "editUrl": "{{ path('location_edit', {id: loc.id }) }}"
+            },
+        {% endfor %}
+    ];
+
+</script>
+{{ parent() }}
+{% endblock %}

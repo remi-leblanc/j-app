@@ -8,7 +8,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -17,7 +16,6 @@ use App\Entity\Type;
 use App\Entity\VerbeGroupe;
 
 use App\Entity\Theme;
-use App\Repository\ThemeRepository;
 
 class WordType extends AbstractType
 {
@@ -34,7 +32,8 @@ class WordType extends AbstractType
         $builder
             ->add('kanji', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Kanji'
+                    'placeholder' => 'Kanji',
+                    'class' => 'unique-field'
                 ]
             ])
             ->add('kana', TextType::class, [

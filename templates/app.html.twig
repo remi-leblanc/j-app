@@ -1,6 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block page_id %}app{% endblock %}
+{% block page_class %}{{ (method is defined) ? "method-" ~ method : '' }}{% endblock %}
 
 {% block body %}
 
@@ -20,7 +21,7 @@
 	<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
 </div>
 
-<div id="card" class="frame-light {{ (method is defined) ? "method-" ~ method : '' }}">
+<div id="card" class="frame-light">
 	<div id="card-content">
 		<i class="fas fa-volume-up"></i>
 		<span></span>
@@ -44,19 +45,21 @@
 	</div>
 	{% endif %}
 </div>
-{% if method == 'speak' %}
+
 <div id="next-btn">
 	<div class="frame frame-light clickable">
-		<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
-		<div class="dots-loader">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-		<span id="next-btn-label">suivant</span>
+		{% if method == 'speak' %}
+			<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
+			<div class="dots-loader">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+		{% endif %}
+		<span id="next-btn-label">valider</span>
 	</div>
 </div>
-{% endif %}
+
 
 
 {% endblock %}

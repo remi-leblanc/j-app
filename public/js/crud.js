@@ -1,18 +1,20 @@
 $(document).ready(function(){
 
-    wordExistErrorDisplay($('form[name=word] input#word_kanji'));
+    uniqueFieldErrorDisplay($('form input.unique-field'));
 
-    $('form[name=word] input#word_kanji').keyup(function(){
-        wordExistErrorDisplay($(this));
+    $('form input.unique-field').keyup(function(){
+        uniqueFieldErrorDisplay($(this));
     });
 
-    function wordExistErrorDisplay(input){
+    function uniqueFieldErrorDisplay(input){
         if(typeof words !== 'undefined' && input.length){
-            if( matchedWord = words.find(word => word.kanji === input.val()) ){
-                if(matchedWord.id != currentWordId){
-                    $('#error-word-exist').addClass('active');
-                    $('#error-word-exist a').attr('href', matchedWord.edit_url);
+            if( matchedWord = words.find(word => word.uniqueField === input.val()) ){
+                if(typeof currentWordId !== 'undefined' && matchedWord.id === currentWordId){
+                    return;
                 }
+                $('#error-word-exist').addClass('active');
+                $('#error-word-exist a').attr('href', matchedWord.editUrl);
+                
             }
             else{
                 $('#error-word-exist').removeClass('active');

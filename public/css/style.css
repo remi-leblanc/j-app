@@ -898,9 +898,9 @@ textarea:focus{
 #card-content i{
     font-size: inherit;
 }
-#card.method-listen:not(.word-complete) #card-content span,
-#card.method-listen.word-complete #card-content i,
-#card:not(.method-listen) #card-content i{
+html.method-listen:not(.word-complete) #card-content span,
+html.method-listen.word-complete #card-content i,
+html:not(.method-listen) #card-content i{
     display: none;
 }
 #card #result{
@@ -1016,11 +1016,11 @@ textarea:focus{
 html:not(.speaking) #next-btn .dots-loader{
     display: none;
 }
-html.speaking #next-btn-mic,
-html.wordComplete #next-btn-mic{
+html.method-speak.speaking #next-btn-mic,
+html.method-speak.wordComplete #next-btn-mic{
     display: none;
 }
-html:not(.wordComplete) #next-btn-label{
+html.method-speak:not(.wordComplete) #next-btn-label{
     display: none;
 }
 

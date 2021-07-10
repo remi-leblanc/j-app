@@ -30,8 +30,8 @@
         {% for word in words %}
             {
                 "id": "{{ word.id }}",
-                "kanji": "{{ word.kanji }}",
-                "edit_url": "{{ path('word_edit', {id: word.id }) }}"
+                "uniqueField": "{{ word.kanji }}",
+                "editUrl": "{{ path('word_edit', {id: word.id }) }}"
             },
         {% endfor %}
     ];

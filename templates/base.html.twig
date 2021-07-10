@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="page-{% block page_id %}{% endblock %}">
+<html id="page-{% block page_id %}{% endblock %}" class="{% block page_class %}{% endblock %}">
     <head>
         <title>J-App</title>
         <meta charset="utf-8">
@@ -20,15 +20,18 @@
         <link rel="icon" href="{{ asset('images/favicon/j_app-favicon-192.png') }}" sizes="192x192">
         <link rel="shortcut icon" href="{{ asset('images/favicon/j_app-favicon-196.png') }}" sizes="196x196">
 
+        {% block head %}{% endblock %}
     </head>
     <body>
         <div id="menu">
             <div id="menu-small">
                 <a><img src="{{ asset('images/favicon/j_app-favicon-64.png') }}"/></a>
+                <a><i class="fas fa-map-marked-alt fa-lg"></i></a>
                 <a><i class="fas fa-graduation-cap fa-lg"></i></a>
             </div>
             <div id="menu-extend">
                 <a href="{{ path('selection') }}"><span>Home</span></a>
+                <a href="{{ path('map') }}"><span>Map</span></a>
                 <a href="{{ path('notes') }}"><span>Notes</span></a>
             </div>
         </div>

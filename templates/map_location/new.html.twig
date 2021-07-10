@@ -1,12 +1,12 @@
 {% extends 'adminBase.html.twig' %}
 
-{% block title %}New Word{% endblock %}
+{% block title %}New Location{% endblock %}
 
 {% block body %}
 
     <div id="error-word-exist" class="frame frame-important frame-error">Ce mot existe déjà. <a href="">Editer</a></div>
 
-    {{ include('word/_form.html.twig', {'button_label': 'Ajouter'}) }}
+    {{ include('map_location/_form.html.twig', {'button_label': 'Ajouter'}) }}
 
 {% endblock %}
 
@@ -14,10 +14,10 @@
 <script>
 
     var words = [
-        {% for word in words %}
+        {% for loc in locs %}
             {
-                "uniqueField": "{{ word.kanji }}",
-                "editUrl": "{{ path('word_edit', {id: word.id }) }}"
+                "uniqueField": "{{ loc.nameJp }}",
+                "editUrl": "{{ path('location_edit', {id: loc.id }) }}"
             },
         {% endfor %}
     ];

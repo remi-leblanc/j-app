@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,20 +11,15 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use App\Entity\Type;
-use App\Repository\TypeRepository;
 
 use App\Entity\Word;
-use App\Repository\WordRepository;
-
-use App\Entity\VerbeGroupe;
-use App\Repository\VerbeGroupeRepository;
 
 use App\Entity\Theme;
-use App\Repository\ThemeRepository;
 
 use App\Entity\WordReport;
-use App\Repository\WordReportRepository;
 use App\Form\WordReportType;
+
+use App\Entity\MapLocation;
 
 class MainController extends AbstractController
 {
@@ -167,5 +163,23 @@ class MainController extends AbstractController
 
         ]);
 
+    }
+
+    /**
+	* @Route("/map", name="map")
+	*/
+	public function map()
+	{
+
+        $locs = $this->getDoctrine()->getRepository(MapLocation::class)->findBy(
+            ['type' => [1,2,3]]
+        );
+
+        $locTypes = array_flip(MapLocation::MAPLOCATION_TYPES);
+
+        return $this->render('app-map.html.twig', [
+            'locs' => $locs,
+            'locTypes' => $locTypes
+        ]);
     }
 }
