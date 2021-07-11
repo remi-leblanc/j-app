@@ -14,53 +14,53 @@
 	</div>
 </div>
 
-<div id="stats">
-	<span id="stats-count">0</span>
-	/
-	<span id="stats-total">{{ dbWords|length }}</span>
-	<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
-</div>
+<div id="app">
+	<div id="stats">
+		<span id="stats-count">0</span>
+		/
+		<span id="stats-total">{{ dbWords|length }}</span>
+		<span id="report-btn" class="clickable modal-btn fas fa-exclamation-triangle" data-modal="report"></span>
+	</div>
 
-<div id="card" class="frame-light">
-	<div id="card-content">
-		<i class="fas fa-volume-up"></i>
-		<span></span>
+	<div id="card" class="frame-light">
+		<div id="card-content">
+			<i class="fas fa-volume-up"></i>
+			<span></span>
+		</div>
+		<div id="result">
+			<span data-result-type="romaji"></span>
+			<span data-result-type="trad"></span>
+		</div>
 	</div>
-	<div id="result">
-		<span data-result-type="romaji"></span>
-		<span data-result-type="trad"></span>
-	</div>
-</div>
-<div id="answers">
-	{% if method != 'speak' %}
-	<div data-input-type="romaji" class="answers-row">
-		<input type="text" autocapitalize="none" placeholder="rōmaji">
-	</div>
-	<div data-input-type="trad" class="answers-row">
-		<input type="text" autocapitalize="none" placeholder="traduction">
-	</div>
-	{% else %}
-	<div data-input-type="romaji" class="answers-row">
-		<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
-	</div>
-	{% endif %}
-</div>
-
-<div id="next-btn">
-	<div class="frame frame-light clickable">
-		{% if method == 'speak' %}
-			<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
-			<div class="dots-loader">
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
+	<div id="answers">
+		{% if method != 'speak' %}
+		<div data-input-type="romaji" class="answers-row">
+			<input type="text" autocapitalize="none" placeholder="rōmaji">
+		</div>
+		<div data-input-type="trad" class="answers-row">
+			<input type="text" autocapitalize="none" placeholder="traduction">
+		</div>
+		{% else %}
+		<div data-input-type="romaji" class="answers-row">
+			<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
+		</div>
 		{% endif %}
-		<span id="next-btn-label">valider</span>
+	</div>
+
+	<div id="next-btn">
+		<div class="frame frame-light clickable">
+			{% if method == 'speak' %}
+				<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
+				<div class="dots-loader">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			{% endif %}
+			<span id="next-btn-label">valider</span>
+		</div>
 	</div>
 </div>
-
-
 
 {% endblock %}
 

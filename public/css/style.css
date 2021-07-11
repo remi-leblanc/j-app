@@ -75,8 +75,6 @@ p{
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    min-height: 0;
     padding-bottom: 0;
     padding-left: 15px;
     padding-right: 15px;
@@ -96,8 +94,7 @@ p{
     max-width: 1000px;
 }
 #page-app .section-container{
-    justify-content: center;
-    padding: 30px 0 0 0;
+    padding: 15px;
 }
 
 .loading{
@@ -867,7 +864,12 @@ textarea:focus{
 }
 
 
-
+#app{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
 #card{
     position: relative;
     display: flex;
@@ -957,11 +959,7 @@ html:not(.method-listen) #card-content i{
 
 
 #infos{
-    position: absolute;
-    top: 0;
-    left: 0;
     display: flex;
-    padding: 15px 0;
     font-size: 20px;
     width: 100%;
 }
@@ -1280,52 +1278,4 @@ html:not(.tts-loaded) .tts-wait,
 #page-error .section-container > *:not(:last-child){
     text-align: center;
     margin-bottom: 20px;
-}
-
-@media (max-width: 750px){
-    .admin-dashboard-content{
-        flex-direction: column;
-    }
-    .admin-dashboard-col{
-        width: 100%;
-    }
-    .select-cat[data-select-cat=method] .frame-content .row{
-        flex-direction: column;
-    }
-    #page-error h1{
-        font-size: 20vw;
-        line-height: 100%;
-    }
-}
-@media (max-width: 425px){
-    .page-container{
-        padding-left: 0;
-    }
-    #copyright{
-        padding-left: 0;
-    }
-    #menu{
-        display: none;
-    }
-    #menu-mobile{
-        display: flex;
-    }
-    #page-select .page-container h1{
-        font-size: 28px;
-    }
-    #page-select .page-container h2{
-        font-size: 23px;
-    }
-    .modal-content h1{
-        font-size: 28px;
-    }
-    .modal-content h2{
-        font-size: 23px;
-    }
-    .modal-content h3{
-        font-size: 20px;
-    }
-    #learn-menu > span {
-        font-size: 18px;
-    }
 }

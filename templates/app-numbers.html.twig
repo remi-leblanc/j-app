@@ -14,45 +14,47 @@
 	</div>
 </div>
 
-<div id="stats">
-	<span id="stats-valid" class="correct">0</span>
-	&nbsp;
-	<span id="stats-error" class="error">0</span>
-	•
-	<span id="stats-percent">0%</span>
-</div>
+<div id="app">
+	<div id="stats">
+		<span id="stats-valid" class="correct">0</span>
+		&nbsp;
+		<span id="stats-error" class="error">0</span>
+		•
+		<span id="stats-percent">0%</span>
+	</div>
 
-<div id="card" class="frame-light">
-	<div id="card-content">
-		<i class="fas fa-volume-up"></i>
-		<span></span>
+	<div id="card" class="frame-light">
+		<div id="card-content">
+			<i class="fas fa-volume-up"></i>
+			<span></span>
+		</div>
+		<div id="result">
+			<span data-result-type="kanji"></span>
+			<span data-result-type="romaji"></span>
+		</div>
 	</div>
-	<div id="result">
-		<span data-result-type="kanji"></span>
-		<span data-result-type="romaji"></span>
+	<div id="answers">
+		<div class="answers-row">
+			{% if method != 'speak' %}
+			<input type="text" autocapitalize="none" placeholder="nombre">
+			{% else %}
+			<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
+			{% endif %}
+		</div>
 	</div>
-</div>
-<div id="answers">
-	<div class="answers-row">
-		{% if method != 'speak' %}
-		<input type="text" autocapitalize="none" placeholder="nombre">
-		{% else %}
-		<input type="text" autocapitalize="none" disabled placeholder="cliquez et parlez">
-		{% endif %}
-	</div>
-</div>
 
-<div id="next-btn">
-	<div class="frame frame-light clickable">
-		{% if method == 'speak' %}
-			<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
-			<div class="dots-loader">
-				<span></span>
-				<span></span>
-				<span></span>
-			</div>
-		{% endif %}
-		<span id="next-btn-label">valider</span>
+	<div id="next-btn">
+		<div class="frame frame-light clickable">
+			{% if method == 'speak' %}
+				<i id="next-btn-mic" class="fas fa-microphone-alt"></i>
+				<div class="dots-loader">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			{% endif %}
+			<span id="next-btn-label">valider</span>
+		</div>
 	</div>
 </div>
 

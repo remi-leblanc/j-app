@@ -1,0 +1,47 @@
+@media (max-width: 750px){
+    .admin-dashboard-content{
+        flex-direction: column;
+    }
+    .admin-dashboard-col{
+        width: 100%;
+    }
+    .select-cat[data-select-cat=method] .frame-content .row{
+        flex-direction: column;
+    }
+    #page-error h1{
+        font-size: 20vw;
+        line-height: 100%;
+    }
+}
+@media (max-width: 425px){
+    .page-container{
+        padding-left: 0;
+    }
+    #copyright{
+        padding-left: 0;
+    }
+    #menu{
+        display: none;
+    }
+    #menu-mobile{
+        display: flex;
+    }
+    #page-select .page-container h1{
+        font-size: 28px;
+    }
+    #page-select .page-container h2{
+        font-size: 23px;
+    }
+    .modal-content h1{
+        font-size: 28px;
+    }
+    .modal-content h2{
+        font-size: 23px;
+    }
+    .modal-content h3{
+        font-size: 20px;
+    }
+    #learn-menu > span {
+        font-size: 18px;
+    }
+}
