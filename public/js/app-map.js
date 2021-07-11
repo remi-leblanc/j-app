@@ -10,6 +10,7 @@ $(document).ready(function(){
     var statsError = 0;
     var marker = null;
     var geoJsonSelectedFeature = null;
+    var geoJsonCorrectFeature = null;
     var geoJson = null;
     var uiLayer = null;
     
@@ -117,9 +118,9 @@ $(document).ready(function(){
                         fillColor: circleColor,fillOpacity: 0.5, radius: 28000, weight: 0
                     }).addTo(uiLayer);
                 } else {
+                    geoJsonCorrectFeature.setStyle({fillColor: '#35bd3e', fillOpacity: 1, weight: 1, opacity: 1});
                     if(geoJsonSelectedFeature.feature.properties.NAME_JP == db[currentDraw]["nameJp"]){
                         statsCorrect++;
-                        geoJsonSelectedFeature.setStyle({fillColor: '#35bd3e'});
                     } else {
                         statsError++;
                         geoJsonSelectedFeature.setStyle({fillColor: '#e64e4e'});
@@ -148,14 +149,18 @@ $(document).ready(function(){
             mouseout: geoJsonMouseOut,
             click: geoJsonSelectFeature
         });
+        if(layer.feature.properties.NAME_JP === db[currentDraw]["nameJp"]){
+            geoJsonCorrectFeature = layer;
+        }
     }
     function geoJsonMouseOut(e) {
-        if(e.target != geoJsonSelectedFeature){
+        if(e.target != geoJsonSelectedFeature && !isWordComplete){
             geoJson.resetStyle(e.target);
         }
     }
     function geoJsonMouseOver(e) {
-        if(e.target != geoJsonSelectedFeature){
+        console.log('yes');
+        if(e.target != geoJsonSelectedFeature && !isWordComplete){
             e.target.setStyle({
                 fillColor: '#2f4f9c',
                 fillOpacity: 1,
@@ -165,14 +170,16 @@ $(document).ready(function(){
         }
     }
     function geoJsonSelectFeature(e) {
-        geoJsonSelectedFeature = e.target;
-        geoJson.resetStyle();
-        geoJsonSelectedFeature.setStyle({
-            fillColor: '#e6a44e',
-            fillOpacity: 1,
-            weight: 1,
-            opacity: 1
-        });
+        if(e.target != geoJsonSelectedFeature && !isWordComplete){
+            geoJsonSelectedFeature = e.target;
+            geoJson.resetStyle();
+            geoJsonSelectedFeature.setStyle({
+                fillColor: '#e6a44e',
+                fillOpacity: 1,
+                weight: 1,
+                opacity: 1
+            });
+        }
     }
 
     function getDistance(lat1, lon1, lat2, lon2) {
