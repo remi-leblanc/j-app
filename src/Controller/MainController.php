@@ -21,8 +21,17 @@ use App\Form\WordReportType;
 
 use App\Entity\MapLocation;
 
+use Symfony\Component\HttpKernel\KernelInterface;
+
 class MainController extends AbstractController
 {
+
+    protected $projectDir;
+
+    public function __construct(KernelInterface $kernel)
+    {
+        $this->projectDir = $kernel->getProjectDir();
+    }
 
 	/**
 	* @Route("/", name="selection")
